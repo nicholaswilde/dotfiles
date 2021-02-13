@@ -1,0 +1,11 @@
+export GOPATH=$HOME/go
+export GOROOT=/usr/lib/go-1.11
+
+export PATH=$PATH:$GOPATH/bin:/home/nicholas/.local/bin
+export PATH="${PATH}:${HOME}/.krew/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+
+export KUBECONFIG=~/.kube/config-turing-pi
+export KUBE_EDITOR=nano
+
+export GITHUB_USER=nicholaswilde
