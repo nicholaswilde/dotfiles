@@ -129,8 +129,8 @@ fi
 
 # Git Commands
 if command_exists git; then
-	alias gpo='git push origin master'
-	alias gp='git pull'
+	alias gpo='git push origin main'
+	alias gp='git pull origin main'
 	alias gs='git status'
 	alias gd='git diff'
 	alias gr='git reflog'

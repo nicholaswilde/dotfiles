@@ -1,9 +1,11 @@
 export GOPATH=$HOME/go
-export GOROOT=/usr/lib/go-1.11
 
+# PATH
 export PATH=$PATH:$GOPATH/bin:/home/nicholas/.local/bin
 export PATH="${PATH}:${HOME}/.krew/bin"
 export PATH="${PATH}:${HOME}/.local/bin"
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
 export KUBECONFIG=~/.kube/config-turing-pi
 export KUBE_EDITOR=nano
@@ -13,3 +15,7 @@ export GITHUB_USER=nicholaswilde
 if [ -f ~/.tokens ]; then
   source ~/.tokens
 fi
+
+# pass-git-helper
+GPG_TTY=$(tty)
+export GPG_TTY
