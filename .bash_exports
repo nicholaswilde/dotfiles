@@ -9,3 +9,7 @@ export KUBECONFIG=~/.kube/config-turing-pi
 export KUBE_EDITOR=nano
 
 export GITHUB_USER=nicholaswilde
+
+if [ -f ~/.tokens ]; then
+  source ~/.tokens
+fi

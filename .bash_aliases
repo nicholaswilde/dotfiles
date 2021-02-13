@@ -17,18 +17,16 @@ if command_exists fping; then
 	alias pingall='fping -l 192.168.1.202 192.168.1.203 192.168.1.189 192.168.1.195 192.168.1.199 192.168.1.172 192.168.1.201'
 fi
 
-alias nextcloud='docker-compose -f /etc/docker/compose/nextcloud/docker-compose.yml ps'
-
 #boinc-client
 if command_exists boinccmd; then
-    alias getstate='boinccmd --get_state'
-    alias gettasks='boinccmd --get_tasks'
-    alias getoldtasks='boinccmd --get_old_tasks'
+  alias getstate='boinccmd --get_state'
+  alias gettasks='boinccmd --get_tasks'
+  alias getoldtasks='boinccmd --get_old_tasks'
 fi
 
 if command_exists ansible; then
-    alias ap='ansible-playbook'
-    alias rebootcluster='ansible k3s_cluster -a "reboot" -b'
+  alias ap='ansible-playbook'
+  alias rebootcluster='ansible k3s_cluster -a "reboot" -b'
 fi
 
 # Apt
@@ -101,13 +99,13 @@ alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
 
 # Enable color support of ls and also add handy aliases
 if dir_exists /usr/bin/dircolors; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # This one is to take care of make
@@ -187,4 +185,3 @@ alias ee='nano ~/.bash_exports'
 alias ef='nano ~/.bash_functions'
 # Quickly load bashrc
 alias reload='source ~/.bashrc'
-
