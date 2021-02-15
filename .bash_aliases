@@ -18,11 +18,11 @@ if file_exists(){
 }
 
 # nano
-if file_exists "~/.nanorc"; then
-  # uncomment tabtospaces
-  alias tab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
-  # comment tabtospaces
-  alias utab="sed '/^set tabstospaces/s/^/#/' -i ~/.nanorc"
+if file_exists "${HOME}/.nanorc"; then
+  # don't allow tabs
+  alias utab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
+  # allow tabs
+  alias tab="sed '/^set tabstospaces/s/^/#/' -i ~/.nanorc"
 fi
 
 # pass
