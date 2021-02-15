@@ -13,6 +13,11 @@ function dir_exists(){
   [ -d "${1}" ]
 }
 
+if command_exists shred; then
+  # Remove the file by default
+  alias shred='shred -u'
+fi
+
 if command_exists fping; then
 	alias pingall='fping -l 192.168.1.202 192.168.1.203 192.168.1.189 192.168.1.195 192.168.1.199 192.168.1.172 192.168.1.201'
 fi
@@ -24,6 +29,7 @@ if command_exists boinccmd; then
   alias getoldtasks='boinccmd --get_old_tasks'
 fi
 
+# ansible
 if command_exists ansible; then
   alias ap='ansible-playbook'
   alias rebootcluster='ansible k3s_cluster -a "reboot" -b'
@@ -70,6 +76,7 @@ alias back='cd "$OLDPWD"'
 alias pms='sudo pm-suspend'
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 
+# pydf
 if command_exists pydf; then
 	alias df='pydf -ha'
 fi
@@ -92,7 +99,6 @@ fi
 
 # List our functions
 alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))"'
-alias lsa='cat ~/.bash_aliases|grep -o -P "(?<=alias ).*(?=\=)"'
 
 # Cool colors for man pages
 alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
@@ -137,6 +143,7 @@ if command_exists git; then
 	alias glf='git ls-files'
 	alias ga='git add'
 	alias revert='git reset --hard'
+  alias gc='git commit -s -m'
 fi
 
 # Color the output of cat
