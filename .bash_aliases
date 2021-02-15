@@ -13,6 +13,18 @@ function dir_exists(){
   [ -d "${1}" ]
 }
 
+if file_exists(){
+  [ -f "{1}" ]
+}
+
+# nano
+if file_exists ~/.nanorc; then
+  # uncomment tabtospaces
+  alias tab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
+  # comment tabtospaces
+  alias utab="sed '/^set tabstospaces/s/^/#/' -i ~/.nanorc"
+fi
+
 # pass
 if command_exists pass; then
   # main is the name of the repo branch
