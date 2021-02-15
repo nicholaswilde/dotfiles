@@ -13,6 +13,13 @@ function dir_exists(){
   [ -d "${1}" ]
 }
 
+# pass
+if command_exists pass; then
+  # main is the name of the repo branch
+  alias passpull='pass git pull origin main'
+  alias passpush='pass git push -u --all'
+fi
+
 if command_exists shred; then
   # Remove the file by default
   alias shred='shred -u'
