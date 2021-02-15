@@ -198,4 +198,4 @@ alias ea='nano ~/.bash_aliases'
 alias ee='nano ~/.bash_exports'
 alias ef='nano ~/.bash_functions'
 # Quickly load bashrc
-alias reload='source ~/.bashrc'
+alias reload='source ~/.bashrc && git -C /home/nicholas/git/dotfiles commit --allow-empty-message -a -m ""; git -C /home/nicholas/git/dotfiles push origin main'
