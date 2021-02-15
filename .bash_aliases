@@ -13,12 +13,13 @@ function dir_exists(){
   [ -d "${1}" ]
 }
 
-if file_exists(){
+# Check if file exists
+function file_exists(){
   [ -f "{1}" ]
 }
 
 # nano
-if file_exists "${HOME}/.nanorc"; then
+if file_exists "~/.nanorc"; then
   # don't allow tabs
   alias utab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
   # allow tabs
