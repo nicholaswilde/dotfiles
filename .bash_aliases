@@ -18,7 +18,7 @@ if file_exists(){
 }
 
 # nano
-if file_exists ~/.nanorc; then
+if file_exists "~/.nanorc"; then
   # uncomment tabtospaces
   alias tab="sed '/^#.*tabstospaces/s/^#//' -i ~/.nanorc"
   # comment tabtospaces
