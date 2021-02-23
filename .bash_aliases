@@ -84,7 +84,7 @@ alias fhere='find . -name'
 alias ls='ls --sort=extension --color=auto'
 alias sl='ls --sort=extension --color=auto' # Typo
 alias lsl='ls -lhFA | less' # Long format
-alias ll='ls -lh'c
+alias ll='ls -lh'
 alias lal='ls -alh'
 alias la='ls -A'
 alias l='ls -CF'
