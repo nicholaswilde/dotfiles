@@ -58,7 +58,7 @@ fi
 # Apt
 if command_exists apt-get; then
   alias apt-get='sudo apt-get'
-  alias upgrate='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y autoremove && brew update && sudo snap refresh && sudo npm update -g'
+  alias upgrate='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y autoremove && brew update && sudo snap refresh && sudo npm update -g && pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U'
   alias cleanup='sudo apt-get autoremove -y && sudo apt-get autoclean'
   alias install='sudo apt-get install -y'
   alias remove='sudo apt-get remove'
