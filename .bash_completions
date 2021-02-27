@@ -8,3 +8,8 @@ if command_exists kubectl; then
   source <(kubectl completion bash)
   complete -F __start_kubectl k
 fi
+
+# gh
+if command_exists gh; then
+  eval "$(gh completion -s bash)"
+fi
