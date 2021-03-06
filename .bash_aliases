@@ -18,6 +18,11 @@ function file_exists(){
   [ -f "{1}" ]
 }
 
+# multipass
+if command_exists multipass; then
+  alias mp='multipass'
+fi
+
 # nano
 if [ -f "${HOME}/.nanorc" ]; then
   # don't allow tabs
