@@ -3,18 +3,17 @@ SHELL := bash
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
 	@echo "installing dotfiles"
-	for file in shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".bashrc.*"); do \
+	for file in   shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".bashrc.*"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
 	gpg --list-keys || true; \
-	mkdir -p $(HOME)/.gnupg
+	mkdir -p $(HOME)/.gnupg;
 	for file in $(shell find $(CURDIR)/.gnupg); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/.gnupg/$$f; \
 	done; \
 	mkdir -p $(HOME)/.config;
-	source $(HOME)/.bashrc;
 
 .PHONY: help
 help:
