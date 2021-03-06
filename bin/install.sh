@@ -52,7 +52,11 @@ function show_usage() {
   echo -e "install.sh\\n\\tThis script installs my basic setup for a debian computer\\n"
   echo "Usage:"
   echo "  basemin                             - setup sources & install base pkgs"
+  echo "  brew                                - get brew"
   echo "  dotfiles                            - get dotfiles"
+  echo "  rust                                - get rust"
+  echo "  go                                  - get go"
+  echo "  pass                                - get pass"
   echo "  scripts                             - get scripts"
 }
 
@@ -145,6 +149,7 @@ function install_golang() {
   )
   export PATH="${PATH}:/usr/local/bin/"
 }
+
 function install_rust() {
   printf "\nInstalling rust ...\n\n"
 sudo -u "${TARGET_USER}" bash <<"EOF5"
