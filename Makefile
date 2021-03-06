@@ -2,7 +2,13 @@ SHELL := bash
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	@echo "dotfiles"
+	@echo "installing dotfiles"
+	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg"); do \
+		f=$$(basename $$file); \
+		ln -sfn $$file $(HOME)/$$f; \
+	done; \
+	gpg --list-keys || true; \
+	mkdir -p $(HOME)/.gnupg
 
 .PHONY: help
 help:
