@@ -147,6 +147,13 @@ function get_dotfiles() {
   )
 }
 
+function install_tools() {
+	echo
+	echo "Installing scripts..."
+	echo
+	sudo install.sh scripts;
+}
+
 function main() {
   local cmd=$1
   case "$#" in
@@ -163,9 +170,14 @@ function main() {
       get_dotfiles
       ;;
 		scripts)
+      check_is_sudo
 			get_user
 			install_scripts
 			;;
+    tools)
+      get_user
+      install_tools
+      ;;
     *) usage_error;;
   esac
 }
