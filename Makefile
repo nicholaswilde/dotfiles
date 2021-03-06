@@ -5,6 +5,7 @@ all: bin dotfiles ## Installs the bin and etc directory files and the dotfiles.
 
 .PHONY: bin
 bin: ## Installs the bin directory files.
+	@printf "\ninstalling bin files ...\n\n"
 	# add aliases for things in bin
 	for file in $(shell find $(CURDIR)/bin -type f -not -name "*-backlight" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
@@ -13,7 +14,7 @@ bin: ## Installs the bin directory files.
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	@echo "installing dotfiles"
+	@printf "\ninstalling dotfiles ...\n\n"
 	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name ".bashrc.*"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \

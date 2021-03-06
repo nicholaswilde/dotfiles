@@ -57,7 +57,7 @@ function show_usage() {
 }
 
 function base_min() {
-	printf "\nInstalling basemin ...\n"
+	printf "\nInstalling basemin ...\n\n"
   apt update || true
   apt -y upgrade
 	apt -y dist-upgrade
@@ -94,6 +94,7 @@ function base_min() {
     nano \
     net-tools \
     policykit-1 \
+    python-is-python3 \
     silversearcher-ag \
     ssh \
     strace \
@@ -113,6 +114,7 @@ function base_min() {
 
 # install custom scripts/binaries
 function install_scripts() {
+	printf "\nInstalling scripts ...\n\n"
 	# install speedtest
 	curl -sSL https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py  > /usr/local/bin/speedtest
 	chmod +x /usr/local/bin/speedtest
@@ -128,9 +130,12 @@ function install_scripts() {
 	chmod +x /usr/local/bin/lolcat
 
 	# chromebook
-  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-notify.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/notify && chmod +x /usr/local/bin/notify
-  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-show-file.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/show-file && chmod +x /usr/local/bin/show-file
-  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/copy && chmod +x /usr/local/bin/copy
+  curl -sSL "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-notify.sh?format=TEXT" | base64 --decode | tee /usr/local/bin/notify
+  chmod +x /usr/local/bin/notify
+  curl -sSL "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-show-file.sh?format=TEXT" | base64 --decode | tee /usr/local/bin/show-file
+  chmod +x /usr/local/bin/show-file
+  curl -sSL "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh?format=TEXT" | base64 --decode | tee /usr/local/bin/copy
+  chmod +x /usr/local/bin/copy
 }
 
 function get_dotfiles() {
@@ -153,7 +158,6 @@ EOF
 }
 
 function install_tools() {
-	printf "\nInstalling scripts ...\n"
   install_scripts;
 }
 
@@ -166,6 +170,7 @@ function main() {
       base_min
       install_tools
       get_dotfiles
+      return
 			;;
   esac
   case "${cmd}" in
