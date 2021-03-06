@@ -135,9 +135,9 @@ sudo -u "${TARGET_USER}" bash <<"EOF"
 
     mkdir -p "${HOME}/git/nicholaswilde/"
 
-    if [[ ! -d "${HOME}/git/nicholaswilde/dotfiles" ]]; then
+    #if [[ ! -d "${HOME}/git/nicholaswilde/dotfiles" ]]; then
       git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
-    fi
+    #fi
 
     cd "${HOME}/git/nicholaswilde/dotfiles"
 
