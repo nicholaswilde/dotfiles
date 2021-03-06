@@ -122,6 +122,14 @@ sudo -u "${TARGET_USER}" bash <<"EOF2"
 EOF2
 }
 
+function install_ruby() {
+  printf "\nInstalling pip packages ...\n\n"
+  apt-get install rbenv
+  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+  rbenv install 2.3.6
+  rbenv global 2.3.6
+}
+
 function install_pass() {
   printf "\nInstalling pass ...\n\n"
   apt install -y pass
@@ -187,6 +195,7 @@ function install_tools() {
   install_nano
   install_pip
   #install_pass
+  install_ruby
 }
 
 function main() {
@@ -219,6 +228,11 @@ function main() {
       check_is_sudo
       get_user
       install_pass
+      ;;
+    ruby)
+      check_is_sudo
+      get_user
+      install_ruby
       ;;
     scripts)
       check_is_sudo
