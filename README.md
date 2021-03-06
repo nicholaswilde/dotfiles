@@ -47,3 +47,15 @@ $ source ~/.bashrc
 $ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh)"
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) dotfiles"
 ```
+
+## Inspiration
+
+Inspiration for this repo has been taken from [jessfraz's](https://github.com/jessfraz/) [dotfiles](https://github.com/jessfraz/dotfiles/).
+
+## License
+
+[Apache 2.0 License](./LICENSE)
+
+## Author
+
+This project was started in 2021 by [Nicholas Wilde](https://github.com/nicholaswilde/).
