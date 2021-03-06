@@ -17,6 +17,7 @@ function get_user() {
     if [ "${#options[@]}" -eq "1" ]; then
       readonly TARGET_USER="${options[0]}"
       echo "Using user account: ${TARGET_USER}"
+      HOME="/home/${TARGET_USER}"
       return
     fi
 
