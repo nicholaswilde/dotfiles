@@ -115,6 +115,13 @@ function base_min() {
   apt clean -y
 }
 
+function install_pip(){
+  printf "\nInstalling pip packages ...\n\n"
+sudo -u "${TARGET_USER}" bash <<"EOF2"
+  pip install pre-commit
+EOF2
+}
+
 function install_pass() {
   printf "\nInstalling pass ...\n\n"
   apt install -y pass
@@ -178,6 +185,7 @@ EOF
 function install_tools() {
   install_scripts
   install_nano
+  install_pip
   #install_pass
 }
 
