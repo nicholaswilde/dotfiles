@@ -41,3 +41,8 @@ $ mv /.bash_functions.backup ~/.bash_functions
 # Reload
 $ source ~/.bashrc
 ```
+
+## Install
+```shell
+$ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) dotfiles"
+```
