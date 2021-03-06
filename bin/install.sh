@@ -114,6 +114,14 @@ function base_min() {
   apt clean -y
 }
 
+function install_pass() {
+  printf "\nInstalling pass ...\n\n"
+  apt install -y pass
+  git clone https://github.com/nicholaswilde/pass.git "${HOME}/.password-store"
+  cd "${HOME}/.password-store"
+  git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
+}
+
 function install_nano() {
   printf "\nInstalling nanorc ...\n\n"
   curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sudo -u "${TARGET_USER}" bash
@@ -169,6 +177,7 @@ EOF
 function install_tools() {
   install_scripts
   install_nano
+  install_pass
 }
 
 function main() {
@@ -196,6 +205,11 @@ function main() {
     nano)
       get_user
       install_nano
+      ;;
+    pass)
+      check_is_sudo
+      get_user
+      install_pass
       ;;
     scripts)
       check_is_sudo
