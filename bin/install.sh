@@ -116,6 +116,8 @@ function base_min() {
 function install_nano() {
   printf "\nInstalling nanorc ...\n\n"
   curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sudo -u "${TARGET_USER}" bash
+  echo "set tabsize 2" >> "${HOME}/.nanorc"
+  echo "set tabstospaces" >> "${HOME}/.nanorc"
 }
 
 # install custom scripts/binaries
