@@ -143,6 +143,7 @@ function install_golang() {
   sudo chown -R "${user}" /usr/local/go/pkg
   CGO_ENABLED=0 /usr/local/go/bin/go install -a -installsuffix cgo std
   )
+  export PATH="${PATH}:/usr/local/bin/"
 }
 function install_rust() {
   printf "\nInstalling rust ...\n\n"
