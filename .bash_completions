@@ -30,3 +30,5 @@ fi
 if command_exists rbenv; then
   eval "$(rbenv init -)"
 fi
+
+source "${HOME}/.cargo/env"
