@@ -130,6 +130,7 @@ function install_scripts() {
 
 function get_dotfiles() {
   # create subshell
+  su "${TARGET_USER}"
   (
   cd "$HOME"
 
@@ -143,7 +144,7 @@ function get_dotfiles() {
   git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
 
   # installs all the things
-  /bin/bash -u "${TARGET_USER}" -c "make"
+  make
   )
 }
 
