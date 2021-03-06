@@ -44,6 +44,6 @@ $ source ~/.bashrc
 
 ## Install
 ```shell
-$ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) basemin"
+$ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh)"
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) dotfiles"
 ```
