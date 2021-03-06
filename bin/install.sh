@@ -47,7 +47,7 @@ function usage_error() {
 function show_usage() {
   echo -e "install.sh\\n\\tThis script installs my basic setup for a debian computer\\n"
   echo "Usage:"
-  echo "  base                                - setup sources & install base pkgs"
+  echo "  basemin                             - setup sources & install base pkgs"
   echo "  dotfiles                            - get dotfiles"
 }
 
@@ -129,7 +129,7 @@ function main() {
     0) usage_error;;
   esac
   case "${cmd}" in
-    base_min)
+    basemin)
       check_is_sudo
       get_user
       base_min
@@ -139,7 +139,7 @@ function main() {
       get_user
       get_dotfiles
       ;;
-    /?) usage_error;;
+    *) usage_error;;
   esac
 }
 
