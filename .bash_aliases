@@ -212,4 +212,4 @@ alias ef='nano ~/.bash_functions'
 alias ec='nano ~/.bash_completions'
 
 # Quickly load bashrc
-alias reload='source ~/.bashrc && git -C /home/nicholas/git/dotfiles commit --allow-empty-message -a -m ""; git -C /home/nicholas/git/dotfiles push origin main'
+alias reload='source ~/.bashrc && git -C /home/nicholas/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C /home/nicholas/git/nicholaswilde/dotfiles push origin main'
