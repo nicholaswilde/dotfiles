@@ -103,6 +103,7 @@ function base_min() {
     tree \
     tzdata \
     unzip \
+    wget \
     xz-utils \
     zip \
     --no-install-recommends
