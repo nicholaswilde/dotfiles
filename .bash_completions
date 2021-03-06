@@ -13,3 +13,16 @@ fi
 if command_exists gh; then
   eval "$(gh completion -s bash)"
 fi
+
+if command_exists tk; then
+	complete -C /usr/local/bin/tk tk
+fi
+
+if command_exists kcompose; then
+	# Bash (add to .bashrc for persistence)
+	source <(kompose completion bash)
+fi
+
+if command_exists flux; then
+	. <(flux completion bash)
+fi
