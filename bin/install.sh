@@ -130,23 +130,23 @@ function install_scripts() {
 
 function get_dotfiles() {
   # create subshell
-	sudo -u "${TARGET_USER}" bash <<"EOF"
-	  cd "$HOME"
+sudo -u "${TARGET_USER}" bash <<"EOF"
+    cd "$HOME"
 
-	  mkdir -p "${HOME}/git/nicholaswilde/"
+    mkdir -p "${HOME}/git/nicholaswilde/"
 
-	  if [[ ! -d "${HOME}/git/nicholaswilde/dotfiles" ]]; then
-			git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
-		fi
+    if [[ ! -d "${HOME}/git/nicholaswilde/dotfiles" ]]; then
+      git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
+    fi
 
-	  cd "${HOME}/git/nicholaswilde/dotfiles"
+    cd "${HOME}/git/nicholaswilde/dotfiles"
 
-	  # set the correct origin
-	  git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
+    # set the correct origin
+    git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
 
-	  # installs all the things
-	  make
-	EOF
+    # installs all the things
+    make
+EOF
 }
 
 function install_tools() {
