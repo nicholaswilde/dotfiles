@@ -141,7 +141,7 @@ function install_golang() {
   local user="$USER"
   # rebuild stdlib for faster builds
   sudo chown -R "${user}" /usr/local/go/pkg
-  CGO_ENABLED=0 go install -a -installsuffix cgo std
+  CGO_ENABLED=0 /usr/local/go/bin/go install -a -installsuffix cgo std
   )
 }
 function install_rust() {
