@@ -26,3 +26,7 @@ fi
 if command_exists flux; then
 	. <(flux completion bash)
 fi
+
+if command_exists rbenv; then
+  eval "$(rbenv init -)"
+fi
