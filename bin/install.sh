@@ -133,7 +133,7 @@ function main() {
     dotfiles)
       check_is_sudo
       get_user
-      install_dotfiles
+      get_dotfiles
       ;;
     /?) usage_error;;
   esac
