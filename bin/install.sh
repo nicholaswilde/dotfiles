@@ -112,6 +112,11 @@ function base_min() {
   apt clean -y
 }
 
+function install_nano() {
+  printf "\nInstalling nanorc ...\n\n"
+  curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sudo -u "${TARGET_USER}" bash
+}
+
 # install custom scripts/binaries
 function install_scripts() {
 	printf "\nInstalling scripts ...\n\n"
@@ -158,7 +163,8 @@ EOF
 }
 
 function install_tools() {
-  install_scripts;
+  install_scripts
+  install_nano
 }
 
 function main() {
@@ -182,6 +188,11 @@ function main() {
     dotfiles)
       get_user
       get_dotfiles
+      ;;
+    nano)
+      check_is_sudo
+      get_user
+      install_nano
       ;;
 		scripts)
       check_is_sudo
