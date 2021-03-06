@@ -208,6 +208,7 @@ function install_tools() {
   install_pip
   #install_pass
   install_ruby
+  install_brew
 }
 
 function main() {
