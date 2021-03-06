@@ -108,7 +108,9 @@ function get_dotfiles() {
   (
   cd "$HOME"
 
-  dir_exists "${HOME}/dotfiles" && git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
+  mkdir -p "${HOME}/git/nicholaswilde/"
+
+  dir_exists "${HOME}/git/nicholaswilde/dotfiles" && git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
 
   cd "${HOME}/git/nicholaswilde/dotfiles"
 
