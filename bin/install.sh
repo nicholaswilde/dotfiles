@@ -49,11 +49,13 @@ function show_usage() {
   echo "Usage:"
   echo "  basemin                             - setup sources & install base pkgs"
   echo "  dotfiles                            - get dotfiles"
+  echo "  scripts                             - get scripts"
 }
 
 function base_min() {
   apt update || true
   apt -y upgrade
+	apt -y dist-upgrade
 
   apt install -y \
     adduser \
@@ -104,6 +106,28 @@ function base_min() {
   apt clean -y
 }
 
+# install custom scripts/binaries
+function install_scripts() {
+	# install speedtest
+	curl -sSL https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py  > /usr/local/bin/speedtest
+	chmod +x /usr/local/bin/speedtest
+
+	# install icdiff
+	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/icdiff > /usr/local/bin/icdiff
+	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/git-icdiff > /usr/local/bin/git-icdiff
+	chmod +x /usr/local/bin/icdiff
+	chmod +x /usr/local/bin/git-icdiff
+
+	# install lolcat
+	curl -sSL https://raw.githubusercontent.com/tehmaze/lolcat/master/lolcat > /usr/local/bin/lolcat
+	chmod +x /usr/local/bin/lolcat
+
+	# chromebook
+  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-notify.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/notify && chmod +x /usr/local/bin/notify
+  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-show-file.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/show-file && chmod +x /usr/local/bin/show-file
+  curl "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh?format=TEXT"| base64 --decode | tee /usr/local/bin/copy && chmod +x /usr/local/bin/copy
+}
+
 function get_dotfiles() {
   # create subshell
   (
@@ -138,6 +162,10 @@ function main() {
       get_user
       get_dotfiles
       ;;
+		scripts)
+			get_user
+			install_scripts
+			;;
     *) usage_error;;
   esac
 }
