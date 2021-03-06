@@ -73,14 +73,6 @@ fi
 #openports
 alias openports='sudo lsof -i -P -n | grep LISTEN'
 
-#Python
-if [ -x /usr/bin/python3.7 ]; then
-    alias python='/usr/bin/python3.7'
-fi
-if [ -x /usr/bin/pip3 ]; then
-    alias pip='/usr/bin/pip3'
-fi
-
 # Find files
 alias search='sudo find / -name'
 alias fhere='find . -name'
