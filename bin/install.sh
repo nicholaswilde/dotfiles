@@ -104,7 +104,11 @@ function main() {
     0) usage_error;;
   esac
   case "${cmd}" in
-    base_min) base_min;;
+    base_min)
+      check_is_sudo
+      get_user
+      base_min
+      ;;
   esac
 }
 
