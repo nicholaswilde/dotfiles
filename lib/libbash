@@ -62,3 +62,9 @@ function file_exists(){
 function command_exists(){
   command -v "${1}" &> /dev/null
 }
+
+# Check if variable is set
+# Returns false if empty
+function is_set(){
+  [ -n "${1}" ]
+}
