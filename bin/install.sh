@@ -127,9 +127,11 @@ function install_ruby() {
   apt-get install -y \
     rbenv \
     libssl-dev
+sudo -u "${TARGET_USER}" bash <<"EOF4"
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
   rbenv install 2.3.6
   rbenv global 2.3.6
+EOF4
 }
 
 function install_brew() {
@@ -200,6 +202,7 @@ sudo -u "${TARGET_USER}" bash <<"EOF"
     # installs all the things
     make
 EOF
+source "${HOME}/.bashrc"
 }
 
 function install_tools() {
