@@ -34,6 +34,7 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		--name df-shellcheck \
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
+		--platform linux/amd64 \
 		jess/shellcheck ./test.sh
 
 .PHONY: help

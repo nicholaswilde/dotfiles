@@ -4,10 +4,6 @@ set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Get the directory the script is in.
-# https://stackoverflow.com/a/246128/1061279
-readonly CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 # Check if directory exists
 function dir_exists(){
   [ -d "${1}" ]
@@ -259,6 +255,7 @@ sudo -u "${TARGET_USER}" bash <<"EOF"
     # installs all the things
     make
 EOF
+# shellcheck disable=SC1090
 source "${HOME}/.bashrc"
 }
 
@@ -267,7 +264,7 @@ function install_tools() {
   install_nano
   install_pip
   install_rust
-  install_golang
+  install_golang "$@"
   #install_pass
   #install_ruby
   install_brew
@@ -280,7 +277,7 @@ function main() {
       check_is_sudo
       get_user
       base_min
-      install_tools
+      install_tools "$@"
       get_dotfiles
       return
       ;;
@@ -302,7 +299,7 @@ function main() {
     golang)
       check_is_sudo
       get_user
-      install_golang
+      install_golang "$@"
       ;;
     nano)
       get_user
@@ -330,7 +327,7 @@ function main() {
     tools)
       check_is_sudo
       get_user
-      install_tools
+      install_tools "$@"
       ;;
     *) usage_error;;
   esac
