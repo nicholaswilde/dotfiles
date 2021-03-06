@@ -84,6 +84,7 @@ function base_min() {
     lsof \
     make \
     mount \
+    nano \
     net-tools \
     policykit-1 \
     silversearcher-ag \
