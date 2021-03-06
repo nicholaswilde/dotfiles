@@ -1,7 +1,7 @@
 SHELL := bash
 
 .PHONY: all
-	all: bin dotfiles ## Installs the bin and etc directory files and the dotfiles.
+all: bin dotfiles ## Installs the bin and etc directory files and the dotfiles.
 
 .PHONY: bin
 bin: ## Installs the bin directory files.
