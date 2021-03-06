@@ -86,6 +86,7 @@ function base_min() {
     iptables \
     jq \
     less \
+    libarchive-tools \
     libc6-dev \
     locales \
     lsof \
