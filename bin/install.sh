@@ -232,6 +232,10 @@ function main() {
       get_user
       base_min
       ;;
+    brew)
+      get_user
+      install_brew
+      ;;
     dotfiles)
       get_user
       get_dotfiles
