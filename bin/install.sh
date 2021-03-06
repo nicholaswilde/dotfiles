@@ -124,10 +124,22 @@ EOF2
 
 function install_ruby() {
   printf "\nInstalling pip packages ...\n\n"
-  apt-get install rbenv
+  apt-get install -y \
+    rbenv \
+    libssl-dev
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
   rbenv install 2.3.6
   rbenv global 2.3.6
+}
+
+function install_brew() {
+  printf "\nInstalling brew ...\n\n"
+sudo -u "${TARGET_USER}" bash <<"EOF3"
+  git clone https://github.com/Homebrew/brew "${HOME}/.linuxbrew/Homebrew"
+  mkdir "${HOME}/.linuxbrew/bin"
+  ln -s "${HOME}/.linuxbrew/Homebrew/bin/brew" "${HOME}/.linuxbrew/bin"
+  eval "$(${HOME}/.linuxbrew/bin/brew shellenv)"
+EOF3
 }
 
 function install_pass() {
