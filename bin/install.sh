@@ -141,6 +141,10 @@ sudo -u "${TARGET_USER}" bash <<"EOF3"
   mkdir "${HOME}/.linuxbrew/bin"
   ln -s "${HOME}/.linuxbrew/Homebrew/bin/brew" "${HOME}/.linuxbrew/bin"
   eval "$(${HOME}/.linuxbrew/bin/brew shellenv)"
+  brew install \
+    norwoodj/tap/helm-docs \
+    gh \
+    hadolint
 EOF3
 }
 
@@ -210,7 +214,7 @@ function install_tools() {
   install_nano
   install_pip
   #install_pass
-  install_ruby
+  #install_ruby
   install_brew
 }
 
