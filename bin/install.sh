@@ -115,6 +115,35 @@ function base_min() {
   apt clean -y
 }
 
+# install/update golang from source
+function install_golang() {
+  export GO_VERSION
+  GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
+  export GO_SRC=/usr/local/go
+
+  # if we are passing the version
+  if [[ -n "$1" ]]; then
+    GO_VERSION=$1
+  fi
+
+  # purge old src
+  if [[ -d "$GO_SRC" ]]; then
+    sudo rm -rf "$GO_SRC"
+    sudo rm -rf "$GOPATH"
+  fi
+
+  GO_VERSION=${GO_VERSION#go}
+
+  # subshell
+  (
+  kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
+  curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.${kernel}-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
+  local user="$USER"
+  # rebuild stdlib for faster builds
+  sudo chown -R "${user}" /usr/local/go/pkg
+  CGO_ENABLED=0 go install -a -installsuffix cgo std
+  )
+}
 function install_rust() {
   printf "\nInstalling rust ...\n\n"
 sudo -u "${TARGET_USER}" bash <<"EOF5"
@@ -232,6 +261,7 @@ function install_tools() {
   install_nano
   install_pip
   install_rust
+  install_golang
   #install_pass
   #install_ruby
   install_brew
@@ -263,6 +293,10 @@ function main() {
       get_user
       get_dotfiles
       ;;
+    golang)
+      get_user
+      install_golang
+      ;;
     nano)
       get_user
       install_nano
@@ -283,7 +317,7 @@ function main() {
       ;;
     scripts)
       check_is_sudo
-      get_user
+        get_user
       install_scripts
       ;;
     tools)
