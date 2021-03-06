@@ -165,6 +165,7 @@ function main() {
       base_min
       install_tools
       get_dotfiles
+			return
 			;;
   esac
   case "${cmd}" in
