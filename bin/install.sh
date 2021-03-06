@@ -143,7 +143,7 @@ function get_dotfiles() {
   git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
 
   # installs all the things
-  make
+  /bin/bash -u "${TARGET_USER}" -c "make"
   )
 }
 
