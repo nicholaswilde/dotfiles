@@ -96,6 +96,7 @@ function base_min() {
     net-tools \
     policykit-1 \
     python-is-python3 \
+    python3-pip \
     silversearcher-ag \
     ssh \
     strace \
