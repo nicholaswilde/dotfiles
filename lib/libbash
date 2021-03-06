@@ -10,6 +10,19 @@ declare -r FALSE=1
 declare -r PASSWD_FILE=/etc/passwd
 
 ##################################################################
+# Purpose: Converts a string to lower case
+# Arguments:
+#   $1 -> String to convert to lower case
+# https://bash.cyberciti.biz/guide/Shell_functions_library
+##################################################################
+function to_lower() {
+    local str="$*"
+    local output
+    output=$(tr '[:upper:]' '[:lower:]'<<<"${str}")
+    printf "%s\n" "${output}"
+}
+
+##################################################################
 # Purpose: Return true if script is executed by the root user
 # Arguments: none
 # Return: True or False
