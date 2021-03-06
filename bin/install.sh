@@ -115,6 +115,22 @@ function base_min() {
   apt clean -y
 }
 
+function install_rust() {
+  printf "\nInstalling rust ...\n\n"
+sudo -u "${TARGET_USER}" bash <<"EOF5"
+  curl https://sh.rustup.rs -sSf | sh
+
+  # Install rust-src for rust analyzer
+  rustup component add rust-src
+  # Install rust-analyzer
+  curl -sSL "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux" -o "${HOME}/.cargo/bin/rust-analyzer"
+  chmod +x "${HOME}/.cargo/bin/rust-analyzer"
+
+  # Install clippy
+  rustup component add clippy
+EOF5
+}
+
 function install_pip(){
   printf "\nInstalling pip packages ...\n\n"
 sudo -u "${TARGET_USER}" bash <<"EOF2"
@@ -215,6 +231,7 @@ function install_tools() {
   install_scripts
   install_nano
   install_pip
+  install_rust
   #install_pass
   #install_ruby
   install_brew
@@ -259,6 +276,10 @@ function main() {
       check_is_sudo
       get_user
       install_ruby
+      ;;
+    rust)
+      get_user
+      install_rust
       ;;
     scripts)
       check_is_sudo
