@@ -118,7 +118,8 @@ function base_min() {
 function install_pip(){
   printf "\nInstalling pip packages ...\n\n"
 sudo -u "${TARGET_USER}" bash <<"EOF2"
-  pip install pre-commit
+  pip install \
+    pre-commit
 EOF2
 }
 
@@ -144,7 +145,8 @@ sudo -u "${TARGET_USER}" bash <<"EOF3"
   brew install \
     norwoodj/tap/helm-docs \
     gh \
-    hadolint
+    hadolint \
+    yamllint
 EOF3
 }
 
