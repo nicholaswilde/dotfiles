@@ -20,7 +20,7 @@ function get_user() {
     # if there is only one option just use that user
     if [ "${#options[@]}" -eq "1" ]; then
       readonly TARGET_USER="${options[0]}"
-      echo "Using user account: ${TARGET_USER}"
+      printf "Using user account: %s\n" "${TARGET_USER}"
       HOME="/home/${TARGET_USER}"
       return
     fi
@@ -57,6 +57,7 @@ function show_usage() {
 }
 
 function base_min() {
+	printf "\nInstalling basemin ...\n"
   apt update || true
   apt -y upgrade
 	apt -y dist-upgrade
@@ -134,14 +135,12 @@ function install_scripts() {
 
 function get_dotfiles() {
   # create subshell
-sudo -u "${TARGET_USER}" bash <<"EOF"
+  sudo -u "${TARGET_USER}" bash <<"EOF"
     cd "$HOME"
 
     mkdir -p "${HOME}/git/nicholaswilde/"
 
-    #if [[ ! -d "${HOME}/git/nicholaswilde/dotfiles" ]]; then
-      git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
-    #fi
+    git clone https://github.com/nicholaswilde/dotfiles.git "${HOME}/git/nicholaswilde/dotfiles"
 
     cd "${HOME}/git/nicholaswilde/dotfiles"
 
@@ -150,14 +149,12 @@ sudo -u "${TARGET_USER}" bash <<"EOF"
 
     # installs all the things
     make
-EOF
+  EOF
 }
 
 function install_tools() {
-	echo
-	echo "Installing scripts..."
-	echo
-	sudo "${CURRENT_DIR}/install.sh" scripts;
+	printf "\nInstalling scripts ...\n"
+  install_scripts;
 }
 
 function main() {
@@ -187,6 +184,7 @@ function main() {
 			install_scripts
 			;;
     tools)
+      check_is_sudo
       get_user
       install_tools
       ;;
