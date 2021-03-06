@@ -181,7 +181,7 @@ function main() {
       install_tools
       get_dotfiles
       return
-			;;
+      ;;
   esac
   case "${cmd}" in
     basemin)
@@ -197,11 +197,11 @@ function main() {
       get_user
       install_nano
       ;;
-		scripts)
+    scripts)
       check_is_sudo
-			get_user
-			install_scripts
-			;;
+      get_user
+      install_scripts
+      ;;
     tools)
       check_is_sudo
       get_user
