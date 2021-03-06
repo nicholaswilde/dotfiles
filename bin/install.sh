@@ -159,7 +159,13 @@ function install_tools() {
 function main() {
   local cmd=$1
   case "$#" in
-    0) usage_error;;
+    0)
+      check_is_sudo
+      get_user
+      base_min
+      install_tools
+      get_dotfiles
+			;;
   esac
   case "${cmd}" in
     basemin)
