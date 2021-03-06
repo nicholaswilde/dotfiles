@@ -130,8 +130,7 @@ function install_scripts() {
 
 function get_dotfiles() {
   # create subshell
-  su "${TARGET_USER}"
-  (
+sudo -u "${TARGET_USER}" bash <<"EOF"
   cd "$HOME"
 
   mkdir -p "${HOME}/git/nicholaswilde/"
@@ -145,7 +144,7 @@ function get_dotfiles() {
 
   # installs all the things
   make
-  )
+EOF
 }
 
 function install_tools() {
