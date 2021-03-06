@@ -135,7 +135,6 @@ function main() {
       base_min
       ;;
     dotfiles)
-      check_is_sudo
       get_user
       get_dotfiles
       ;;
