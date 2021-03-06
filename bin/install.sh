@@ -125,7 +125,7 @@ sudo -u "${TARGET_USER}" bash <<"EOF5"
   # Install rust-analyzer
   curl -sSL "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux" -o "${HOME}/.cargo/bin/rust-analyzer"
   chmod +x "${HOME}/.cargo/bin/rust-analyzer"
-
+  source "${HOME}/.cargo/env"
   # Install clippy
   rustup component add clippy
 EOF5
