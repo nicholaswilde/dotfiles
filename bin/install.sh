@@ -4,6 +4,10 @@ set -o pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 
+# Get the directory the script is in.
+# https://stackoverflow.com/a/246128/1061279
+readonly CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 # Check if directory exists
 function dir_exists(){
   [ -d "${1}" ]
@@ -153,7 +157,7 @@ function install_tools() {
 	echo
 	echo "Installing scripts..."
 	echo
-	sudo install.sh scripts;
+	sudo "${CURRENT_DIR}/install.sh" scripts;
 }
 
 function main() {
