@@ -177,7 +177,7 @@ EOF
 function install_tools() {
   install_scripts
   install_nano
-  install_pass
+  #install_pass
 }
 
 function main() {
