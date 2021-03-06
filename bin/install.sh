@@ -295,6 +295,7 @@ function main() {
       get_dotfiles
       ;;
     golang)
+      check_is_sudo
       get_user
       install_golang
       ;;
