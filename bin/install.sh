@@ -194,7 +194,6 @@ function main() {
       get_dotfiles
       ;;
     nano)
-      check_is_sudo
       get_user
       install_nano
       ;;
