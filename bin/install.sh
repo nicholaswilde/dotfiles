@@ -98,6 +98,8 @@ function base_min() {
     mount \
     nano \
     net-tools \
+    nodejs \
+    npm \
     policykit-1 \
     python-is-python3 \
     python3-pip \
