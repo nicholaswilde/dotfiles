@@ -116,3 +116,12 @@ function gz() {
   printf "orig: %d bytes\\n" "$origsize"
   printf "gzip: %d bytes (%2.2f%%)\\n" "$gzipsize" "$ratio"
 }
+
+function dcleanup(){
+  local containers
+  mapfile -t containers < <(docker ps --filter status=exited -q 2>/dev/null)
+  docker rm "${containers[@]}" 2>/dev/null
+  local images
+  mapfile -t images < <(docker images --filter dangling=true -q 2>/dev/null)
+  docker rmi "${images[@]}" 2>/dev/null
+}
