@@ -129,11 +129,13 @@ function install_docker() {
   usermod -aG docker "${TARGET_USER}"
   curl -fsSL "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   chmod +x /usr/local/bin/docker-compose
+  # Start the service
+  service docker start
 sudo -u "${TARGET_USER}" bash <<"EOF7"
   # Setup builder
   docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
   mkdir -p "${HOME}/.docker/cli-plugins"
-  curl -fsSL "https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64" -O "${HOME}/.docker/cli-plugins/docker-buildx"
+  curl -L "https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64" -O "${HOME}/.docker/cli-plugins/docker-buildx"
   chmod a+x "${HOME}/.docker/cli-plugins/docker-buildx"
   docker buildx install
   docker buildx create --name mybuilder
