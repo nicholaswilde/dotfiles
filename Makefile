@@ -25,7 +25,8 @@ dotfiles: ## Installs the dotfiles.
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/.gnupg/$$f; \
 	done; \
-	mkdir -p $(HOME)/.config;
+	mkdir -p $(HOME)/.config/gh;
+	ln -snf $(CURDIR)/.config/gh/config.yml $(HOME)/.config/gh/config.yml;
 	source ~/.bashrc
 
 .PHONY: lib
