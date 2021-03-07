@@ -172,7 +172,7 @@ fi
 
 # Get my public ip
 alias pubip='curl http://ipecho.net/plain; echo'
-alias localip="hostname -I | awk '{print $1}'"
+alias localip="hostname -I | awk '{print \$1}'"
 
 # Change the default go
 if command_exists go1.15.2; then
