@@ -217,3 +217,5 @@ alias reload='source ~/.bashrc && git -C /home/nicholas/git/nicholaswilde/dotfil
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+command_exists copy || alias cwd='pwd | tr -d "\r\n"| copy'
