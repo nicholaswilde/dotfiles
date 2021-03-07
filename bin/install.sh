@@ -255,9 +255,9 @@ EOF3
 function install_pass() {
   printf "\nInstalling pass ...\n\n"
   apt install -y pass
-  git clone https://github.com/nicholaswilde/pass.git "${HOME}/.password-store"
-  cd "${HOME}/.password-store"
-  git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
+sudo -u "${TARGET_USER}" bash <<"EOF9"
+  git clone git@github.com:nicholaswilde/pass.git "${HOME}/.password-store"
+EOF9
 }
 
 function install_kubectl() {
