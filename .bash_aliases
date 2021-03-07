@@ -213,3 +213,6 @@ alias ec='nano ~/.bash_completions'
 
 # Quickly load bashrc
 alias reload='source ~/.bashrc && git -C /home/nicholas/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C /home/nicholas/git/nicholaswilde/dotfiles push origin main'
+
+# Stopwatch
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
