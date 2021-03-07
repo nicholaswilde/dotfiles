@@ -49,6 +49,7 @@ function show_usage() {
   echo "Usage:"
   echo "  basemin       - setup sources & install base pkgs"
   echo "  brew          - get brew"
+  echo "  docker        - get docker"
   echo "  dotfiles      - get dotfiles"
   echo "  rust          - get rust"
   echo "  golang        - get golang"
@@ -98,6 +99,7 @@ function base_min() {
     mount \
     nano \
     net-tools \
+    nfs-common \
     nodejs \
     npm \
     policykit-1 \
@@ -119,6 +121,14 @@ function base_min() {
   apt autoremove -y
   apt autoclean -y
   apt clean -y
+}
+
+function install_docker() {
+  printf "\nInstalling docker ...\n\n"
+  curl -sSL https://get.docker.com | bash
+  usermod -aG docker "${TARGET_USER}"
+  curl -fsSL "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
 }
 
 function install_task() {
@@ -309,6 +319,7 @@ EOF
 function install_tools() {
   install_scripts
   install_nano
+  install_docker
   install_pip
   install_rust
   install_golang "$@"
@@ -340,6 +351,11 @@ function main() {
     brew)
       get_user
       install_brew
+      ;;
+    docker)
+      check_is_sudo
+      get_user
+      install_docker
       ;;
     dotfiles)
       get_user
