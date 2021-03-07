@@ -4,11 +4,19 @@
 function count(){ echo $(ls $1 | wc -l); }
 
 function getcom() {
-  printf "$(curl -s "https://api.github.com/repos/$1/commits" | jq -r '.[0].sha' | head -c 7)\n"
+  if [ -z "${1}" ]; then
+    echo "Usage: \`getcom user/repo\`"
+    return 1
+  fi
+  printf "$(curl -s "https://api.github.com/repos/${1}/commits" | jq -r '.[0].sha' | head -c 7)\n"
 }
 
 function getrev() {
-  printf "$(curl -s 'https://grafana.com/api/dashboards/$1/revisions' | jq -r '.items| length')\n"
+  if [ -z "${1}" ]; then
+    echo "Usage: \`getrev user/repo\`"
+    return 1
+  fi
+  printf "$(curl -s "https://grafana.com/api/dashboards/${1}/revisions" | jq -r '.items| length')\n"
 }
 
 function dtags () {
@@ -18,9 +26,13 @@ function dtags () {
 }
 
 function getver() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-  grep '"tag_name":' |                                            # Get tag line
-  sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+  if [ -z "${1}" ]; then
+    echo "Usage: \`getver user/repo\`"
+    return 1
+  fi
+  curl -s "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+  grep '"tag_name":' |                                        # Get tag line
+  sed -E 's/.*"([^"]+)".*/\1/'                                # Pluck JSON value
 }
 
 function mkcdir (){
