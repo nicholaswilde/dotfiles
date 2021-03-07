@@ -18,11 +18,6 @@ function file_exists(){
   [ -f "{1}" ]
 }
 
-# multipass
-if command_exists multipass; then
-  alias mp='multipass'
-fi
-
 # nano
 if [ -f "${HOME}/.nanorc" ]; then
   # don't allow tabs
@@ -38,14 +33,10 @@ if command_exists pass; then
   alias passpush='pass git push -u --all'
 fi
 
-if command_exists shred; then
-  # Remove the file by default
-  alias shred='shred -u'
-fi
+# Remove the file by default
+command_exists shred &&  alias shred='shred -u'
 
-if command_exists fping; then
-	alias pingall='fping -l 192.168.1.202 192.168.1.203 192.168.1.189 192.168.1.195 192.168.1.199 192.168.1.172 192.168.1.201'
-fi
+command_exists fping &&	alias pingall='fping -l 192.168.1.202 192.168.1.203 192.168.1.189 192.168.1.195 192.168.1.199 192.168.1.172 192.168.1.201'
 
 #boinc-client
 if command_exists boinccmd; then
@@ -70,7 +61,7 @@ if command_exists apt-get; then
   alias purge='sudo apt-get remove --purge'
 fi
 
-#openports
+# openports
 alias openports='sudo lsof -i -P -n | grep LISTEN'
 
 # Find files
@@ -90,15 +81,14 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias back='cd "$OLDPWD"'
+alias ~='cd ~'
 
 # System
 alias pms='sudo pm-suspend'
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 
 # pydf
-if command_exists pydf; then
-	alias df='pydf -ha'
-fi
+command_exists pydf && alias df='pydf -ha'
 
 alias du='du -ach | sort -h'
 alias free='free -mt'
@@ -106,9 +96,7 @@ alias ps='ps auxf'
 alias histg='history | grep'
 
 # Change to using htop
-if command_exists htop; then
-	alias top='htop'
-fi
+command_exists htop && alias top='htop'
 
 # Editor
 if command_exists nano; then
@@ -148,9 +136,7 @@ alias mv='mv -i'
 alias mkdir='mkdir -pv' # Parent directories
 
 # Downloads
-if command_exists wget; then
-    alias wget='wget -c'
-fi
+command_exists wget && alias wget='wget -c'
 
 # Git Commands
 if command_exists git; then
@@ -166,18 +152,11 @@ if command_exists git; then
 fi
 
 # Color the output of cat
-if command_exists pygmentize; then
-    alias catc='pygmentize -O style=friendly -g' # sudo apt-get install python3-pygments
-fi
+command_exists pygmentize && alias catc='pygmentize -O style=friendly -g' # sudo apt-get install python3-pygments
 
 # Get my public ip
 alias pubip='curl http://ipecho.net/plain; echo'
 alias localip="hostname -I | awk '{print \$1}'"
-
-# Change the default go
-if command_exists go1.15.2; then
-  alias go='go1.15.2'
-fi
 
 # Docker
 if command_exists docker; then
@@ -213,7 +192,7 @@ alias ef='nano ~/.bash_functions'
 alias ec='nano ~/.bash_completions'
 
 # Quickly load bashrc
-alias reload='source ~/.bashrc && git -C /home/nicholas/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C /home/nicholas/git/nicholaswilde/dotfiles push origin main'
+alias reload='source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles push origin main'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
