@@ -200,3 +200,5 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 command_exists copy && alias cwd='pwd | tr -d "\r\n"| copy'
 
 command_exists tar && alias untar='tar xvf'
+
+alias pubkey="more ~/.ssh/id_rsa.pub | copy | echo '=> Public key copied to clipboard.'"
