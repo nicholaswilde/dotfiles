@@ -47,13 +47,17 @@ function usage_error() {
 function show_usage() {
   echo -e "install.sh\\n\\tThis script installs my basic setup for a debian computer\\n"
   echo "Usage:"
-  echo "  basemin                             - setup sources & install base pkgs"
-  echo "  brew                                - get brew"
-  echo "  dotfiles                            - get dotfiles"
-  echo "  rust                                - get rust"
-  echo "  go                                  - get go"
-  echo "  pass                                - get pass"
-  echo "  scripts                             - get scripts"
+  echo "  basemin       - setup sources & install base pkgs"
+  echo "  brew          - get brew"
+  echo "  dotfiles      - get dotfiles"
+  echo "  rust          - get rust"
+  echo "  golang        - get golang"
+  echo "  nano          - setup nanorc files"
+  echo "  pass          - get pass"
+  echo "  pip           - get pip packages"
+  echo "  rust          - get rust"
+  echo "  scripts       - get scripts"
+  echo "  task          - get task"
 }
 
 function base_min() {
@@ -115,8 +119,14 @@ function base_min() {
   apt clean -y
 }
 
+function install_task() {
+  printf "\nInstalling task ...\n\n"
+  sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+}
+
 # install/update golang from source
 function install_golang() {
+  printf "\nInstalling golang ...\n\n"
   export GO_VERSION
   GO_VERSION=$(curl -sSL "https://golang.org/VERSION?m=text")
   export GO_SRC=/usr/local/go
@@ -171,14 +181,20 @@ EOF2
 }
 
 function install_ruby() {
-  printf "\nInstalling pip packages ...\n\n"
+  printf "\nInstalling ruby ...\n\n"
   apt-get install -y \
     rbenv \
     libssl-dev
 sudo -u "${TARGET_USER}" bash <<"EOF4"
+  # if we are passing the version
+  if [[ -n "$1" ]]; then
+    RUBY_VERSION=$1
+  else
+    RUBY_VERSION="$(rbenv install -l | grep -v - | tail -1)"
+  fi
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-  rbenv install 2.3.6
-  rbenv global 2.3.6
+  rbenv install "${RUBY_VERSION}"
+  rbenv global "${RUBY_VERSION}"
 EOF4
 }
 
@@ -284,8 +300,8 @@ sudo -u "${TARGET_USER}" bash <<"EOF"
     # installs all the things
     make
 EOF
-# shellcheck disable=SC1090
-source "${HOME}/.bashrc"
+  # shellcheck disable=SC1090
+  source "${HOME}/.bashrc"
 }
 
 function install_tools() {
@@ -295,6 +311,7 @@ function install_tools() {
   install_rust
   install_golang "$@"
   install_kubectl
+  install_task
   #install_pass
   #install_ruby
   install_brew
@@ -345,6 +362,10 @@ function main() {
       get_user
       install_pass
       ;;
+    pip)
+      get_user
+      install_pip
+      ;;
     ruby)
       check_is_sudo
       get_user
@@ -358,6 +379,11 @@ function main() {
       check_is_sudo
         get_user
       install_scripts
+      ;;
+    task)
+      check_is_sudo
+      get_user
+      install_task
       ;;
     tools)
       check_is_sudo
