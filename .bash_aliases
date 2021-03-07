@@ -202,3 +202,4 @@ command_exists copy && alias cwd='pwd | tr -d "\r\n"| copy'
 command_exists tar && alias untar='tar xvf'
 
 alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
+alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
