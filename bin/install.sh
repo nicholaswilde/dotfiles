@@ -202,6 +202,7 @@ function install_pip(){
 sudo -u "${TARGET_USER}" bash <<"EOF2"
   pip install \
     pre-commit
+  pip install --user ansible
 EOF2
 }
 
@@ -234,7 +235,8 @@ sudo -u "${TARGET_USER}" bash <<"EOF3"
     norwoodj/tap/helm-docs \
     gh \
     hadolint \
-    yamllint
+    yamllint \
+    helm
 EOF3
 }
 
@@ -339,7 +341,7 @@ function install_tools() {
   install_kubectl
   install_task
   #install_pass
-  #install_ruby
+  #install_ruby "$@"
   install_brew
 }
 
@@ -400,7 +402,7 @@ function main() {
     ruby)
       check_is_sudo
       get_user
-      install_ruby
+      install_ruby "$@"
       ;;
     rust)
       get_user
