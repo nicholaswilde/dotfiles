@@ -98,3 +98,19 @@ function gitio() {
   fi
   curl -i https://git.io/ -F "url=${2}" -F "code=${1}"
 }
+
+# Compare original and gzipped file size
+function gz() {
+  if [ -z "${1}" ]; then
+    echo "Usage: \`gz file\`"
+    return 1
+  fi
+  local origsize
+  origsize=$(wc -c < "$1")
+  local gzipsize
+  gzipsize=$(gzip -c "$1" | wc -c)
+  local ratio
+  ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l)
+  printf "orig: %d bytes\\n" "$origsize"
+  printf "gzip: %d bytes (%2.2f%%)\\n" "$gzipsize" "$ratio"
+}
