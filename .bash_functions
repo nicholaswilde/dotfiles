@@ -4,11 +4,11 @@
 function count(){ echo $(ls $1 | wc -l); }
 
 function getcom() {
-  printf $(curl --silent "https://api.github.com/repos/$1/commits" | jq -r '.[0].sha' | head -c 7)\n
+  printf "$(curl -s 'https://api.github.com/repos/$1/commits' | jq -r '.[0].sha' | head -c 7)\n"
 }
 
 function getrev() {
-  curl --silent "https://grafana.com/api/dashboards/$1/revisions" | jq -r '.items| length'
+  printf "$(curl -s 'https://grafana.com/api/dashboards/$1/revisions' | jq -r '.items| length')\n"
 }
 
 function dtags () {
