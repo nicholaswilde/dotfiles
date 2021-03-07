@@ -206,6 +206,7 @@ function install_pass() {
 }
 
 function install_kubectl() {
+  printf "\nInstalling kubectl ...\n\n"
   apt update
   apt install -y \
     apt-transport-https \
@@ -216,6 +217,7 @@ function install_kubectl() {
   apt update
   apt install -y kubectl
 
+sudo -u "${TARGET_USER}" bash <<"EOF6"
   # krew
   set -x; cd "$(mktemp -d)" &&
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz" &&
@@ -225,6 +227,7 @@ function install_kubectl() {
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
   # ns
   kubectl krew install ns
+EOF6
 }
 
 function install_nano() {
