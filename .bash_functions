@@ -4,7 +4,7 @@
 function count(){ echo $(ls $1 | wc -l); }
 
 function getcom() {
-  curl --silent "https://api.github.com/repos/$1/commits" | jq -r '.[0].sha' | head -c 7
+  printf $(curl --silent "https://api.github.com/repos/$1/commits" | jq -r '.[0].sha' | head -c 7)\n
 }
 
 function getrev() {
