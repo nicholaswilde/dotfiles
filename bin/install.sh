@@ -222,7 +222,7 @@ function install_kubectl() {
   tar zxvf krew.tar.gz &&
   KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/arm.*$/arm/' -e 's/aarch64$/arm64/')" &&
   "$KREW" install krew
-
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
   # ns
   kubectl krew install ns
 }
