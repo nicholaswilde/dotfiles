@@ -428,7 +428,7 @@ function main() {
       ;;
     ssh)
       get_user
-      install_scripts
+      install_ssh
       ;;
     task)
       check_is_sudo
