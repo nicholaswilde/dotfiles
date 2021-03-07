@@ -2,6 +2,12 @@
 
 My Debian based dotfiles
 
+## Warning
+
+>  :warning: Warining: Installing these dotfiles using `make` will overwrite your existing dotfiles. Please backup your stuff first!
+
+> Note: There are other `dotfiles` that are installed other than the ones listed below.
+
 ## Backup
 
 Backup the dot files before performing the installation below.
@@ -15,6 +21,17 @@ $ mv /.bash_functions ~/.bash_functions.backup
 
 ## Installation
 
+### Script
+
+```shell
+# Everything
+$ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh)"
+# Just the dot files
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) dotfiles"
+```
+
+### Manual
+
 To keep the dot files synced with this repo, make symbolic links to the `repo` location.
 
 ```shell
@@ -27,6 +44,10 @@ $ ln -s ~/git/dotfiles/.bash_exports ~/.bash_exports
 $ ln -s ~/git/dotfiles/.bash_functions ~/.bash_functions
 # Reload
 $ source ~/.bashrc
+# or
+$ git clone https://github.com/nicholaswilde/dotfiles.git
+$ cd dotfiles
+$ make
 ```
 
 ## Restoration
@@ -40,12 +61,6 @@ $ mv ~/.bash_exports.backup ~/.bash_exports
 $ mv /.bash_functions.backup ~/.bash_functions
 # Reload
 $ source ~/.bashrc
-```
-
-## Install
-```shell
-$ sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh)"
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nicholaswilde/dotfiles/main/bin/install.sh) dotfiles"
 ```
 
 ## Inspiration
