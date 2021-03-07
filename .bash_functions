@@ -89,3 +89,12 @@ function dataurl() {
   fi
   echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
+
+function # Create a git.io short URL
+gitio() {
+  if [ -z "${1}" ] || [ -z "${2}" ]; then
+    echo "Usage: \`gitio slug url\`"
+    return 1
+  fi
+  curl -i https://git.io/ -F "url=${2}" -F "code=${1}"
+}
