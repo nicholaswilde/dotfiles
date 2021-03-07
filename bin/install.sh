@@ -102,6 +102,7 @@ function base_min() {
     nfs-common \
     nodejs \
     npm \
+    openssh-client \
     policykit-1 \
     python-is-python3 \
     python3-pip \
@@ -142,6 +143,15 @@ sudo -u "${TARGET_USER}" bash <<"EOF7"
   docker buildx use mybuilder
   docker buildx inspect --bootstrap
 EOF7
+}
+
+function install_ssh() {
+sudo -u "${TARGET_USER}" bash <<"EOF8"
+  mkdir -p "${HOME}/.ssh"
+  scp pi@192.168.1.192:~/.ssh/id_rsa "${HOME}/.ssh/id_rsa"
+  chmod 0600 "${HOME}/.ssh/id_rsa"
+  chmod 0700 "${HOME}/.ssh/"
+EOF8
 }
 
 function install_task() {
