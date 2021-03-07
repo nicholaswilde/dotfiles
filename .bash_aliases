@@ -205,3 +205,4 @@ alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to c
 alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
 
 command_exists boilerplater && alias boilerbash='boilerplater /usr/local/bin/boilerplate-bash'
+command_exists boilerplater && alias boilerpy='boilerplater python'
