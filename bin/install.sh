@@ -149,7 +149,9 @@ function install_ssh() {
 sudo -u "${TARGET_USER}" bash <<"EOF8"
   mkdir -p "${HOME}/.ssh"
   scp pi@192.168.1.192:~/.ssh/id_rsa "${HOME}/.ssh/id_rsa"
+  wget https://github.com/nicholaswilde.keys -O "${HOME}/.ssh/id_rsa.pub"
   chmod 0600 "${HOME}/.ssh/id_rsa"
+  chmod 0644 "${HOME}/.ssh/id_rsa.pub"
   chmod 0700 "${HOME}/.ssh/"
 EOF8
 }
@@ -350,6 +352,7 @@ function install_tools() {
   install_golang "$@"
   install_kubectl
   install_task
+  install_ssh
   #install_pass
   #install_ruby "$@"
   install_brew
@@ -420,7 +423,11 @@ function main() {
       ;;
     scripts)
       check_is_sudo
-        get_user
+      get_user
+      install_scripts
+      ;;
+    ssh)
+      get_user
       install_scripts
       ;;
     task)
