@@ -1,6 +1,6 @@
 # dotfiles
 
-My collection of dotfiles
+My Debian based dotfiles
 
 ## Backup
 
