@@ -205,6 +205,28 @@ function install_pass() {
   git remote set-url origin git@github.com:nicholaswilde/dotfiles.git
 }
 
+function install_kubectl() {
+  apt update
+  apt install -y \
+    apt-transport-https \
+    gnupg2 \
+    curl
+  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+  apt update
+  apt install -y kubectl
+
+  # krew
+  set -x; cd "$(mktemp -d)" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz" &&
+  tar zxvf krew.tar.gz &&
+  KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/arm.*$/arm/' -e 's/aarch64$/arm64/')" &&
+  "$KREW" install krew
+
+  # ns
+  kubectl krew install ns
+}
+
 function install_nano() {
   printf "\nInstalling nanorc ...\n\n"
   curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sudo -u "${TARGET_USER}" bash
@@ -214,20 +236,20 @@ function install_nano() {
 
 # install custom scripts/binaries
 function install_scripts() {
-	printf "\nInstalling scripts ...\n\n"
-	# install speedtest
-	curl -sSL https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py  > /usr/local/bin/speedtest
-	chmod +x /usr/local/bin/speedtest
+  printf "\nInstalling scripts ...\n\n"
+  # install speedtest
+  curl -sSL https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py  > /usr/local/bin/speedtest
+  chmod +x /usr/local/bin/speedtest
 
-	# install icdiff
-	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/icdiff > /usr/local/bin/icdiff
-	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/git-icdiff > /usr/local/bin/git-icdiff
-	chmod +x /usr/local/bin/icdiff
-	chmod +x /usr/local/bin/git-icdiff
+  # install icdiff
+  curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/icdiff > /usr/local/bin/icdiff
+  curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/git-icdiff > /usr/local/bin/git-icdiff
+  chmod +x /usr/local/bin/icdiff
+  chmod +x /usr/local/bin/git-icdiff
 
-	# install lolcat
-	curl -sSL https://raw.githubusercontent.com/tehmaze/lolcat/master/lolcat > /usr/local/bin/lolcat
-	chmod +x /usr/local/bin/lolcat
+  # install lolcat
+  curl -sSL https://raw.githubusercontent.com/tehmaze/lolcat/master/lolcat > /usr/local/bin/lolcat
+  chmod +x /usr/local/bin/lolcat
 
 	# chromebook
   curl -sSL "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/hterm-notify.sh?format=TEXT" | base64 --decode | tee /usr/local/bin/notify
@@ -236,6 +258,10 @@ function install_scripts() {
   chmod +x /usr/local/bin/show-file
   curl -sSL "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh?format=TEXT" | base64 --decode | tee /usr/local/bin/copy
   chmod +x /usr/local/bin/copy
+
+  # knsk
+  curl -sSL https://raw.githubusercontent.com/thyarles/knsk/master/knsk.sh > /usr/local/bin/knsk
+  chmod +x /usr/local/bin/knsk
 }
 
 function get_dotfiles() {
@@ -265,6 +291,7 @@ function install_tools() {
   install_pip
   install_rust
   install_golang "$@"
+  install_kubectl
   #install_pass
   #install_ruby
   install_brew
@@ -300,6 +327,11 @@ function main() {
       check_is_sudo
       get_user
       install_golang "$@"
+      ;;
+    kubectl)
+      check_is_sudo
+      get_user
+      install_kubectl
       ;;
     nano)
       get_user
