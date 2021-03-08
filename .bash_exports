@@ -22,6 +22,10 @@ export VISUAL='nano'
 # https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
 export CDPATH=:..:~:~/git/nicholaswilde:~/git
 
+# For boilerplater
+export AUTHOR_NAME="Nicholas Wilde"
+export AUTHOR_GPG_KEY="0x08b7d7a3"
+
 # PATH
 export PATH="${PATH}:${GOPATH}/bin"
 export PATH="${PATH}:${KREW_ROOT:-$HOME/.krew}/bin"
