@@ -89,12 +89,15 @@ EOF
 EOF
 # shellcheck disable=SC2034
 cat >>"$2" <<'EOF'
-set -e
-set -o pipefail
+set -eo pipefail
 
 # https://stackoverflow.com/a/246128/1061279
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 readonly SCRIPT_NAME=$(basename "${0}")
+
+# Import libbash if it exists
+# https://github.com/nicholaswilde/dotfiles/blob/main/lib/libbash
+[ -f "/usr/local/lib/libbash" ] && source "/usr/local/lib/libbash"
 
 function show_usage(){
   printf "Usage: %s [-p PORT] [-h|-v] REPOSITORY:TAG\n" "${SCRIPT_NAME}"
