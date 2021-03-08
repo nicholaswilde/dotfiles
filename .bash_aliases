@@ -186,10 +186,12 @@ if command_exists kubectl; then
     alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
 fi
 
-alias ea='nano ~/.bash_aliases'
-alias ee='nano ~/.bash_exports'
-alias ef='nano ~/.bash_functions'
-alias ec='nano ~/.bash_completions'
+# Edit files
+alias ea='${EDITOR} ~/.bash_aliases'
+alias ee='${EDITOR} ~/.bash_exports'
+alias ef='${EDITOR} ~/.bash_functions'
+alias ec='${EDITOR} ~/.bash_completions'
+alias el='${EDITOR} /usr/local/lib/libbash'
 
 # Quickly load bashrc
 alias reload='source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles push origin main'
@@ -198,7 +200,6 @@ alias reload='source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles commit --a
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
 command_exists copy && alias cwd='pwd | tr -d "\r\n"| copy'
-
 command_exists tar && alias untar='tar xvf'
 
 alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
@@ -206,9 +207,7 @@ alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clip
 
 command_exists boilerplater && alias boilerbash='boilerplater /usr/local/bin/boilerplate-bash'
 command_exists boilerplater && alias boilerpy='boilerplater python'
-
 command_exists netstat && alias port='netstat -tulanp'
-
 command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl -s http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
 
 
