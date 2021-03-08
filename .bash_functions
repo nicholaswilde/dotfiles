@@ -4,7 +4,7 @@
 function count(){ echo $(ls $1 | wc -l); }
 
 # Create a tar ball
-function targz() { tar -zcvf $(echo $1 | cut -f 1 -d '.').tar.gz $1 }
+function targz() { tar -zcvf $(echo $1 | cut -f 1 -d '.').tar.gz $1; }
 
 function getcom() {
   if [ -z "${1}" ]; then
