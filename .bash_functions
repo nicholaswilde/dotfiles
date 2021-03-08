@@ -187,3 +187,7 @@ function urlencode() {
 function urldecode() {
 	python -c "import sys; from urllib.parse import unquote; print(unquote(sys.stdin.read()), end='')"
 }
+
+# make a backup of a file
+# https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
+function bk() { cp -a "$1" "${1}_$(date --iso-8601=seconds)"; }
