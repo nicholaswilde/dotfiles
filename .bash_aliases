@@ -207,4 +207,4 @@ alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clip
 command_exists boilerplater && alias boilerbash='boilerplater /usr/local/bin/boilerplate-bash'
 command_exists boilerplater && alias boilerpy='boilerplater python'
 
-command_exists lsof && alias listen='sudo lsof -P -i -n'
+command_exists netstat && alias port='netstat -tulanp'
