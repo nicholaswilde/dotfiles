@@ -63,6 +63,18 @@ $ mv /.bash_functions.backup ~/.bash_functions
 $ source ~/.bashrc
 ```
 
+## Pre-commit hook
+
+If you want to automatically generate `README.md` files with a pre-commit hook, make sure you
+[install the pre-commit binary](https://pre-commit.com/#install), and add a [.pre-commit-config.yaml file](./.pre-commit-config.yaml)
+to your project. Then run:
+
+```bash
+$ pre-commit install
+$ pre-commit install-hooks
+```
+Currently, this only works on `amd64` systems.
+
 ## Inspiration
 
 Inspiration for this repo has been taken from [jessfraz's](https://github.com/jessfraz/) [dotfiles](https://github.com/jessfraz/dotfiles/).
