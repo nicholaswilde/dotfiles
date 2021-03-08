@@ -75,7 +75,12 @@ to your project. Then run:
 $ pre-commit install
 $ pre-commit install-hooks
 ```
-Currently, this only works on `amd64` systems.
+
+> Note: The `shellcheck` hook uses a Docker image with a `--platform linux/amd64` argument which requires [qemu-user-static](https://github.com/multiarch/qemu-user-static#getting-started) installed if running on a different architecture.
+
+```shell
+$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
 
 ## Inspiration
 
