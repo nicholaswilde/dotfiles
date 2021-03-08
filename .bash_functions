@@ -177,3 +177,13 @@ function extract {
   fi
 }
 
+# https://stackoverflow.com/questions/6250698/how-to-decode-url-encoded-string-in-shell
+# Encode with URLEncode
+function urlencode() {
+	python -c "import sys; from urllib.parse import quote_plus; print(quote_plus(sys.stdin.read()))"
+}
+
+# Decode URLencoded string
+function urldecode() {
+	python -c "import sys; from urllib.parse import unquote; print(unquote(sys.stdin.read()), end='')"
+}
