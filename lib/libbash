@@ -85,3 +85,8 @@ function command_exists(){
 function is_set(){
   [ -n "${1}" ]
 }
+
+# Strip the file extension: foo.tar.gz -> foo
+function strip_ext() {
+  echo "${1%%.*}"
+}
