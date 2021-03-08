@@ -191,3 +191,11 @@ function urldecode() {
 # make a backup of a file
 # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
 function bk() { cp -a "$1" "${1}_$(date --iso-8601=seconds)"; }
+
+# https://serverfault.com/a/6833/265446
+function fawk() {
+    first="awk '{print "
+    last="}'"
+    cmd="${first}\$${1}${last}"
+    eval $cmd
+}
