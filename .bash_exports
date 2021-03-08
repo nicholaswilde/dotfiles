@@ -19,6 +19,9 @@ export GPG_TTY
 export EDITOR='nano'
 export VISUAL='nano'
 
+# https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
+export CDPATH=:..:~:~/git/nicholaswilde:~/git
+
 # PATH
 export PATH="${PATH}:${GOPATH}/bin"
 export PATH="${PATH}:${KREW_ROOT:-$HOME/.krew}/bin"
