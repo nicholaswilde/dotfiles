@@ -6,7 +6,7 @@ function count(){ echo $(ls $1 | wc -l); }
 # Create a tar ball
 function targz() { tar -zcvf $(echo $1 | cut -f 1 -d '.').tar.gz $1; }
 
-function getloc() {lynx -dump https://www.ip-adress.com/ip-address/ipv4/$1 | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'}
+function getloc() { lynx -dump https://www.ip-adress.com/ip-address/ipv4/$1 | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'; }
 
 function getcom() {
   if [ -z "${1}" ]; then
