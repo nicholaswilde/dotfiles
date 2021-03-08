@@ -63,6 +63,8 @@ $ mv /.bash_functions.backup ~/.bash_functions
 $ source ~/.bashrc
 ```
 
+> Note: Blank skeleton dotfiles can be found in `/etc/skel`
+
 ## Pre-commit hook
 
 If you want to automatically generate `README.md` files with a pre-commit hook, make sure you
