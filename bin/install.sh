@@ -218,11 +218,11 @@ EOF5
 
 function install_pip(){
   printf "\nInstalling pip packages ...\n\n"
-sudo -u "${TARGET_USER}" bash <<"EOF2"
+sudo -u "${TARGET_USER}" bash <<"EOF"
   pip install \
     pre-commit
   pip install --user ansible
-EOF2
+EOF
 }
 
 function install_ruby() {
@@ -230,7 +230,7 @@ function install_ruby() {
   apt-get install -y \
     rbenv \
     libssl-dev
-sudo -u "${TARGET_USER}" bash <<"EOF4"
+sudo -u "${TARGET_USER}" bash <<"EOF"
   # if we are passing the version
   if [[ -n "$1" ]]; then
     RUBY_VERSION=$1
@@ -240,12 +240,12 @@ sudo -u "${TARGET_USER}" bash <<"EOF4"
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
   rbenv install "${RUBY_VERSION}"
   rbenv global "${RUBY_VERSION}"
-EOF4
+EOF
 }
 
 function install_brew() {
   printf "\nInstalling brew ...\n\n"
-sudo -u "${TARGET_USER}" bash <<"EOF3"
+sudo -u "${TARGET_USER}" bash <<"EOF"
   git clone https://github.com/Homebrew/brew "${HOME}/.linuxbrew/Homebrew"
   mkdir "${HOME}/.linuxbrew/bin"
   ln -s "${HOME}/.linuxbrew/Homebrew/bin/brew" "${HOME}/.linuxbrew/bin"
@@ -255,8 +255,9 @@ sudo -u "${TARGET_USER}" bash <<"EOF3"
     gh \
     hadolint \
     yamllint \
-    helm
-EOF3
+    helm \
+    chart-testing
+EOF
 }
 
 function install_pass() {
@@ -279,7 +280,7 @@ function install_kubectl() {
   apt update
   apt install -y kubectl
 
-sudo -u "${TARGET_USER}" bash <<"EOF6"
+sudo -u "${TARGET_USER}" bash <<"EOF"
   # krew
   set -x; cd "$(mktemp -d)"
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz"
@@ -289,7 +290,7 @@ sudo -u "${TARGET_USER}" bash <<"EOF6"
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
   # ns
   kubectl krew install ns
-EOF6
+EOF
 }
 
 function install_nano() {

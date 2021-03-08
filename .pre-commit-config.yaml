@@ -3,7 +3,7 @@ repos:
   - repo: local
     hooks:
       - id: shellcheck
-        name: shellcheck
+        name: Run shellcheck
         description: shellcheck
         language: docker_image
         entry: --entrypoint ./test.sh --platform linux/amd64 jess/shellcheck
