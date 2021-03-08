@@ -3,7 +3,8 @@
 
 function count(){ echo $(ls $1 | wc -l); }
 
-function targz() { tar -zcvf $( $1 | cut -f 1 -d '.').tar.gz $1; rm -r $1; }
+# Create a tar ball
+function targz() { tar -zcvf $(echo $1 | cut -f 1 -d '.').tar.gz $1}
 
 function getcom() {
   if [ -z "${1}" ]; then
