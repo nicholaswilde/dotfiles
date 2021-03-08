@@ -1,0 +1,15 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: shellcheck
+        name: shellcheck
+        description: shellcheck
+        language: docker_image
+        entry: --entrypoint ./test.sh --platform linux/amd64 jess/shellcheck
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.26.0
+    hooks:
+      - id: yamllint
+        name: Run yamllint
+        description: Lint yaml files

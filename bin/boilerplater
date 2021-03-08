@@ -24,8 +24,10 @@
 ##############################################################################
 
 ## Local variables:
-AUTHOR_NAME="Nicholas Wilde"
-AUTHOR_GPG_KEY="0x08b7d7a3"
+# shellcheck disable=SC2034
+readonly AUTHOR_NAME="Nicholas Wilde"
+# shellcheck disable=SC2034
+readonly AUTHOR_GPG_KEY="0x08b7d7a3"
 
 function usage () {
     echo "Usage: $0 <boilerplate_file> <new_file_name>"

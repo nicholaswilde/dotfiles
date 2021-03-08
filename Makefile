@@ -38,7 +38,7 @@ lib: ## Installs the bin directory files.
 	done
 
 .PHONY: test
-test: shellcheck ## Runs all the tests on the files in the repository.
+test: shellcheck yamllint ## Runs all the tests on the files in the repository.
 
 # if this session isn't interactive, then we don't want to allocate a
 # TTY, which would fail, but if it is interactive, we do want to attach
@@ -56,6 +56,10 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		--workdir /usr/src \
 		--platform linux/amd64 \
 		jess/shellcheck ./test.sh
+
+.PHONY: yamllint
+yamllint:
+	yamllint .
 
 .PHONY: help
 help:
