@@ -68,13 +68,17 @@ function base_min() {
 	apt -y dist-upgrade
 
   apt install -y \
+    p7zip-full \
     adduser \
+    arc \
     automake \
     bash-completion \
     bc \
     build-essential \
     bzip2 \
     ca-certificates \
+    cabextract \
+    ciso \
     coreutils \
     curl \
     dnsutils \
@@ -113,10 +117,13 @@ function base_min() {
     tar \
     tree \
     tzdata \
+    unace \
+    unrar \
     unzip \
     wget \
     xz-utils \
     zip \
+    zpaq \
     --no-install-recommends
 
   apt autoremove -y
