@@ -118,8 +118,8 @@ function gz() {
   ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l)
   ratio2=$(echo "$bzipsize * 100 / $origsize" | bc -l)
   printf "orig:  %d bytes\\n" "$origsize"
-  printf "gzip:  %d bytes (%2.2f%%)\\n" "$gzipsize" "$ratio"
-  printf "bzipz: %d bytes (%2.2f%%)\\n" "$bzipsize" "$ratio2"
+  printf "gzip:  %d bytes (%2.1f%%)\\n" "$gzipsize" "$ratio"
+  printf "bzipz: %d bytes (%2.1f%%)\\n" "$bzipsize" "$ratio2"
 }
 
 function dcleanup(){
