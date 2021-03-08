@@ -15,7 +15,7 @@ bin: ## Installs the bin directory files.
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
 	@printf "\ninstalling dotfiles ...\n\n"
-	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name "test.sh" -not -name ".bashrc.*"); do \
+	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".config" -not -name ".github" -not -name ".*.swp" -not -name ".gnupg" -not -name "test.sh" -not -name ".bashrc.*" -not -name ".yamllint" -not -name ".pre-commit-config*"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
