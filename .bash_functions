@@ -3,6 +3,8 @@
 
 function count(){ echo $(ls $1 | wc -l); }
 
+function targz() { tar -zcvf $1.tar.gz $1; rm -r $1; }
+
 function getcom() {
   if [ -z "${1}" ]; then
     echo "Usage: \`getcom user/repo\`"
