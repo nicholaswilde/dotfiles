@@ -20,6 +20,7 @@
 #
 # @modified Nicholas Wilde, 0x08b7d7a3
 # @date 07 Mar 2021
+# @version 0.0.1
 #
 ##############################################################################
 
@@ -77,8 +78,7 @@ $("$FDOCSTR"_"$int")
 EOF
             done
         fi
-        # shellcheck disable=SC2034
-        cat >>"$2" <<'EOF'
+        cat >>"$2" <<EOF
 # $FDOCSTR
 #
 # @author $AUTHOR_NAME, $AUTHOR_GPG_KEY
@@ -86,7 +86,9 @@ EOF
 # @version 0.0.1
 #
 ##############################################################################
-
+EOF
+# shellcheck disable=SC2034
+cat >>"$2" <<'EOF'
 set -e
 set -o pipefail
 
