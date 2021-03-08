@@ -209,4 +209,4 @@ command_exists boilerplater && alias boilerpy='boilerplater python'
 
 command_exists netstat && alias port='netstat -tulanp'
 
-command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
+command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl -s http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
