@@ -111,10 +111,15 @@ function gz() {
   origsize=$(wc -c < "$1")
   local gzipsize
   gzipsize=$(gzip -c "$1" | wc -c)
+  local bzipsize
+  bzipsize=$(bzip2 -c "$1" | wc -c)
   local ratio
+  local ratio2
   ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l)
-  printf "orig: %d bytes\\n" "$origsize"
-  printf "gzip: %d bytes (%2.2f%%)\\n" "$gzipsize" "$ratio"
+  ratio2=$(echo "$bzipsize * 100 / $origsize" | bc -l)
+  printf "orig:  %d bytes\\n" "$origsize"
+  printf "gzip:  %d bytes (%2.2f%%)\\n" "$gzipsize" "$ratio"
+  printf "bzipz: %d bytes (%2.2f%%)\\n" "$bzipsize" "$ratio2"
 }
 
 function dcleanup(){
