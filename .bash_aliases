@@ -191,7 +191,7 @@ alias ea='${EDITOR} ~/.bash_aliases'
 alias ee='${EDITOR} ~/.bash_exports'
 alias ef='${EDITOR} ~/.bash_functions'
 alias ec='${EDITOR} ~/.bash_completions'
-alias el='${EDITOR} /usr/local/lib/libbash'
+alias el='${EDITOR} /usr/local/lib/bash/libbash'
 
 # Quickly load bashrc
 alias reload='source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles push origin main'
