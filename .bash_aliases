@@ -205,11 +205,11 @@ command_exists tar && alias untar='tar xvf'
 alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
 alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
 
-command_exists boilerplater && alias boilerbash='boilerplater /usr/local/bin/boilerplate-bash'
+command_exists boilerplater && alias boilerbash='boilerplater bash'
 command_exists boilerplater && alias boilerpy='boilerplater python'
+command_exists boilerplater && alias boilermd='boilerplater README.md'
 command_exists netstat && alias port='netstat -tulanp'
 command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-address/ipv4/$(curl -s http://ipecho.net/plain; echo) | grep 'City' | awk '{print \$2,\$3,\$4,\$5,\$6}'"
-
 
 # 32 or 64 bit
 # https://www.commandlinefu.com/commands/view/2940/32-bits-or-64-bits

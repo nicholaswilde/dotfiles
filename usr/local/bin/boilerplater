@@ -175,6 +175,10 @@ if __name__ == "__main":
 
 
 EOF
+elif [[ x"$1" == x*md ]] ; then
+        cat >"$2" <<-EOF
+# Docker
+EOF
     else
         cp "$1" "$2"
     fi
@@ -182,4 +186,3 @@ EOF
     chmod +x "$2"
     $EDITOR "$2"
 fi
-
