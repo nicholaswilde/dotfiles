@@ -175,17 +175,6 @@ if __name__ == "__main":
 
 
 EOF
-elif [[ x"$1" == x*md ]] ; then
-        cat >README.md <<-EOF
-# ${2}
-
-EOF
-        if [[ "$INT" -gt 0 ]] ; then
-            for int in $(seq 0 "$INT"); do
-                CURRENT_STR=FDOCSTR_"$int"
-                cat >>"$2" <<<"$CURRENT_STR"
-            done
-        fi
     else
         cp "$1" "$2"
     fi
