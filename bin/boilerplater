@@ -97,7 +97,7 @@ readonly SCRIPT_NAME=$(basename "${0}")
 
 # Import libbash if it exists
 # https://github.com/nicholaswilde/dotfiles/blob/main/lib/libbash
-[ -f "/usr/local/lib/libbash" ] && source "/usr/local/lib/libbash"
+[ -f "/usr/local/lib/bash/libbash" ] && source "/usr/local/lib/bash/libbash"
 
 function show_usage(){
   printf "Usage: %s [-p PORT] [-h|-v] REPOSITORY:TAG\n" "${SCRIPT_NAME}"

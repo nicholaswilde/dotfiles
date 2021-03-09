@@ -32,9 +32,10 @@ dotfiles: ## Installs the dotfiles.
 .PHONY: lib
 lib: ## Installs the bin directory files.
 	# add aliases for things in bin
-	for file in $(shell find $(CURDIR)/lib -type f -not -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		sudo ln -sf $$file /usr/local/lib/$$f; \
+	for file in $(shell find $(CURDIR)/usr -type f -not -name ".*.swp"); do \
+		f=$$(echo $$file | sed -e 's|$(CURDIR)||'); \
+		sudo mkdir -p $$(dirname $$f); \
+		sudo ln -sf $$file $$f; \
 	done
 
 .PHONY: test
