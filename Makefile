@@ -1,7 +1,7 @@
 SHELL := bash
 
 .PHONY: all
-all: usr dotfiles ## Installs the bin and etc directory files and the dotfiles.
+all: bin lib dotfiles ## Installs the bin and etc directory files and the dotfiles.
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
@@ -20,13 +20,22 @@ dotfiles: ## Installs the dotfiles.
 	ln -snf $(CURDIR)/.config/gh/config.yml $(HOME)/.config/gh/config.yml;
 	source ~/.bashrc
 
-.PHONY: usr
-usr: ## Installs the bin directory files.
+.PHONY: bin
+bin: ## Installs the bin directory files.
 	# add aliases for things in bin
-	for file in $(shell find $(CURDIR)/usr -type f -not -name ".*.swp"); do \
+	for file in $(shell find $(CURDIR)/bin -type f -not -name ".*.swp"); do \
 		f=$$(echo $$file | sed -e 's|$(CURDIR)||'); \
-		sudo mkdir -p $$(dirname $$f); \
-		sudo ln -sf $$file $$f; \
+		sudo mkdir -p /usr/local/$$(dirname $$f); \
+		sudo ln -sf $$file /usr/local$$f; \
+	done
+
+.PHONY: lib
+lib: ## Installs the bin directory files.
+	# add aliases for things in bin
+	for file in $(shell find $(CURDIR)/lib -type f -not -name ".*.swp"); do \
+		f=$$(echo $$file | sed -e 's|$(CURDIR)||'); \
+		sudo mkdir -p /usr/local/$$(dirname $$f); \
+		sudo ln -sf $$file /usr/local$$f; \
 	done
 
 .PHONY: test
