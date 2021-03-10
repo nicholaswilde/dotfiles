@@ -1,0 +1,184 @@
+#!/bin/bash
+##############################################################################
+#
+# boilerplater
+# ------------
+# A simple utility to copy a file to a new location with a new name, and then
+# immediately start editing it. For boilerplates.
+#
+# You should create a file containing the boilerplate to use, see the examples
+# boilerplate-bash and boilerplate-python, and then (probably in your
+# .bashrc) do:
+#
+#     alias boilerpy="/path/to/boilerplate.sh boilerplate-python "
+#
+# and use that alias like this "$ boilerpy foobar.py".
+#
+# @author Isis Agora Lovecruft, 0x2cdb8b35
+# @date 16 May 2012
+# @version 0.0.1
+#
+# @modified Nicholas Wilde, 0x08b7d7a3
+# @date 07 Mar 2021
+# @version 0.0.1
+#
+##############################################################################
+
+## Local variables:
+# shellcheck disable=SC2034
+readonly AUTHOR_NAME="Nicholas Wilde"
+# shellcheck disable=SC2034
+readonly AUTHOR_GPG_KEY="0x08b7d7a3"
+
+function usage () {
+    echo "Usage: $0 <boilerplate_file> <new_file_name>"
+    echo
+    echo "You should set the following environment variables:"
+    echo "\$AUTHOR_NAME          The name to be credited"
+    echo "\$AUTHOR_GPG_KEY       The GPG keyID or email address of the author"
+    echo "\$EDITOR               Your preferred editor"
+    echo
+}
+
+if [[ "$#" != "2" ]]; then
+    usage
+else
+    echo "Please provide a short docstring description of the file "
+    echo "which you are about to create: "
+
+    read -r FDOCSTR
+
+    ## If docstring is blank, boilerplate that too:
+    if [[ "x${FDOCSTR}" == "x" ]] ; then
+        FDOCSTR="XXX fill me in"
+    fi
+
+    ## Wrap docstring lines:
+    INT=0
+    while [[ ${#FDOCSTR} -gt 75 ]] ; do
+        NEWSTR=FDOCSTR_${INT}
+        eval ${NEWSTR}="# ${FDOCSTR:0:75}"
+        INT=$(( INT + 1 ))
+        FDOCSTR=${FDOCSTR:75:}
+    done
+
+    if [[ x"$1" == x*sh ]] ; then
+        cat >"$2" <<-EOF
+#!/bin/bash
+##############################################################################
+#
+# $2
+# -------------------
+EOF
+
+        if [[ "$INT" -gt "0" ]] ; then
+            for int in $(seq 0 "$INT"); do
+                cat >>"$2" <<EOF
+$("$FDOCSTR"_"$int")
+EOF
+            done
+        fi
+        cat >>"$2" <<EOF
+# $FDOCSTR
+#
+# @author $AUTHOR_NAME, $AUTHOR_GPG_KEY
+# @date $(date "+%d %B %Y")
+# @version 0.0.1
+#
+##############################################################################
+EOF
+# shellcheck disable=SC2034
+cat >>"$2" <<'EOF'
+set -eo pipefail
+
+# https://stackoverflow.com/a/246128/1061279
+readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly SCRIPT_NAME=$(basename "${0}")
+
+# Import libbash if it exists
+# https://github.com/nicholaswilde/dotfiles/blob/main/lib/libbash
+[ -f "/usr/local/lib/bash/libbash" ] && source "/usr/local/lib/bash/libbash"
+
+function show_usage(){
+  printf "Usage: %s [-p PORT] [-h|-v] REPOSITORY:TAG\n" "${SCRIPT_NAME}"
+}
+
+# printf usage_error if something isn't right.
+function usage_error(){
+  show_usage
+  printf "\nTry %s -h for more options.\n" "${SCRIPT_NAME}" >&2
+  exit 1
+}
+
+# Display Help
+function help(){
+  show_usage
+  script_desc
+  printf "Mandatory arguments:\n"
+  printf "  REPOSITORY:TAG  The repository and tag of the image to be updated\n\n"
+  printf ""
+  printf "Options:\n"
+  printf "  -p PORT         Port number to use\n"
+  printf "  -h              Print this Help.\n"
+  printf "  -v              Print script version and exit.\n"
+  exit 0
+}
+
+function main(){
+
+}
+
+case "$#" in
+  0) usage_error;;
+esac
+
+main "$@"
+EOF
+
+    elif [[ x"$1" == x*py ]] || [[ x$1 == x*python ]] ; then
+        cat >"$2" <<-EOF
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+##############################################################################
+#
+# $2
+# --------------------
+EOF
+
+        if [[ "$INT" -gt 0 ]] ; then
+            for int in $(seq 0 "$INT"); do
+                CURRENT_STR=FDOCSTR_"$int"
+                cat >>"$2" <<<"$CURRENT_STR"
+            done
+        fi
+
+        cat >>"$2" <<-'EOF'
+# $FDOCSTR
+#
+# @author $AUTHOR_NAME, $AUTHOR_GPG_KEY
+# @date $(date "+%d %B %Y")
+# @version 0.0.1
+#
+##############################################################################
+
+import os
+
+
+def foo():
+    """
+
+    """
+    pass
+
+
+if __name__ == "__main":
+
+
+EOF
+    else
+        cp "$1" "$2"
+    fi
+    ## Make it executable and start the editor
+    chmod +x "$2"
+    $EDITOR "$2"
+fi

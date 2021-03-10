@@ -1,0 +1,15 @@
+#!/bin/bash
+################################################################################
+#
+# boilerplate-bash
+# ----------------
+# A simple utility to copy a file to a new location with a new name, and then
+# immediately start editing it. For boilerplates.
+#
+# @author Nicholas Wilde, 0x08b7d7a3
+# @date 07 Mar 2021
+# @version 0.0.1
+#
+################################################################################
+
+set -e
