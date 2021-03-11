@@ -214,3 +214,5 @@ command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-addre
 # 32 or 64 bit
 # https://www.commandlinefu.com/commands/view/2940/32-bits-or-64-bits
 alias bit='getconf LONG_BIT'
+
+command_exists mkdocs && alias mk='mkdocs build -f ../mkdocs.yaml && mkdocs serve --dev-addr 0.0.0.0:8000 -f ../mkdocs.yaml'
