@@ -217,3 +217,5 @@ command_exists lynx && alias city="lynx -dump https://www.ip-adress.com/ip-addre
 alias bit='getconf LONG_BIT'
 
 command_exists mkdocs && alias mk='mkdocs build -f ../mkdocs.yaml && mkdocs serve --dev-addr 0.0.0.0:8000 -f ../mkdocs.yaml'
+
+command_exists hugo && alias hs='hugo server -w --bind 0.0.0.0 --disableFastRender'
