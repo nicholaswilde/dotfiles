@@ -141,6 +141,7 @@ command_exists wget && alias wget='wget -c'
 # Git Commands
 if command_exists git; then
 	alias gpo='git push origin main'
+  alias gps='git push origin source'
 	alias gp='git pull origin main'
 	alias gs='git status'
 	alias gd='git diff'
