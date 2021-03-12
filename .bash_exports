@@ -26,6 +26,9 @@ export CDPATH=:..:~:~/git/nicholaswilde:~/git
 export AUTHOR_NAME="Nicholas Wilde"
 export AUTHOR_GPG_KEY="0x08b7d7a3"
 
+export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
+export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info
+
 # PATH
 export PATH="${PATH}:${GOPATH}/bin"
 export PATH="${PATH}:${KREW_ROOT:-$HOME/.krew}/bin"
@@ -34,3 +37,4 @@ export PATH="${PATH}:/usr/local/go/bin"
 export PATH="${PATH}:/home/linuxbrew/.linuxbrew/bin"
 export PATH="${PATH}:${HOME}/bin/"
 export PATH="${PATH}:${HOME}/.rbenv/bin"
+export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux
