@@ -1,4 +1,7 @@
 # dotfiles
+[![make test](https://github.com/nicholaswilde/dotfiles/actions/workflows/make-test.yaml/badge.svg)](https://github.com/nicholaswilde/dotfiles/actions/workflows/make-test.yaml)
+
+My Debian based dot files.
 
 ## About
 
