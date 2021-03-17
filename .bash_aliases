@@ -223,4 +223,4 @@ command_exists hugo && alias hs='hugo server -w --bind 0.0.0.0 --disableFastRend
 
 command_exists helm && alias hi='helm install'
 command_exists helm && alias hu='helm uninstall'
-
+command_exists helm && alias hdu='helm dependency update'
