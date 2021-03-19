@@ -164,7 +164,7 @@ alias localip="hostname -I | awk '{print \$1}'"
 if command_exists docker; then
   alias dc='docker-compose'
   # Restart builder https://github.com/nicholaswilde/docker-template/wiki/Troubleshooting#restart-buildkit
-  alias dr='docker restart buildx_buildkit_mybuilder0'
+  alias dr='docker restart buildx_buildkit_multiarch0'
 fi
 
 # kubectl
