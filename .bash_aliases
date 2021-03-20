@@ -151,6 +151,7 @@ if command_exists git; then
 	alias ga='git add'
 	alias revert='git reset --hard'
   alias gc='git commit -s -m'
+  alias gb='git branch'
 fi
 
 # Color the output of cat
