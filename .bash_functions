@@ -201,9 +201,10 @@ function fawk() {
 }
 
 function an() {
-  if [ -z "$1" ]; then
+  if [ -z "${1}" ]; then
     # display usage if no parameters given
     echo "Usage: an <file>.md"
+    exit 1
   fi
   $EDITOR "~/git/nicholaswilde/notes/docs/$1.md"
 }
