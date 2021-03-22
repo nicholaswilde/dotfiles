@@ -204,6 +204,6 @@ function an() {
   if [ -z "$1" ]; then
     # display usage if no parameters given
     echo "Usage: an <file>.md"
-  else
+  fi
   $EDITOR "~/git/nicholaswilde/notes/docs/$1.md"
 }
