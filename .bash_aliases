@@ -225,3 +225,7 @@ command_exists hugo && alias hs='hugo server -w --bind 0.0.0.0 --disableFastRend
 command_exists helm && alias hi='helm install'
 command_exists helm && alias hu='helm uninstall'
 command_exists helm && alias hdu='helm dependency update'
+
+command_exists flux && alias wfk='watch flux get kustomizations'
+command_exists flux && alias wfh='watch flux get helmreleases'
+command_exists flux && alias wfs='watch flux get sources'
