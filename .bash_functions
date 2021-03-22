@@ -200,8 +200,8 @@ function fawk() {
     eval $cmd
 }
 
+# Add notes
 function an() {
-  echo "$#"
   if [ -z "${1}" ]; then
     # display usage if no parameters given
     echo "Usage: an <file>.md"
