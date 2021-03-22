@@ -5,9 +5,6 @@ export GOROOT=/usr/local/go/
 export KUBECONFIG=~/.kube/config-turing-pi
 export KUBE_EDITOR=nano
 
-# Flux
-export FLUX_FORWARD_NAMESPACE=flux-system
-
 export GITHUB_USER=nicholaswilde
 
 if [ -f ~/.tokens ]; then
