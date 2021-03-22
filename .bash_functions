@@ -199,3 +199,11 @@ function fawk() {
     cmd="${first}\$${1}${last}"
     eval $cmd
 }
+
+function an() {
+  if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: an <file>.md"
+  else
+  $EDITOR "~/git/nicholaswilde/notes/docs/$1.md"
+}
