@@ -15,6 +15,9 @@ fi
 GPG_TTY=$(tty)
 export GPG_TTY
 
+# IP of ingress host
+export INGRESS_HOST=192.168.1.203
+
 # Default editor
 export EDITOR='nano'
 export VISUAL='nano'
