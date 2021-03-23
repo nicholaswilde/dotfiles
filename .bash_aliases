@@ -228,4 +228,4 @@ command_exists helm && alias hdu='helm dependency update'
 
 command_exists flux && alias wfk='watch flux get kustomizations'
 command_exists flux && alias wfh='watch flux get helmreleases'
-command_exists flux && alias wfs='watch flux get sources'
+command_exists flux && alias wfs='watch flux get sources all'
