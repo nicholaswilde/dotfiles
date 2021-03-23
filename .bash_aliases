@@ -198,6 +198,7 @@ alias el='${EDITOR} /usr/local/lib/bash/libbash'
 
 # Quickly load bashrc
 alias reload='source ~/.bashrc && git -C ~/git/nicholaswilde/dotfiles add ~/git/nicholaswilde/dotfiles/* &&  git -C ~/git/nicholaswilde/dotfiles commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/dotfiles push origin main'
+alias gcn='git -C ~/git/nicholaswilde/notes add ~/git/nicholaswilde/notes/* &&  git -C ~/git/nicholaswilde/notes commit --allow-empty-message -a -m ""; git -C ~/git/nicholaswilde/notes push origin main'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
