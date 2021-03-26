@@ -38,3 +38,7 @@ fi
 if command_exists pip; then
   . <(pip completion --bash)
 fi
+
+if command_exists direnv; then
+  eval "$(direnv hook bash)"
+fi
