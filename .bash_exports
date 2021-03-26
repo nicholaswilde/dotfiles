@@ -29,6 +29,9 @@ export CDPATH=:..:~:~/git/nicholaswilde:~/git
 export AUTHOR_NAME="Nicholas Wilde"
 export AUTHOR_GPG_KEY="0x08b7d7a3"
 
+# SOPS
+export KEY_FP=C278D7760E0B27F192659595F08AD0AD08B7D7A3
+
 export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
 export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info
 
