@@ -223,12 +223,17 @@ command_exists mkdocs && alias mk='mkdocs build -f ../mkdocs.yaml && mkdocs serv
 
 command_exists hugo && alias hs='hugo server -w --bind 0.0.0.0 --disableFastRender'
 
+# Helm
 command_exists helm && alias hi='helm install'
 command_exists helm && alias hu='helm uninstall'
 command_exists helm && alias hdu='helm dependency update'
 
+# Flux
 command_exists flux && alias wfk='watch flux get kustomizations'
 command_exists flux && alias wfh='watch flux get helmreleases'
 command_exists flux && alias wfs='watch flux get sources all -A'
 command_exists flux && alias f='flux'
 command_exists flux && alias fs='flux reconcile source git flux-system'
+
+# SOPS
+command_exists sops && alias se='sops --encrypt --in-place'
