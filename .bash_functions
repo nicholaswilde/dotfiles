@@ -31,22 +31,36 @@ function mkcdir() {
     echo "Usage: \`mkcdir dirname\`"
     return 1
   fi
-  mkdir -p -- "$1" &&
-  cd -P -- "$1"
+  mkdir -p -- "${1}" &&
+  cd -P -- "${1}"
 }
 
 if command -v kubectl &> /dev/null; then
+  function getsecret(){
+    if [ -z "${1}" ]; then
+      echo "Usage: \`getsecret secret-name\`"
+      return 1
+    fi
+    kubectl get secret "${1}" -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}'
+  }
   function setns(){
-    kubectl config set-context --current --namespace=$1
+    if [ -z "${1}" ]; then
+      echo "Usage: \`setns namespace-name\`"
+      return 1
+    fi
+    kubectl config set-context --current -n "$1"
+  }
+  function kubectlgetall() {
+    if [ -z "${1}" ]; then
+      echo "Usage: \`kubectlgetall namespace-name\`"
+      return 1
+    fi
+    for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+      echo "Resource:" "${i}"
+      kubectl -n "${1}" get --ignore-not-found=true "${i}"
+    done
   }
 fi
-
-function kubectlgetall() {
-  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
-    echo "Resource:" $i
-    kubectl -n ${1} get --ignore-not-found=true ${i}
-  done
-}
 
 function ssd(){
   echo "Device         Total  Used  Free   Pct MntPoint"
