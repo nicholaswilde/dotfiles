@@ -171,6 +171,7 @@ fi
 # kubectl
 if command_exists kubectl; then
     alias k=kubectl
+    alias kge='kubectl get events'
     alias ke='kubectl edit'
     alias kg='kubectl get'
     alias kd='kubectl describe'
