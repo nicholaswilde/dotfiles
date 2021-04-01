@@ -174,7 +174,6 @@ if command_exists kubectl; then
     alias kge='kubectl get events'
     alias ke='kubectl edit'
     alias kg='kubectl get'
-    alias kd='kubectl describe'
     alias kgp='kubectl get pods -o wide'
     alias kgn='kubectl get namespaces -o wide'
     alias kga='kubectl get all -o wide'
