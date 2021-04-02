@@ -181,7 +181,7 @@ if command_exists kubectl; then
     alias kaf='kubectl apply -f'
     alias kgi='kubectl get ingress'
     alias kl='kubectl logs'
-    alias kdesc='kubectl describe -o wide'
+    alias kdesc='kubectl describe'
     alias kdel='kubectl delete'
     alias wkp='watch kubectl get pods -o wide'
     alias wkns='watch kubectl get ns -o wide'
