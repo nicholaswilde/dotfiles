@@ -177,6 +177,8 @@ if command_exists kubectl; then
     alias kgp='kubectl get pods -o wide'
     alias kgn='kubectl get namespaces -o wide'
     alias kga='kubectl get all -o wide'
+    alias ka='kubectl apply'
+    alias kaf='kubectl apply -f'
     alias kgi='kubectl get ingress'
     alias kl='kubectl logs'
     alias kdesc='kubectl describe -o wide'
