@@ -239,6 +239,7 @@ command_exists flux && alias fs='flux reconcile source git flux-system'
 
 # SOPS
 command_exists sops && alias se='sops --encrypt --in-place'
+command_exists sops && alias sd='sops --decrypt --in-place'
 
 alias pi-04='ssh pi@192.168.1.192'
 alias main='ssh pi@192.168.1.201'
