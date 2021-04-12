@@ -189,7 +189,7 @@ if command_exists kubectl; then
     alias getkubeconfig='scp pirate@192.168.1.201:~/.kube/config ~/.kube/config-turing-pi'
     alias restartpod='kubectl rollout restart deployment'
     alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
-    alias klcm="kubectl logs $(kubectl get pods --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}')"
+    alias klcm="kubectl logs $(kubectl get pods --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}') -n cert-manager"
 fi
 
 # Edit files
