@@ -233,3 +233,17 @@ function an() {
   fi
   "${EDITOR}" "~/git/nicholaswilde/notes/docs/$1.md"
 }
+
+# Apply SOPS encoded secret and then restore it
+# Requires private key to be in keyring.
+function applyenc() {
+  if [ -z "${1}" ]; then
+    # display usage if no parameters given
+    echo "Usage: applyenc <file>.yaml"
+    return 1
+  fi
+  sops --decrypt "${1}"
+  kubectl apply -f "${1}"
+  git fetch
+  git restore -s origin/$(git branch --show-current) -- "${1}"
+}
