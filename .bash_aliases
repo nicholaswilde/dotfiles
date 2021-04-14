@@ -190,6 +190,7 @@ if command_exists kubectl; then
     alias restartpod='kubectl rollout restart deployment'
     alias geting="kubectl get all -n kube-system | grep '^service/traefik ' | awk '{print \$4}'"
     alias klcm="kubectl logs -n cert-manager $(kubectl get pods -n cert-manager --selector=app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].metadata.name}')"
+    alias kgef='kubectl get events -n flux-system'
 fi
 
 # Edit files
