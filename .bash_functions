@@ -242,7 +242,7 @@ function applyenc() {
     echo "Usage: applyenc <file>.yaml"
     return 1
   fi
-  sops --decrypt "${1}"
+  sops --decrypt --in-place "${1}"
   kubectl apply -f "${1}"
   git fetch
   git restore -s origin/$(git branch --show-current) -- "${1}"
