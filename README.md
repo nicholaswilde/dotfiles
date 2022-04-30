@@ -11,6 +11,12 @@ My Debian based dot files.
 $ make
 ```
 
+```bash
+# brew formulas
+brew leaves > formulas
+xargs brew install < formulas
+```
+
 This will create symlinks from this repo to your home folder.
 
 ## Contributing
