@@ -1,0 +1,12 @@
+asciidoctor
+gettext
+gh
+go-task/tap/go-task
+gocloc
+gpatch
+micro
+pkg-config
+pre-commit
+scons
+swig
+yamllint
