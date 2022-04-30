@@ -104,6 +104,11 @@ if command_exists nano; then
   alias n='nano'
 fi
 
+if command_exists micro; then
+  alias sm='sudo micro'
+  alias m='micro'
+fi
+
 # List our functions
 alias lf='cat ~/.bash_functions|grep -o -P "(?<=function ).*(?=\(\))"'
 
@@ -245,4 +250,3 @@ command_exists sops && alias sd='sops --decrypt --in-place'
 
 alias pi-04='ssh pi@192.168.1.192'
 alias main='ssh pi@192.168.1.201'
-
