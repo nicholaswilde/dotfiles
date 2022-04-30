@@ -15,16 +15,16 @@ if command_exists gh; then
 fi
 
 if command_exists tk; then
-	complete -C /usr/local/bin/tk tk
+  complete -C /usr/local/bin/tk tk
 fi
 
 if command_exists kcompose; then
-	# Bash (add to .bashrc for persistence)
-	source <(kompose completion bash)
+  # Bash (add to .bashrc for persistence)
+  source <(kompose completion bash)
 fi
 
 if command_exists flux; then
-	. <(flux completion bash)
+  . <(flux completion bash)
 fi
 
 if command_exists rbenv; then
@@ -41,4 +41,8 @@ fi
 
 if command_exists direnv; then
   eval "$(direnv hook bash)"
+fi
+
+if command_exists brew; then
+  eval "$(${HOME}/.linuxbrew/bin/brew shellenv)"
 fi
