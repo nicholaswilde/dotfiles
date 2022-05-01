@@ -2,7 +2,9 @@ export GOPATH="${HOME}/go"
 export GOROOT=/usr/local/go/
 
 # kubectl
-export KUBECONFIG=~/.kube/config-turing-pi
+if file_exists ~/.kube/config-turing-pi; then
+  export KUBECONFIG=~/.kube/config-turing-pi
+fi
 export KUBE_EDITOR=nano
 
 export GITHUB_USER=nicholaswilde
