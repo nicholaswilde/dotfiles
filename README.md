@@ -14,7 +14,7 @@ $ make
 ```bash
 # brew formulas
 brew leaves > formulas
-xargs brew install < formulas
+brew install $(cat formulas)
 ```
 
 This will create symlinks from this repo to your home folder.
