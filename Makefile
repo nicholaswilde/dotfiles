@@ -18,6 +18,9 @@ dotfiles: ## Installs the dotfiles.
 	done; \
 	mkdir -p $(HOME)/.config/gh;
 	ln -snf $(CURDIR)/.config/gh/config.yml $(HOME)/.config/gh/config.yml;
+	mkdir -p $(HOME)/.config/micro;
+	ln -snf $(CURDIR)/.config/micro/settings.json $(HOME)/.config/micro/settings.json;
+	ln -snf $(CURDIR)/.config/micro/bindings.json $(HOME)/.config/micro/bindings.json;
 	source ~/.bashrc
 
 .PHONY: bin
