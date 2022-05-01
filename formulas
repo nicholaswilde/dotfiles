@@ -1,12 +1,16 @@
 asciidoctor
-gettext
 gh
 go-task/tap/go-task
 gocloc
 gpatch
+hugo
+lastpass-cli
 micro
+nicholaswilde/tap/cook-docs
 pkg-config
+poetry
 pre-commit
 scons
+swift
 swig
 yamllint
