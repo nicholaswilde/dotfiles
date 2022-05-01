@@ -44,5 +44,5 @@ if command_exists direnv; then
 fi
 
 if command_exists brew; then
-  eval "$(${HOME}/.linuxbrew/bin/brew shellenv)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
