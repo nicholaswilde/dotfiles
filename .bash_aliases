@@ -77,6 +77,11 @@ if command_exists mc; then
   alias pipe='mc pipe'
   alias find='mc find'
   alias sl='mc ls'
+  alias mv='mc mv'
+  alias rm='mc rm'
+  alias watch='mc watch'
+  alias head='mc head'
+  alias tree='mc tree'
 else
   alias ls='ls --sort=extension --color=auto'
   alias sl='ls --sort=extension --color=auto' # Typo
@@ -85,6 +90,12 @@ else
   alias lal='ls -alh'
   alias la='ls -A'
   alias l='ls -CF'
+  # File attributes
+  alias rm='rm -rf'
+  alias cp='cp -r'
+  alias mv='mv -i'
+  alias mkdir='mkdir -pv' # Parent directories
+  
 fi
 
 alias cd..='cd ..'
@@ -145,11 +156,6 @@ if command_exists make; then
 	alias smi='sudo make install'
 fi
 
-# File attributes
-alias rm='rm -rf'
-alias cp='cp -r'
-alias mv='mv -i'
-alias mkdir='mkdir -pv' # Parent directories
 
 # Downloads
 command_exists wget && alias wget='wget -c'
