@@ -8,11 +8,12 @@ lastpass-cli
 micro
 minio/stable/mc
 nicholaswilde/tap/cook-docs
-pkg-config
+pass
 poetry
 pre-commit
 s-lang
 scons
+shellcheck
 swift
 swig
 yamllint
