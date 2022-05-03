@@ -82,6 +82,9 @@ if command_exists mc; then
   alias watch='mc watch'
   alias head='mc head'
   alias tree='mc tree'
+  alias diff='mc diff'
+  alias du='mc du'
+  
 else
   alias ls='ls --sort=extension --color=auto'
   alias sl='ls --sort=extension --color=auto' # Typo
