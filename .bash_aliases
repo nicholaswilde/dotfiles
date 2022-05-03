@@ -69,13 +69,24 @@ alias search='sudo find / -name'
 alias fhere='find . -name'
 
 # Navigation
-alias ls='ls --sort=extension --color=auto'
-alias sl='ls --sort=extension --color=auto' # Typo
-alias lsl='ls -lhFA | less' # Long format
-alias ll='ls -lh'
-alias lal='ls -alh'
-alias la='ls -A'
-alias l='ls -CF'
+if command_exists mc; then
+  alias ls='mc ls'
+  alias cp='mc cp'
+  alias cat='mc cat'
+  alias mkdir='mc mb'
+  alias pipe='mc pipe'
+  alias find='mc find'
+  alias sl='mc ls'
+else
+  alias ls='ls --sort=extension --color=auto'
+  alias sl='ls --sort=extension --color=auto' # Typo
+  alias lsl='ls -lhFA | less' # Long format
+  alias ll='ls -lh'
+  alias lal='ls -alh'
+  alias la='ls -A'
+  alias l='ls -CF'
+fi
+
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'

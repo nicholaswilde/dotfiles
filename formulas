@@ -6,11 +6,14 @@ gpatch
 hugo
 lastpass-cli
 micro
+minio/stable/mc
 nicholaswilde/tap/cook-docs
 pkg-config
 poetry
 pre-commit
+s-lang
 scons
 swift
 swig
 yamllint
+yq
