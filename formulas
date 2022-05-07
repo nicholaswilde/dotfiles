@@ -1,4 +1,5 @@
 asciidoctor
+crf++
 gh
 go-task/tap/go-task
 gocloc

@@ -78,7 +78,7 @@ if command_exists mc; then
   alias find='mc find'
   alias sl='mc ls'
   alias mv='mc mv'
-  alias rm='mc rm'
+  #alias rm='mc rm'
   alias watch='mc watch'
   alias head='mc head'
   alias tree='mc tree'
@@ -100,6 +100,8 @@ else
   alias mkdir='mkdir -pv' # Parent directories
   
 fi
+
+alias rm='rm -rf'
 
 alias cd..='cd ..'
 alias ..='cd ..'
