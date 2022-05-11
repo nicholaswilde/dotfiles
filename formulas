@@ -1,6 +1,7 @@
 asciidoctor
 crf++
 gh
+glow
 go-task/tap/go-task
 gocloc
 gpatch
