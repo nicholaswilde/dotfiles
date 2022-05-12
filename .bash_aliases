@@ -29,7 +29,7 @@ fi
 # pass
 if command_exists pass; then
   # main is the name of the repo branch
-  alias passpull='pass git pull origin main'
+  alias passpull='pass pull origin main'
   alias passpush='pass git push -u --all'
 fi
 
@@ -52,13 +52,13 @@ if command_exists ansible; then
 fi
 
 # Apt
-if command_exists apt-get; then
+if command_exists apt; then
   alias apt-get='sudo apt-get'
   alias upgrate='sudo apt update && sudo apt -y upgrade && sudo apt -y autoremove && brew update && sudo npm update -g && pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U && brew upgrade'
-  alias cleanup='sudo apt-get autoremove -y && sudo apt-get autoclean'
-  alias install='sudo apt-get install -y'
-  alias remove='sudo apt-get remove'
-  alias purge='sudo apt-get remove --purge'
+  alias cleanup='sudo apt autoremove -y && sudo apt autoclean'
+  alias install='sudo apt install -y'
+  alias remove='sudo apt remove'
+  alias purge='sudo apt remove --purge'
 fi
 
 # openports
@@ -77,7 +77,7 @@ if command_exists mc; then
   alias pipe='mc pipe'
   alias find='mc find'
   alias sl='mc ls'
-  alias mv='mc mv'
+  alias mv='mc mv --recursive'
   #alias rm='mc rm'
   alias watch='mc watch'
   alias head='mc head'
@@ -176,6 +176,7 @@ if command_exists git; then
 	alias gr='git reflog'
 	alias glf='git ls-files'
 	alias ga='git add'
+	alias gl='git log'
 	alias revert='git reset --hard'
   alias gc='git commit -s -m'
   alias gb='git branch'
