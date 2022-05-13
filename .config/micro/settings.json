@@ -1,4 +1,10 @@
 {
+    "*.j2": {
+        "filetype": "markdown"
+    },
+    ".bash_*": {
+        "filetype": "sh"
+    },
     "clipboard": "internal",
     "paste": true,
     "tabsize": 2,
