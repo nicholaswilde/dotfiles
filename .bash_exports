@@ -1,3 +1,8 @@
+# Check if directory exists
+function dir_exists(){
+  [ -d "${1}" ]
+}
+
 export GOPATH="${HOME}/go"
 export GOROOT=/usr/local/go/
 
@@ -25,7 +30,6 @@ export GPG_TTY
 # IP of ingress host
 export INGRESS_HOST=192.168.1.203
 
-
 # https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
 export CDPATH=:..:~:~/git/nicholaswilde:~/git
 
@@ -40,11 +44,23 @@ export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
 export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info
 
 # PATH
-export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+
+if dir_exists /home/linuxbrew/.linuxbrew; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+fi
+
+if dir_exists ${HOME}/.linuxbrew; then
+  export PATH="${HOME}/.linuxbrew/bin:${PATH}"
+fi
+
 export PATH="${PATH}:${GOPATH}/bin"
-export PATH="${PATH}:${KREW_ROOT:-$HOME/.krew}/bin"
+export PATH="${PATH}:${KREW_ROOT:-${HOME}/.krew}/bin"
 export PATH="${PATH}:${HOME}/.local/bin"
 export PATH="${PATH}:/usr/local/go/bin"
 export PATH="${PATH}:${HOME}/bin/"
-export PATH="${PATH}:${HOME}/.rbenv/bin"
+
+if dir_exists ${HOME}/.rbenv/bin; then
+  export PATH="${PATH}:${HOME}/.rbenv/bin"
+fi
+
 export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux"
