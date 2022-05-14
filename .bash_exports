@@ -5,7 +5,12 @@ export GOROOT=/usr/local/go/
 if file_exists ~/.kube/config-turing-pi; then
   export KUBECONFIG=~/.kube/config-turing-pi
 fi
-export KUBE_EDITOR=nano
+
+# Default editor
+export EDITOR='micro'
+export VISUAL=${EDITOR}
+
+export KUBE_EDITOR=${EDITOR}
 
 export GITHUB_USER=nicholaswilde
 
@@ -20,9 +25,6 @@ export GPG_TTY
 # IP of ingress host
 export INGRESS_HOST=192.168.1.203
 
-# Default editor
-export EDITOR='micro'
-export VISUAL='micro'
 
 # https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
 export CDPATH=:..:~:~/git/nicholaswilde:~/git
