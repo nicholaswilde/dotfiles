@@ -2,7 +2,7 @@
     "*.j2": {
         "filetype": "markdown"
     },
-    ".bash_*": {
+    ".bash*": {
         "filetype": "sh"
     },
     "clipboard": "internal",
