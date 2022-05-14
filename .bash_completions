@@ -3,6 +3,11 @@ function command_exists(){
   command -v "${1}" &> /dev/null
 }
 
+# Check if directory exists
+function dir_exists(){
+  [ -d "${1}" ]
+}
+
 # kubectl
 if command_exists kubectl; then
   source <(kubectl completion bash)
@@ -44,5 +49,10 @@ if command_exists direnv; then
 fi
 
 if command_exists brew; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  if dir_exists /home/linuxbrew/.linuxbrew; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
+  if dir_exists ~/.linuxbrew; then
+    eval "$(~/.linuxbrew/bin/brew shellenv)"
+  fi
 fi
