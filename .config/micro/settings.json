@@ -7,6 +7,6 @@
     },
     "clipboard": "internal",
     "paste": true,
+    "tabstospaces": true,
     "tabsize": 2,
-    "tabstospaces": true
 }

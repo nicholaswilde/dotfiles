@@ -7,6 +7,7 @@ gocloc
 gpatch
 hugo
 lastpass-cli
+markdownlint-cli
 micro
 minio/stable/mc
 nicholaswilde/tap/cook-docs
