@@ -5,8 +5,11 @@
     ".bash*": {
         "filetype": "sh"
     },
+    "lpass.*": {
+        "filetype": "yaml" 
+    }
     "clipboard": "internal",
     "paste": true,
-    "tabstospaces": true,
     "tabsize": 2,
+    "tabstospaces": true
 }

@@ -20,4 +20,5 @@ shellcheck
 swift
 swig
 yamllint
+ykman
 yq
