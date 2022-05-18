@@ -1,13 +1,13 @@
 {
+    "*.bash*": {
+        "filetype": "sh"
+    },
     "*.j2": {
         "filetype": "markdown"
     },
-    ".bash*": {
-        "filetype": "sh"
+    "*lpass.*": {
+        "filetype": "yaml"
     },
-    "lpass.*": {
-        "filetype": "yaml" 
-    }
     "clipboard": "internal",
     "paste": true,
     "tabsize": 2,
