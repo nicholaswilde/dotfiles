@@ -129,6 +129,5 @@ then
   # normally, execution of this rc script ends here...
   echo "Screen failed! continuing with normal bash startup"
 fi
-. "$HOME/.cargo/env"
 
 complete -C /home/linuxbrew/.linuxbrew/Cellar/mc/RELEASE.2022-04-26T18-00-22Z_1/bin/mc mc
