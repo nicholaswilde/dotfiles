@@ -21,6 +21,8 @@ dotfiles: ## Installs the dotfiles.
 	mkdir -p $(HOME)/.config/micro;
 	ln -snf $(CURDIR)/.config/micro/settings.json $(HOME)/.config/micro/settings.json;
 	ln -snf $(CURDIR)/.config/micro/bindings.json $(HOME)/.config/micro/bindings.json;
+	mkdir -p $(HOME)/.gnupg;
+	ln -snf $(CURDIR)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf;
 	source ~/.bashrc
 
 .PHONY: bin

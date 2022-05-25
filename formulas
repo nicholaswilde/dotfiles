@@ -19,6 +19,7 @@ pre-commit
 s-lang
 scons
 shellcheck
+signal-cli
 swift
 swig
 whois
