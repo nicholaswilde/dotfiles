@@ -16,6 +16,7 @@ nicholaswilde/tap/cook-docs
 pass
 poetry
 pre-commit
+python@3.7
 s-lang
 scons
 shellcheck
