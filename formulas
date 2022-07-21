@@ -14,9 +14,9 @@ micro
 minio/stable/mc
 nicholaswilde/tap/cook-docs
 pass
+pdfgrep
 poetry
 pre-commit
-python@3.7
 s-lang
 scons
 shellcheck
