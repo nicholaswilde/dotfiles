@@ -1,5 +1,8 @@
 # dotfiles
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 [![make test](https://github.com/nicholaswilde/dotfiles/actions/workflows/make-test.yaml/badge.svg)](https://github.com/nicholaswilde/dotfiles/actions/workflows/make-test.yaml)
+
+> :warning: This repo has been depcrecated. Please use [dotfiles2](https://github.com/nicholaswilde/dotfiles2) instead.
 
 My Debian based dot files.
 
