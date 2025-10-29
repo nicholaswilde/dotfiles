@@ -7,6 +7,9 @@ A dotfiles repo using stow.
 
 ## :rocket: TL;DR
 
+> [!WARNING]
+> The following command will restore any modified files in the stow packages!
+
 ```shell
 task install
 ```

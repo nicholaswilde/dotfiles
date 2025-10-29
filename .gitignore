@@ -5,3 +5,4 @@
 **/oauth_creds.json
 **/.config/micro/buffers
 **/.config/tmux/plugins
+*.swp

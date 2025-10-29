@@ -2,6 +2,15 @@
 version: '3'
 
 tasks:
+  deps:
+    desc: Install dependencies
+    cmds:
+      - sudo apt install stow -y
+  bootstrap:
+    desc: Bootstrap dotfiles
+    cmds:
+      - task: decrypt
+      - task: install
   decrypt:
     desc: Decrypt .env using SOPS
     preconditions:
@@ -21,19 +30,19 @@ tasks:
   test:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -n -v -t ~/ "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -n -v --adopt -t ~/ "${d%/}"; fi; done
   install:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do stow -v -t ~/ "${d%/}"; done
+      - for d in */; do stow -v --adopt -t ~/ "${d%/}"; git restore "${d%/}"; done
   restow:
     desc: Restow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -R -t ~/ "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -R --adopt -t ~/ "${d%/}"; git restore "${d%/}";fi; done
   delete:
     desc: Delete each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -D -t ~/ "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -D --adopt -t ~/ "${d%/}"; fi; done
   nuke:
     desc: Nuke existing files
     cmds:
