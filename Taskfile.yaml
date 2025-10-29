@@ -34,6 +34,10 @@ tasks:
     desc: Delete each dotfile folder individually
     cmds:
       - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -D -t ~/ "${d%/}"; fi; done
+  nuke:
+    desc: Nuke existing files
+    cmds:
+      - rm ~/.config/micro/settings.json
   default:
     cmds:
       - task -l
