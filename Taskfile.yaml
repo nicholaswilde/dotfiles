@@ -5,35 +5,35 @@ tasks:
   decrypt:
     desc: Decrypt .env using SOPS
     preconditions:
-      - test -f .tokens.enc
+      - test -f ./bash/.tokens.enc
     cmds:
-      - sops -d --input-type dotenv --output-type dotenv .tokens.enc > .tokens
+      - sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
   encrypt:
     desc: Encrypt .env using SOPS
     preconditions:
-      - test -f .tokens
+      - test -f ./bash/.tokens
     cmds:
-      - sops -e --input-type dotenv --output-type dotenv .tokens > .tokens.enc
+      - sops -e --input-type dotenv --output-type dotenv ./bash/.tokens > ./bash/.tokens.enc
   deps:
     desc: Install dependencies
     cmds:
       - sudo apt install -y stow
-  install:
-    desc: Install dotfiles
-    cmds:
-      - stow -v -t ~/ .
-  restow:
-    desc: Reinstall dotfiles
-    cmds:
-      - stow -v -R -t ~/ .
-  delete:
-    desc: Delete
-    cmds:
-      - stow -v -D -t ~/ .
   test:
-    desc: Test
+    desc: Stow each dotfile folder individually
     cmds:
-      - stow -n -v -t ~/ .
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -n -v -t ~/ "${d%/}"; fi; done
+  install:
+    desc: Stow each dotfile folder individually
+    cmds:
+      - for d in */; do stow -v -t ~/ "${d%/}"; done
+  restow:
+    desc: Restow each dotfile folder individually
+    cmds:
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -R -t ~/ "${d%/}"; fi; done
+  delete:
+    desc: Delete each dotfile folder individually
+    cmds:
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -v -D -t ~/ "${d%/}"; fi; done
   default:
     cmds:
       - task -l

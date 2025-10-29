@@ -1,0 +1,26 @@
+---
+editor: micro
+
+colorize: true
+
+style: catppuccin-mocha
+
+formatter: terminal256
+
+pager: less -FXR
+
+cheatpaths:  
+  - name: community
+    path: /mnt/storage/cheat/cheatsheets/community
+    tags: [ community ]
+    readonly: true
+
+  - name: cheat.sheets
+    path: /mnt/storage/cheat/cheatsheets/cheat.sheets/sheets
+    tags: [ community ]
+    readonly: true
+    
+  - name: personal
+    path: /mnt/storage/cheat/cheatsheets/personal
+    tags: [ personal ]
+    readonly: false

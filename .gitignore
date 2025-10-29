@@ -1,0 +1,7 @@
+.tokens
+**/google_account_id
+**/installation_id
+.gemini/tmp
+**/oauth_creds.json
+**/.config/micro/buffers
+**/.config/tmux/plugins

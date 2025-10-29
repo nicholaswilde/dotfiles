@@ -1,0 +1,17 @@
+{
+    "*.j2": {
+        "filetype": "markdown"
+    },
+    "*lpass.*": {
+        "filetype": "yaml"
+    },
+    ".gitconfig": {
+        "tabstospaces": false
+    },
+    "clipboard": "internal",
+    "colorscheme": "catppuccin-mocha",
+    "mkparents": true,
+    "paste": true,
+    "tabsize": 2,
+    "tabstospaces": true
+}
