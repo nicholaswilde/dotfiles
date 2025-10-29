@@ -1,0 +1,133 @@
+#!/bin/bash
+
+# Colors
+if command_exists tput; then
+  # foreground
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
+  GRAY=$(tput setaf 8)
+  DARKRED=$(tput setaf 9)
+  DARKGREEN=$(tput setaf 10)
+  DARKYELLOW=$(tput setaf 11)
+  DARKBLUE=$(tput setaf 12)
+  DARKMAGENTA=$(tput setaf 13)
+  DARKCYAN=$(tput setaf 14)
+  DARKWHITE=$(tput setaf 15)
+  BLINK=$(tput blink)
+  NORMAL=$(tput sgr0)
+  BOLD=$(tput bold)
+  # background
+  BGRED=$(tput setab 1)
+  BGGREEN=$(tput setab 2)
+  BGYELLOW=$(tput setab 3)
+  BGBLUE=$(tput setab 4)
+  BGMAGENTA=$(tput setab 5)
+  BGCYAN=$(tput setab 6)
+  BGWHITE=$(tput setab 7)
+  BGGRAY=$(tput setab 8)
+  BGDARKRED=$(tput setab 9)
+  BGDARKGREEN=$(tput setab 10)
+  BGDARKYELLOW=$(tput setab 11)
+  BGDARKBLUE=$(tput setab 12)
+  BGDARKMAGENTA=$(tput setab 13)
+  BGDARKCYAN=$(tput setab 14)
+  BGDARKWHITE=$(tput setab 15)
+  export RED GREEN YELLOW BLUE MAGENTA CYAN WHITE GRAY BLINK NORMAL BOLD
+  export DARKRED DARKGREEN DARKYELLOW DARKBLUE DARKMAGENTA DARKCYAN DARKWHITE
+  export BGRED BGGREEN BGYELLOW BGBLUE BGMAGENTA BGCYAN BGWHITE BGGRAY
+  export BGDARKRED BGDARKGREEN BGDARKYELLOW BGDARKBLUE BGDARKMAGENTA BGDARKCYAN BGDARKWHITE
+fi
+
+# History blue
+# HISTTIMEFORMAT=$(echo -e "${BLUE}"%F %T "${NORMAL}")
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+export HISTTIMEFORMAT HISTSIZE HISTFILESIZE
+
+export DEBIAN_FRONTEND=noninteractive
+
+# colored GCC warnings and errors
+command_exists gcc && export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# go
+test -d "${HOME}/go" && export GOPATH="${HOME}/go"
+test -d /usr/local/go/ && export GOROOT=/usr/local/go/
+
+# kubectl
+test -f "${HOME}/.kube/config-turing-pi" && export KUBECONFIG="${HOME}/.kube/config-turing-pi"
+
+# Default editor
+export EDITOR='micro'
+export VISUAL=${EDITOR}
+export KUBE_EDITOR=${EDITOR}
+
+# git
+export GITHUB_USER=nicholaswilde
+
+# For boilerplater
+export AUTHOR_NAME="Nicholas Wilde"
+export AUTHOR_GPG_KEY="0xb299a622"
+
+export GIT_PATH="${HOME}/git"
+export GIT_USER_PATH="${GIT_PATH}/${GITHUB_USER}"
+
+# LastPass
+export LPASS_DISABLE_PINENTRY=1
+
+# Tokens
+# shellcheck source=/dev/null
+test -f "${HOME}/.tokens" && source "${HOME}/.tokens"
+
+# pass-git-helper
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
+export CDPATH=:..:~
+test -d "${GIT_USER_PATH}" && export CDPATH="${CDPATH}:${GIT_USER_PATH}"
+test -d "${GIT_PATH}" && export CDPATH="${CDPATH}:${GIT_PATH}"
+
+# texlive
+test -d /usr/local/texlive/2020/texmf-dist/doc/man && export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
+test -d INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info && export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info
+
+# PATH
+test -d "/home/linuxbrew/.linuxbrew" && export PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+test -d "${HOME}/.linuxbrew" && export PATH="${HOME}/.linuxbrew/bin:${PATH}"
+test -d "${GOPATH}/bin" && export PATH="${PATH}:${GOPATH}/bin"
+test -d "${GOROOT}/bin" && export PATH="${PATH}:${GOROOT}/bin"
+test -d "${HOME}/.krew}/bin" && export PATH="${PATH}:${KREW_ROOT:-${HOME}/.krew}/bin"
+test -d "${HOME}/.local/bin" && export PATH="${PATH}:${HOME}/.local/bin"
+test -d "${HOME}/bin/" && export PATH="${PATH}:${HOME}/bin/"
+test -d "${HOME}/.rbenv/bin" && export PATH="${PATH}:${HOME}/.rbenv/bin"
+test -d "/usr/local/texlive/2020/bin/x86_64-linux" && export PATH="${PATH}:/usr/local/texlive/2020/bin/x86_64-linux"
+
+test -f "${HOME}/.bashrc" && export BASHRC_PATH="${HOME}/.bashrc" 
+test -f "${HOME}/.bash_aliases" && export ALIASES_PATH="${HOME}/.bash_aliases" 
+test -f "${HOME}/.bash_completions" && export COMPLETIONS_PATH="${HOME}/.bash_completions" 
+test -f "${HOME}/.bash_exports" && export EXPORTS_PATH="${HOME}/.bash_exports" 
+test -f "${HOME}/.bash_functions" && export FUNCTIONS_PATH="${HOME}/.bash_functions" 
+
+test -d "${HOME}/.nvm" && export NVM_DIR="$HOME/.nvm"
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# suppress punycode deprecation warning
+export NODE_OPTIONS="--no-deprecation"
+export MICRO_TRUECOLOR=1
+
+export CHEAT_PERSONAL_PATH="/mnt/storage/cheat/cheatsheets/personal"
