@@ -1,4 +1,4 @@
-# dotfiles
+# :package: dotfiles
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/#/)
 
 A dotfiles repo using stow.
@@ -34,4 +34,3 @@ Inspiration for this repository has been taken from [jessfraz/dotfiles][2].
 
 [1]: https://github.com/nicholaswilde/
 [2]: https://github.com/jessfraz/dotfiles
-[3]: http://nicholaswilde.io/dotfiles2
