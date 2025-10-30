@@ -1,9 +1,15 @@
 {
-  "selectedAuthType": "oauth-personal",
-  "contextFileName": "AGENTS.md",
+  "context": {
+    "fileName": "AGENTS.md"
+  },
   "mcpServers": {
     "sharedAgents": {
       "httpUrl": "http://192.168.2.177:8080"
+    }
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
     }
   }
 }

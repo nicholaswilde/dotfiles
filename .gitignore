@@ -6,3 +6,5 @@
 **/.config/micro/buffers
 **/.config/tmux/plugins
 *.swp
+gemini/.gemini/tmp/
+gemini/.gemini/settings.json.orig
