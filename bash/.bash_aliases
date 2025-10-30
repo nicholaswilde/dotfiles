@@ -230,7 +230,7 @@ test -f "${FUNCTIONS_PATH}" && alias ef='${EDITOR} ${FUNCTIONS_PATH}'
 test -f "${BASHRC_PATH}" && alias erc='${EDITOR} ${BASHRC_PATH}'
 
 # Quickly load bashrc
-alias reload='brew leaves > ${GIT_USER_PATH}/dotfiles3/formulas  && source ~/.bashrc && git -C ${GIT_USER_PATH}/dotfiles3 add ${GIT_USER_PATH}/dotfiles3/* && git -C ${GIT_USER_PATH}/dotfiles3 commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/dotfiles3 push origin main'
+alias reload='source ~/.bashrc && git -C ${GIT_USER_PATH}/dotfiles add ${GIT_USER_PATH}/dotfiles/* && git -C ${GIT_USER_PATH}/dotfiles commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/dotfiles push origin main'
 alias gcn='git -C ${GIT_USER_PATH}/notes add ${GIT_USER_PATH}/notes/* &&  git -C ${GIT_USER_PATH}/notes commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/notes push origin main'
 
 # Stopwatch
@@ -298,6 +298,10 @@ fi
 
 if command_exists ansible-vault; then
   alias av='ansible-vault'
+fi
+
+if command_exists eza; then
+  alias ls='eza'
 fi
 
 [ -f ~/.ssh/config ] && alias lsssh='grep "^Host " ~/.ssh/config | cut -d" " -f 2- | sort'
