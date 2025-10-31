@@ -16,10 +16,56 @@ task install
 
 ---
 
+## :gear: Config
+
+### :key: Encryption
+
+Unencrypt the `.tokens` file using [SOPS](https://getsops.io/) and [Task](https://taskfile.dev/).
+
+```
+task decrypt
+```
+
+```shell
+sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
+```
+
+### Ignore Files
+
+To ignore files that stow processes (e.g. `.tokens.enc`), add a `.stow-local-ignore` file to the package directory.
+
+To ignore files that are commited to the dotfiles repo (e.g. `.tokens`), add to `.gitignore`.
+
+---
+
 ## :pencil: Usage
 
 > [!WARNING]
 > Using the `reload` alias may add and commit sensative data if not specified in a `.stow-local-ignore` file!
+
+Stow the `bash` package
+
+```shell
+stow -v -t ~/ bash
+```
+
+Stow the `bash` package as a test
+
+```shell
+stow -n -v -t ~/ bash
+```
+
+Unstow the `bash` package
+
+```shell
+stow -D -v -t ~/ bash
+```
+
+Restow the `bash` package
+
+```shell
+stow -R -v -t ~/ bash
+```
 
 ---
 
