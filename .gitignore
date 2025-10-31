@@ -8,3 +8,4 @@
 *.swp
 gemini/.gemini/tmp/
 gemini/.gemini/settings.json.orig
+gemini/.gemini/google_accounts.json

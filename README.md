@@ -16,6 +16,13 @@ task install
 
 ---
 
+## :pencil: Usage
+
+> [!WARNING]
+> Using the `reload` alias may add and commit sensative data if not specified in a `.stow-local-ignore` file!
+
+---
+
 ## :bulb: Inspiration
 
 Inspiration for this repository has been taken from [jessfraz/dotfiles][2].
