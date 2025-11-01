@@ -55,6 +55,10 @@ tasks:
     desc: Delete each dotfile folder individually
     cmds:
       - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
+  unstow:
+    desc: Run the unstow.sh script to remove stowed files from the home directory
+    cmds:
+      - ./unstow.sh
   create-ignore:
     desc: Create a .stow-local-ignore file in a stow package folder
     preconditions:
