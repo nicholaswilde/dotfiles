@@ -46,7 +46,7 @@ tasks:
   install:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
   restow:
     desc: Restow each dotfile folder individually
     cmds:
@@ -68,6 +68,9 @@ tasks:
     desc: Nuke existing files
     cmds:
       - rm ~/.config/micro/settings.json
+      - rm ~/.config/gh/config.yml
+      - rm ~/.gemini/HOMELAB.md
+      - rm ~/.config/gh/config.yml
   default:
     cmds:
       - task -l
