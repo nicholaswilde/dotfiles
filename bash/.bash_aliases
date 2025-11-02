@@ -178,6 +178,7 @@ if command_exists git; then
   alias revert='git reset --hard'
   alias gc='git commit -s -m'
   alias gb='git branch'
+  alias gpd='git -C ${GIT_USER_PATH}/dotfiles pull origin main'
 fi
 
 # Color the output of cat
