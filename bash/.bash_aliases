@@ -307,3 +307,7 @@ fi
 [ -f ~/.ssh/config ] && alias lsssh='grep "^Host " ~/.ssh/config | cut -d" " -f 2- | sort'
 
 alias clean='curl -fsSL https://gist.github.com/nicholaswilde/0a6fe1de26cb8a2c131797e503dcf39f/raw/3ff26340cb0c4009ca795e3cd315212bdd96656b/clean.sh | sudo bash -'
+
+if command_exists ansible-inventory; then
+  alias ai='ansible-inventory'
+fi
