@@ -92,6 +92,20 @@ for file in ~/.bash_{exports,aliases,functions,completions}; do
 done
 unset file
 
+# Add ssh keys to keychain
+if command_exists keychain; then
+  declare -a keys_to_add
+  if [ -f "$HOME/.ssh/id_ed25519" ]; then
+    keys_to_add+=("$HOME/.ssh/id_ed25519")
+  fi
+  if [ -f "$HOME/.ssh/id_rsa" ]; then
+    keys_to_add+=("$HOME/.ssh/id_rsa")
+  fi
+  if [ ${#keys_to_add[@]} -gt 0 ]; then
+    eval "$(keychain --eval --quiet "${keys_to_add[@]}")"
+  fi
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
