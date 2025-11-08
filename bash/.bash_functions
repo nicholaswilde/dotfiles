@@ -409,3 +409,10 @@ function calc() { ## Simple calculator
 	fi
 	printf "\\n"
 }
+
+if command_exists fzf; then
+function ce(){ ## Copy emojis
+  emojis=$(curl -sSL 'https://git.io/JXXO7')
+  echo "${emojis}" | fzf | awk '{print $2}' | tr -d '\n' | copy
+}
+fi
