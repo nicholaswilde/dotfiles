@@ -75,3 +75,7 @@ fi
 if command_exists bat; then
   eval "$(bat --completion bash)"
 fi
+
+if command_exists fzf; then
+   eval "$(fzf --bash)"
+fi
