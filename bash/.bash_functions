@@ -412,7 +412,7 @@ function calc() { ## Simple calculator
 
 if command_exists fzf; then
 function ce(){ ## Copy emojis
-  emojis=$(curl -sSL 'https://git.io/JXXO7')
+  emojis=$(curl -sSL 'https://gist.githubusercontent.com/nicholaswilde/c6e0f837c94dc5454f832be20e2d5b43/raw/f26ff7192f8551054864b86a56150a5634dd2844/emoji.txt')
   echo "${emojis}" | fzf | awk '{print $2}' | tr -d '\n' | copy
 }
 fi
