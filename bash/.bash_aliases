@@ -312,3 +312,7 @@ alias clean='curl -fsSL https://gist.github.com/nicholaswilde/0a6fe1de26cb8a2c13
 if command_exists ansible-inventory; then
   alias ai='ansible-inventory'
 fi
+
+if command_exists bat; then
+  alias batp='bat -p'
+fi
