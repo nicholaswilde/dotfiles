@@ -1,6 +1,78 @@
-# Gemini Guidelines
+# Agent Guidelines
 
-## Stow Ignore Files
+## Project Overview
+
+This repository contains personal dotfiles managed with GNU Stow. The goal is to have a portable and reproducible development environment. Secrets are encrypted with SOPS.
+
+## Key Technologies
+
+-   **[GNU Stow](https://www.gnu.org/software/stow/)**: Manages symlinks for dotfiles.
+-   **[SOPS](https://github.com/getsops/sops)**: Manages encrypted secrets.
+-   **[Task](https://taskfile.dev/)**: A task runner used for automating common operations.
+-   **Bash**: The primary shell environment.
+
+## Workflows
+
+### Installation
+
+To bootstrap the environment, run the `bootstrap` task. This will install dependencies, decrypt secrets, and stow the dotfiles.
+
+```shell
+task bootstrap
+```
+
+### Adding a New Application's Configuration
+
+1.  **Create a directory**: Create a new directory for the application (e.g., `newapp/`).
+2.  **Replicate directory structure**: Inside the `newapp/` directory, create the path that the application expects in the home directory. For example, if the application's configuration file is at `~/.config/newapp/config.json`, you should create `newapp/.config/newapp/config.json`.
+3.  **Stow the new package**: Run `task install` or `stow newapp` to create the symlinks.
+
+### Managing Secrets
+
+All sensitive information, such as API keys or tokens, must be encrypted using [SOPS](https://github.com/getsops/sops).
+
+#### Encryption Workflow
+
+1.  Place sensitive data in a file (e.g., `bash/.tokens`).
+2.  Encrypt the file using the `encrypt` task:
+    ```shell
+    task encrypt
+    ```
+    This will create an encrypted file with a `.enc` extension (e.g., `bash/.tokens.enc`).
+3.  Add the original unencrypted file to `.gitignore`.
+4.  Commit the encrypted `.enc` file to the repository.
+5.  If the sensitive file is part of a stow package, add the unencrypted file's name to the package's `.stow-local-ignore` file. Use the `create-ignore` task to create the ignore file if it doesn't exist.
+    ```shell
+    task create-ignore -- <package-name>
+    ```
+
+!!! warning
+    Do not use in-place encryption or decryption (`-i` or `--in-place`). Always encrypt to a new file and decrypt to stdout or a new file. This prevents accidental commitment of unencrypted sensitive files.
+
+### Using Tasks
+
+This repository uses [Task](https://taskfile.dev/) to automate common commands. The tasks are defined in `Taskfile.yaml`.
+
+To list all available tasks, run the default task:
+
+```shell
+task
+```
+
+Key tasks include:
+-   `task bootstrap`: Sets up the entire environment.
+-   `task install`: Stows all packages.
+-   `task update`: Pulls changes from the repository and applies them.
+-   `task encrypt`/`task decrypt`: Manages secrets.
+-   `task test`: Performs a dry run of the stowing process.
+
+## Development Guidelines
+
+### Bash Functions
+
+When adding a new function to `bash/.bash_functions`, a docstring should be added to the same line as the function declaration. The docstring should be placed after the opening curly brace and start with two pound signs (`##`). Refer to `bash/.bash_functions` for examples.
+
+### Stow Ignore Files
 
 Stow ignore files (`.stow-local-ignore`) use Perl regular expressions to specify which files to ignore.
 
@@ -13,26 +85,8 @@ Stow ignore files (`.stow-local-ignore`) use Perl regular expressions to specify
     -   If the regex contains a `/`, it is matched against the file's path relative to the package directory (e.g., `/path/to/file`).
     -   If the regex does not contain a `/`, it is matched against the file's basename (e.g., `file.txt`).
 
-### Examples
+#### Examples
 
 -   `^/README.*`: Ignores files starting with `README` in the root of the package directory.
 -   `\.enc$`: Ignores any file ending with `.enc`.
 -   `^/bash/\.tokens\.enc$`: Ignores the specific file `.tokens.enc` in the `bash` directory.
-
-## Handling Sensitive Information
-
-All sensitive information, such as API keys or tokens, must be encrypted using [SOPS](https://github.com/getsops/sops).
-
-### Encryption Workflow
-
-1.  Place sensitive data in a file (e.g., `.env`).
-2.  Encrypt the file with SOPS, giving it a `.enc` extension (e.g., `.env.enc`).
-    ```shell
-    sops --encrypt --input-type dotenv --output-type dotenv .env > .env.enc
-    ```
-3.  Add the original unencrypted file to `.gitignore` to prevent it from being committed.
-4.  Commit the encrypted `.enc` file to the repository.
-5.  If the sensitive file is part of a stow package, add the unencrypted file's name to the package's `.stow-local-ignore` file.
-
-!!! warning
-    Do not use in-place encryption or decryption (`-i` or `--in-place`). Always encrypt to a new file and decrypt to stdout or a new file. This prevents accidental commitment of unencrypted sensitive files.
