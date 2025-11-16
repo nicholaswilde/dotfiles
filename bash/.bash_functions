@@ -416,3 +416,16 @@ function ce(){ ## Copy emojis
   echo "${emojis}" | fzf | awk '{print $2}' | tr -d '\n' | copy
 }
 fi
+
+function checkreboot() { ## Check if a reboot is required
+  if [ -f /var/run/reboot-required ]; then
+    echo "🛑 System reboot is REQUIRED."
+    # Optionally, show which packages triggered this
+    if [ -f /var/run/reboot-required.pkgs ]; then
+      echo "  Packages requiring reboot:"
+      cat /var/run/reboot-required.pkgs
+    fi
+  else
+    echo "✅ System is OK. No reboot needed."
+  fi
+}
