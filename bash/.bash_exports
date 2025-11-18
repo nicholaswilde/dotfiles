@@ -131,9 +131,20 @@ export MICRO_TRUECOLOR=1
 
 export CHEAT_PERSONAL_PATH="/mnt/storage/cheat/cheatsheets/personal"
 
+# https://github.com/catppuccin/lazygit/tree/c24895902ec2a3cb62b4557f6ecd8e0afeed95d5/themes-mergable/mocha
 LG_CONF="${HOME}/.config/lazygit/config.yml"
 LG_THEME="${HOME}/.config/lazygit/lavender.yml"
 
 if command_exists lazygit && [[ -f "${LG_CONF}" && -f "${LG_THEME}" ]]; then
   export LG_CONFIG_FILE="${LG_CONF},${LG_THEME}"
+fi
+
+# https://github.com/catppuccin/fzf/blob/7c2e05606f2e75840b1ba367b1f997cd919809b3/themes/catppuccin-fzf-mocha.sh
+if command_exists fzf; then
+  export FZF_DEFAULT_OPTS=" \
+    --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+    --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+    --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+    --color=selected-bg:#45475A \
+    --color=border:#6C7086,label:#CDD6F4"
 fi
