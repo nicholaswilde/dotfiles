@@ -321,6 +321,6 @@ if command_exists lazygit; then
   alias lg='lazygit'
 fi
 
-if command_exists lazydocker; then
-  alias ld='lazydocker'
-fi
+
+command_exists lazydocker && alias ld='lazydocker'
+command_exists pvetui && alias pt='pvetui'
