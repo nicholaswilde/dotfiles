@@ -130,3 +130,10 @@ export NODE_OPTIONS="--no-deprecation"
 export MICRO_TRUECOLOR=1
 
 export CHEAT_PERSONAL_PATH="/mnt/storage/cheat/cheatsheets/personal"
+
+LG_CONF="${HOME}/.config/lazygit/config.yml"
+LG_THEME="${HOME}/.config/lazygit/lavender.yml"
+
+if command_exists lazygit && [[ -f "${LG_CONF}" && -f "${LG_THEME}" ]]; then
+  export LG_CONFIG_FILE="${LG_CONF},${LG_THEME}"
+fi

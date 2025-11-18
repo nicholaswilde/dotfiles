@@ -316,3 +316,11 @@ fi
 if command_exists bat; then
   alias batp='bat -p'
 fi
+
+if command_exists lazygit; then
+  alias lg='lazygit'
+fi
+
+if command_exists lazydocker; then
+  alias ld='lazydocker'
+fi
