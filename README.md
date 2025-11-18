@@ -1,4 +1,4 @@
-# :package: dotfiles :floppy-disk:
+# :package: dotfiles :floppy_disk:
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/#/)
 
 A dotfiles repo using stow.
