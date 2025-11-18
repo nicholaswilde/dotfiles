@@ -429,3 +429,14 @@ function checkreboot() { ## Check if a reboot is required
     echo "✅ System is OK. No reboot needed."
   fi
 }
+
+function dotfiles() { ## Add, commit, and push dotfiles changes
+  check_args "dotfiles <commit message>" "${1}" || return 1
+  local current_dir="$(pwd)"
+  cd "${GIT_USER_PATH}/dotfiles" || return 1
+  git add . || return 1
+  git commit -m "$*" || return 1
+  git push origin main || return 1
+  cd "${current_dir}" || return 1
+  echo "Dotfiles changes committed and pushed."
+}
