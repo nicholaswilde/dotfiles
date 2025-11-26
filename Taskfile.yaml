@@ -30,17 +30,21 @@ tasks:
       - task: decrypt
       - task: install
   decrypt:
-    desc: Decrypt .env using SOPS
+    desc: Decrypt secrets using SOPS
     preconditions:
-      - test -f ./bash/.tokens.enc
+      - test -f {{ .TASKFILE_DIR }}/bash/.tokens.enc
+      - test -f {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc
     cmds:
       - sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
+      - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc > {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json
   encrypt:
-    desc: Encrypt .env using SOPS
+    desc: Encrypt secrets using SOPS
     preconditions:
-      - test -f ./bash/.tokens
+      - test -f {{ .TASKFILE_DIR }}/bash/.tokens
+      - test -f {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json
     cmds:
-      - sops -e --input-type dotenv --output-type dotenv ./bash/.tokens > ./bash/.tokens.enc
+      - sops -e --input-type dotenv --output-type dotenv {{ .TASKFILE_DIR }}/bash/.tokens > {{ .TASKFILE_DIR }}/bash/.tokens.enc
+      - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json > {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc
   deps:
     desc: Install dependencies
     cmds:
