@@ -21,3 +21,40 @@
 	gpgsign = true
 [core]
 	editor = micro
+[color]
+	ui = true
+
+[color "diff"]
+	meta = "#89b4fa" bold        ; Blue (Commit/File info)
+  frag = "#f5c2e7" bold        ; Pink (Hunk headers)
+  old = "#f38ba8"              ; Red (Deleted lines)
+  new = "#a6e3a1"              ; Green (Added lines)
+  whitespace = "#f38ba8" reverse ; Red background (Whitespace errors)
+
+[color "diff-highlight"]
+  oldNormal = "#f38ba8" bold
+  oldHighlight = "#f38ba8" bold 52
+  newNormal = "#a6e3a1" bold
+  newHighlight = "#a6e3a1" bold 22
+
+[color "branch"]
+  current = "#a6e3a1" bold     ; Green (Current branch)
+  local = "#89b4fa"            ; Blue (Local branches)
+  remote = "#f5c2e7"           ; Pink (Remote branches)
+  upstream = "#94e2d5"         ; Teal (Upstream tracking)
+  plain = "#cdd6f4"            ; Text (Standard text)
+
+[color "status"]
+  added = "#a6e3a1"            ; Green (Staged files)
+  changed = "#fab387"          ; Peach (Modified/Unstaged)
+  untracked = "#f38ba8"        ; Red (Untracked files)
+  header = "#cdd6f4"           ; Text (Status header)
+  branch = "#f5e0dc"           ; Rosewater (Branch info in status)
+  nobranch = "#cdd6f4"         ; Text
+
+[color "decorate"]
+  head = "#89b4fa" bold        ; Blue (HEAD ref)
+  branch = "#a6e3a1" bold      ; Green (Branch names)
+  tag = "#f5c2e7" bold         ; Pink (Tags)
+  remoteBranch = "#fab387" bold ; Peach (Remote branches)
+  stash = "#94e2d5"            ; Teal (Stash refs)
