@@ -148,3 +148,32 @@ if command_exists fzf; then
     --color=selected-bg:#45475A \
     --color=border:#6C7086,label:#CDD6F4"
 fi
+
+if command_exists task; then
+  # Catppuccin Mocha Colors for go-task
+  # Format: 38;2;R;G;B
+  
+  # Red (Errors) -> Mocha Red
+  export TASK_COLOR_RED="38;2;243;139;168"
+  
+  # Green (Success) -> Mocha Green
+  export TASK_COLOR_GREEN="38;2;166;227;161"
+  
+  # Yellow (Warnings/Progress) -> Mocha Yellow
+  export TASK_COLOR_YELLOW="38;2;249;226;175"
+  
+  # Blue (Info/Summary) -> Mocha Blue
+  export TASK_COLOR_BLUE="38;2;137;180;250"
+  
+  # Magenta (Headers/Titles) -> Mocha Mauve
+  export TASK_COLOR_MAGENTA="38;2;203;166;247"
+  
+  # Cyan (Special/Debug) -> Mocha Teal
+  export TASK_COLOR_CYAN="38;2;148;226;213"
+  
+  # Bright Red (Critical Errors) -> Mocha Pink (for contrast against normal red)
+  export TASK_COLOR_BRIGHT_RED="38;2;245;194;231"
+  
+  # Bright Green -> Mocha Sky (for variety)
+  export TASK_COLOR_BRIGHT_GREEN="38;2;137;220;235"
+fi
