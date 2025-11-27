@@ -138,7 +138,11 @@ fi
 
 # https://stackoverflow.com/a/40192494
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+  # tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+  # Use 'exec' to exit SSH when tmux detaches
+  # Use '-A' to attach-or-create silently
+  # exec tmux new-session -A -s ssh_tmux
+  tmux new-session -A
 fi
 
 # pnpm

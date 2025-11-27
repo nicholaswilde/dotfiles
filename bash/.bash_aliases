@@ -324,3 +324,6 @@ fi
 
 command_exists lazydocker && alias ld='lazydocker'
 command_exists pvetui && alias pt='pvetui'
+
+# To get copy to work in pass
+command_exists pass && alias pass='DISPLAY=:0 pass'
