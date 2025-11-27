@@ -177,3 +177,12 @@ if command_exists task; then
   # Bright Green -> Mocha Sky (for variety)
   export TASK_COLOR_BRIGHT_GREEN="38;2;137;220;235"
 fi
+
+if command_exists gh; then
+  export GLAMOUR_STYLE="$HOME/.config/glamour/catppuccin-mocha.json"
+fi
+
+# pass or gopass to be able to copy to the clipboard using hterm
+if command_exists gopass || command_exists pass; then
+  export DISPLAY=:0
+fi

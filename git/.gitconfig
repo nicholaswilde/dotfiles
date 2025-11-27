@@ -21,9 +21,15 @@
 	gpgsign = true
 [core]
 	editor = micro
+  pager = delta
 [color]
 	ui = true
-
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a light terminal
+  style = mocha      # This is the magic line!
 [color "diff"]
 	meta = "#89b4fa" bold        ; Blue (Commit/File info)
   frag = "#f5c2e7" bold        ; Pink (Hunk headers)
