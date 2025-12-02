@@ -82,3 +82,7 @@ if command_exists fzf; then
   source <(curl -sSL git.io/JteMq)
   source <(curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh")
 fi
+
+if command_exists mise; then
+  eval "$($HOME/.local/bin/mise activate bash)"
+fi
