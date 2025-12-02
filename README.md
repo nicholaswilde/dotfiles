@@ -36,6 +36,11 @@ To ignore files that stow processes (e.g. `.tokens.enc`), add a `.stow-local-ign
 
 To ignore files that are commited to the dotfiles repo (e.g. `.tokens`), add to `.gitignore`.
 
+### :cat: Terminal Colors
+
+The `.catppuccin_active` file acts as a flag to activate Catppuccin color settings for `whiptail` through `.bash_exports`. If this file exists, `whiptail` will use a high-contrast Catppuccin Mocha color scheme for better readability.
+
+
 ---
 
 ## :pencil: Usage
