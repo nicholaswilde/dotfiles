@@ -49,6 +49,11 @@ All sensitive information, such as API keys or tokens, must be encrypted using [
 !!! warning
     Do not use in-place encryption or decryption (`-i` or `--in-place`). Always encrypt to a new file and decrypt to stdout or a new file. This prevents accidental commitment of unencrypted sensitive files.
 
+### Git Workflow
+
+-   **Viewing Issues**: Before starting work, check existing issues using `gh issue list` or `gh issue view <issue_number>` to understand ongoing tasks or bugs.
+-   **Closing Issues via Commits**: If your commit resolves an open issue, include a closing keyword (e.g., `Closes #<issue_number>`, `Fixes #<issue_number>`, `Resolves #<issue_number>`) in your commit message body or footer. GitHub will automatically close the linked issue when the commit is merged into the default branch.
+
 ### Using Tasks
 
 This repository uses [Task](https://taskfile.dev/) to automate common commands. The tasks are defined in `Taskfile.yaml`.
