@@ -210,15 +210,17 @@ function dcleanup() { ## Cleanup Docker stuff
 function extract() { ## Extract a compressed file
   if [ -z "$1" ]; then
     # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tbz|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz|zst|tzst|lz4>"
     echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
     return 1
   else
     for n in "$@"; do
       if [ -f "$n" ] ; then
         case "${n%,}" in
-          *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+          *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tbz|*.tgz|*.txz|*.tar|*.tar.zst|*.tzst)
                         tar xvf "$n"         ;;
+          *.zst)        unzstd ./"$n"        ;;
+          *.lz4)        unlz4 ./"$n"         ;;
           *.lzma)       unlzma ./"$n"        ;;
           *.bz2)        bunzip2 ./"$n"       ;;
           *.cbr|*.rar)  unrar x -ad ./"$n"   ;;
