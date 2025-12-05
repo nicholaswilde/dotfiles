@@ -10,8 +10,15 @@ tasks:
     desc: Update dotfiles
     cmds:
       - git pull origin main
+      - task: update-assets
       - task: decrypt
+      - task: restow
       - source ~/.bashrc
+  update-assets:
+    desc: Update external assets (fzf-git.sh, emoji.txt)
+    cmds:
+      - curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh" -o bash/fzf-git.sh
+      - curl -fsSL "https://gist.githubusercontent.com/nicholaswilde/c6e0f837c94dc5454f832be20e2d5b43/raw/emoji.txt" -o bash/emoji.txt
   gpro:
     desc: Run gemini with gemini-2.5-pro model
     cmds:

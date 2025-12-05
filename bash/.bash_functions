@@ -280,7 +280,7 @@ function an() { ## Add notes
 }
 
 function lf() { ## List functions
-  grep -Po "(?<=function ).*" ~/.bash_functions | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-30s \033[36m%s\033[0m\n", $1, $2}'
+  grep -Po "(?<=function )[a-zA-Z0-9_-].*" ~/.bash_functions | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-25s \033[36m%s\033[0m\n", $1, $2}'
 }
 
 function upgrate() { ## Upgrade everything
@@ -387,10 +387,11 @@ function cpdeg() { ## Copy degree symbol, °
   printf "%s" "°"| copy
 }
 
-function bwfind() {
-  bw list items --search $1 | jq '.[] | .name,.login'
-}
-
+if command_exists bw; then
+  function bwfind() { ## Find a password using Bitwarden
+    bw list items --search $1 | jq '.[] | .name,.login'
+  }
+fi
 
 function calc() { ## Simple calculator
 	local result=""
@@ -414,7 +415,7 @@ function calc() { ## Simple calculator
 
 if command_exists fzf; then
 function ce(){ ## Copy emojis
-  emojis=$(curl -sSL 'https://gist.githubusercontent.com/nicholaswilde/c6e0f837c94dc5454f832be20e2d5b43/raw/f26ff7192f8551054864b86a56150a5634dd2844/emoji.txt')
+  emojis=$(cat "${HOME}/.bash/emoji.txt")
   echo "${emojis}" | fzf | awk '{print $2}' | tr -d '\n' | copy
 }
 fi
@@ -442,3 +443,43 @@ function dotfiles() { ## Add, commit, and push dotfiles changes
   cd "${current_dir}" || return 1
   echo "Dotfiles changes committed and pushed."
 }
+
+if command_exists python3 || command_exists python; then                                                                                                                                                        
+  function serve() { ## Start a simple HTTP server                                                                                                                                                              
+    local port="${1:-8000}"                                                                                                                                                                                     
+    if command_exists python3; then                                                                                                                                                                             
+      python3 -m http.server "$port"                                                                                                                                                                            
+    elif command_exists python; then                                                                                                                                                                            
+      python -m SimpleHTTPServer "$port"                                                                                                                                                                        
+    else                                                                                                                                                                                                        
+      echo "Python is not installed. This should not happen."                                                                                                                                                   
+      return 1                                                                                                                                                                                                  
+    fi                                                                                                                                                                                                          
+  }                                                                                                                                                                                                             
+fi                                                                                                                                                                                                              
+                                                                                                                                                                                                               
+if command_exists git; then                                                                                                                                                                                     
+ function git-cleanup() { ## Delete local branches merged into current HEAD                                                                                                                                    
+  local default_branch                                                                                                                                                                                        
+   default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')                                                                                                   
+   if [ -z "$default_branch" ]; then                                                                                                                                                                           
+      default_branch="main" # Assuming 'main' is a common default, if no remote HEAD                                                                                                                            
+   fi                                                                                                                                                                                                          
+   git branch --merged "$default_branch" | grep -v "$default_branch" | xargs -n 1 git branch -d                                                                                                                
+ }                                                                                                                                                                                                             
+fi                                                                                                                                                                                                              
+                                                                                                                                                                                                                 
+if command_exists openssl; then                                                                                                                                                                                 
+ function genpw() { ## Generate a random password                                                                                                                                                              
+   local length="${1:-16}" # Default length to 16 if not provided                                                                                                                                              
+   check_args "genpw <length>" "${length}" || return 1                                                                                                                                                         
+   openssl rand -base64 48 | cut -c1-"${length}"                                                                                                                                                               
+ }                                                                                                                                                                                                             
+fi
+
+# Default parameters: -a (all files), -I (ignore patterns), --dirsfirst, and piping to less
+if command_exists tree; then
+  function tre() { ## Tree respecting gitignore
+    tree -a -I '.git|node_modules|bower_components|.DS_Store' --dirsfirst "$@" | less -FRX
+  }
+fi

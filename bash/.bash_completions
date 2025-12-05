@@ -80,7 +80,7 @@ if command_exists fzf; then
   eval "$(fzf --bash)"
   # https://github.com/NullSense/fuzzy-sys
   source <(curl -sSL git.io/JteMq)
-  source <(curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh")
+  source "${HOME}/.bash/fzf-git.sh"
 fi
 
 if command_exists mise; then

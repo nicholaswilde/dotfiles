@@ -27,7 +27,7 @@ function dir_exists(){
 
 # Check if file exists
 function file_exists(){
-  [ -f "{1}" ]
+  [ -f "${1}" ]
 }
 
 # check the window size after each command and, if necessary,

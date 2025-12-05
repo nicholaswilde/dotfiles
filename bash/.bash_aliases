@@ -81,7 +81,9 @@ alias fhere='find . -name'
 #   alias du='mc du'
 # else
   alias ls='ls --sort=extension --color=auto'
-  alias sl='ls --sort=extension --color=auto' # Typo
+  if ! command_exists sl; then
+    alias sl='ls --sort=extension --color=auto' # Typo
+  fi
   alias lsl='ls -lhFA | less' # Long format
   alias ll='ls -lh'
   alias lal='ls -alh'
@@ -93,8 +95,6 @@ alias fhere='find . -name'
   alias mv='mv -i'
   alias mkdir='mkdir -pv' # Parent directories  
 # fi
-
-alias rm='rm -rf'
 
 alias cd..='cd ..'
 alias ..='cd ..'

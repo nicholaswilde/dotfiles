@@ -72,6 +72,24 @@ Restow the `bash` package
 stow -R -v -t ~/ bash
 ```
 
+Update local files
+
+```shell
+gpd
+```
+
+List functions
+
+```shell
+lf
+```
+
+List aliases
+
+```shell
+aliases
+```
+
 ---
 
 ## :bulb: Inspiration
