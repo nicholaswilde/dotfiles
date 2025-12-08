@@ -327,3 +327,15 @@ command_exists pvetui && alias pt='pvetui'
 
 # To get copy to work in pass
 command_exists pass && alias pass='DISPLAY=:0 pass'
+
+if command_exists reprepro; then
+  if [[ -d "/srv/reprepro/raspi" ]]; then
+    alias rrr='reprepro -b /srv/reprepro/raspi'
+  fi
+  if [[ -d "/srv/reprepro/ubuntu" ]]; then
+    alias rru='reprepro -b /srv/reprepro/ubuntu'
+  fi
+  if [[ -d "/srv/reprepro/debian" ]]; then
+    alias rrd='reprepro -b /srv/reprepro/debian'
+  fi
+fi
