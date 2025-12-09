@@ -203,3 +203,29 @@ if [[ -f "$HOME/.catppuccin_active" ]]; then
     helpline=, \
     roottext=,"
 fi
+
+# SOPS
+if command_exists sops; then
+  if [[ -f "${HOME}/.config/sops/age/keys.txt" ]]; then
+    export SOPS_AGE_KEY_FILE="${HOME}/.config/sops/age/keys.txt"
+  fi
+fi
+
+# restic
+if command_exists restic; then
+  export RESTIC_REPOSITORY="/srv/restic-repo"
+fi
+
+# https://github.com/josh/restic-age-key
+if command_exists restic-age-key; then
+  if [[ -d "${RESTIC_REPOSITORY}" ]]; then
+    export RESTIC_PASSWORD_COMMAND="restic-age-key password"
+    if [[ -n "$SOPS_AGE_KEY_FILE" ]]; then
+      export RESTIC_AGE_IDENTITY_FILE="${SOPS_AGE_KEY_FILE}"
+    else
+      if [[ -f "${HOME}/.config/sops/age/keys.txt" ]]; then
+        export RESTIC_AGE_IDENTITY_FILE="${HOME}/.config/sops/age/keys.txt"
+      fi
+    fi
+  fi
+fi
