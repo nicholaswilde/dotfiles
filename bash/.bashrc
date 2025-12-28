@@ -153,3 +153,5 @@ case ":$PATH:" in
 esac
 # pnpm end
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+[[ -s "/home/nicholas/.gvm/scripts/gvm" ]] && source "/home/nicholas/.gvm/scripts/gvm"

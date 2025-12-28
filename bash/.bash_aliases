@@ -117,6 +117,7 @@ alias histg='history | grep'
 
 # Change to using htop
 command_exists htop && alias top='htop'
+command_exists btop && alias top='btop'
 
 # Editor
 if command_exists nano; then
@@ -178,7 +179,16 @@ if command_exists git; then
   alias revert='git reset --hard'
   alias gc='git commit -s -m'
   alias gb='git branch'
-  alias gpd='git -C ${GIT_USER_PATH}/dotfiles pull origin main'
+  if dir_exists "${GIT_USER_PATH}/dotfiles"; then
+    alias gpd='git -C ${GIT_USER_PATH}/dotfiles pull origin main'
+  fi
+  if dir_exists "${GIT_USER_PATH}/notes"; then
+    alias gcn='git -C ${GIT_USER_PATH}/notes add ${GIT_USER_PATH}/notes/* &&  git -C ${GIT_USER_PATH}/notes commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/notes push origin main'
+  fi
+  if dir_exists "${CHEAT_PERSONAL_PATH}"; then
+    alias gsc='git -C ${CHEAT_PERSONAL_PATH} status'
+    alias gpc='git -C ${CHEAT_PERSONAL_PATH} add ${CHEAT_PERSONAL_PATH}/* && git -C ${CHEAT_PERSONAL_PATH} commit --allow-empty-message -a -m ""; git -C ${CHEAT_PERSONAL_PATH} push origin main'
+  fi
 fi
 
 # Color the output of cat
@@ -232,7 +242,6 @@ test -f "${BASHRC_PATH}" && alias erc='${EDITOR} ${BASHRC_PATH}'
 
 # Quickly load bashrc
 alias reload='source ~/.bashrc'
-alias gcn='git -C ${GIT_USER_PATH}/notes add ${GIT_USER_PATH}/notes/* &&  git -C ${GIT_USER_PATH}/notes commit --allow-empty-message -a -m ""; git -C ${GIT_USER_PATH}/notes push origin main'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
