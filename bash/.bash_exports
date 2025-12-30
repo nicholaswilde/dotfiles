@@ -97,9 +97,13 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 # https://www.commandlinefu.com/commands/view/1560/set-cdpath-to-ease-navigation
-export CDPATH=:..:~
-test -d "${GIT_USER_PATH}" && export CDPATH="${CDPATH}:${GIT_USER_PATH}"
-test -d "${GIT_PATH}" && export CDPATH="${CDPATH}:${GIT_PATH}"
+if [[ ! -d /etc/pve ]]; then
+  export CDPATH=:..:~
+  test -d "${GIT_USER_PATH}" && export CDPATH="${CDPATH}:${GIT_USER_PATH}"
+  test -d "${GIT_PATH}" && export CDPATH="${CDPATH}:${GIT_PATH}"
+else
+  unset CDPATH
+fi
 
 # texlive
 test -d /usr/local/texlive/2020/texmf-dist/doc/man && export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man
