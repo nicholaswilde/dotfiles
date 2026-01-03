@@ -233,3 +233,7 @@ if command_exists restic-age-key; then
     fi
   fi
 fi
+
+if command_exists eget; then
+  export EGET_BIN=$HOME/.local/bin
+fi
