@@ -110,7 +110,8 @@ alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 # pydf
 command_exists pydf && alias df='pydf -ha'
 
-alias du='du -ach | sort -h'
+# alias du='du -ach | sort -h'
+alias dus='du -h --max-depth=1 | sort -rh'
 alias free='free -mt'
 alias ps='ps auxf'
 alias histg='history | grep'
