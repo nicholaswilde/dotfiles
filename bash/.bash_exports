@@ -237,3 +237,5 @@ fi
 if command_exists eget; then
   export EGET_BIN=$HOME/.local/bin
 fi
+
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"

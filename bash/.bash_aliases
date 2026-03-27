@@ -111,7 +111,7 @@ alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 command_exists pydf && alias df='pydf -ha'
 
 # alias du='du -ach | sort -h'
-alias dus='du -h --max-depth=1 | sort -rh'
+alias dus='\du -h --max-depth=1 | sort -rh'
 alias free='free -mt'
 alias ps='ps auxf'
 alias histg='history | grep'
@@ -348,4 +348,8 @@ if command_exists reprepro; then
   if [[ -d "/srv/reprepro/debian" ]]; then
     alias rrd='reprepro -b /srv/reprepro/debian'
   fi
+fi
+
+if command_exists gemini; then
+  alias gemini='gemini -y'
 fi
