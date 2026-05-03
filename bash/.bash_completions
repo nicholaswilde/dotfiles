@@ -86,3 +86,11 @@ fi
 if command_exists mise; then
   eval "$($HOME/.local/bin/mise activate bash)"
 fi
+
+if command_exists fnm; then
+  eval "$(fnm env --use-on-cd)"
+fi
+
+if command_exists uv; then
+  eval "$(uv generate-shell-completion bash)"
+fi
