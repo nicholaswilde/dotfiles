@@ -190,22 +190,23 @@ fi
 # Fix whiptail readability (High Contrast Yellow)
 if [[ -f "$HOME/.catppuccin_active" ]]; then
   # Catppuccin Mocha for whiptail (High Contrast Yellow)
-  export NEWT_COLORS="
-    root=,black \
-    window=white,black \
-    border=blue,black \
-    shadow=black,black \
-    title=cyan,black \
-    button=black,cyan \
-    actbutton=white,red \
-    checkbox=blue,black \
-    actcheckbox=black,yellow \
-    listbox=white,black \
-    actlistbox=black,yellow \
-    textbox=, \
-    acttextbox=black,cyan \
-    helpline=, \
-    roottext=,"
+  export NEWT_COLORS='
+    root=,black
+    window=white,black
+    border=blue,black
+    title=cyan,black
+    button=yellow,black
+    actbutton=white,red
+    checkbox=blue,black
+    actcheckbox=black,yellow
+    listbox=white,black
+    actlistbox=black,yellow
+    textbox=white,black
+    acttextbox=black,cyan
+    helpline=white,black
+    roottext=blue,black
+    shadow=black,black
+  '
 fi
 
 # SOPS

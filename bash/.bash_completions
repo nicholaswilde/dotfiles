@@ -67,10 +67,10 @@ if command_exists mk; then
   complete -o default -F _mk_completion mk
 fi
 
-# Check if gh is installed AND the copilot extension is available
-if command_exists gh && gh copilot --help &> /dev/null; then
-  eval "$(gh copilot alias -- bash)"
-fi
+# # Check if gh is installed AND the copilot extension is available
+# if command_exists gh && gh copilot --help &> /dev/null; then
+#   eval "$(gh copilot alias -- bash)"
+# fi
 
 if command_exists bat; then
   eval "$(bat --completion bash)"
