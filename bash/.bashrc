@@ -144,14 +144,3 @@ if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
   # exec tmux new-session -A -s ssh_tmux
   tmux new-session -A
 fi
-
-# pnpm
-export PNPM_HOME="/home/nicholas/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-[[ -s "/home/nicholas/.gvm/scripts/gvm" ]] && source "/home/nicholas/.gvm/scripts/gvm"

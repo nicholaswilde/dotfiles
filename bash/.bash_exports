@@ -242,3 +242,11 @@ fi
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 [[ -f "$HOME/.config/ripgrep/ripgrep.conf" ]] && export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgrep.conf"
+
+# pnpm
+
+[[ -d "${HOME}/.local/share/pnpm" ]]&& export PNPM_HOME="${HOME}/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac

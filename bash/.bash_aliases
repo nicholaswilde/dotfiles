@@ -171,6 +171,7 @@ if command_exists git; then
   alias gps='git push origin source'
   alias gpma='git push origin master'
   alias gp='git pull origin $(git branch --show-current)'
+  alias gpr='git pull --rebase'
   alias gs='git status'
   alias gd='git diff'
   alias gr='git reflog'
