@@ -1,5 +1,5 @@
 creation_rules:
-  - filename_regex: gemini/\.gemini/settings\.json\.enc$
+  - filename_regex: antigravity/\.antigravity/settings\.json\.enc$
     encrypted_regex: '^(command|args|httpUrl|Authorization|.*_KEY|.*_TOKEN|.*_PASSWORD|.*_SECRET|.*_URL|.*_CONFIG|.*_HOST|.*_PORT|.*_SITE|.*_SSL|.*_TYPE|.*_USERNAME|.*_INSECURE|.*_PAT)$'
     pgp: '78E2E084522FB8A14C0D9AED800C8DB8B299A622'
     age: 'age1x2at6wwq2gks47fsep9a25emdeqd93e3k0gfsswtmhruqrteu5jqjvy7kd'

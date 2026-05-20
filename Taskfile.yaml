@@ -19,18 +19,10 @@ tasks:
     cmds:
       - curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh" -o bash/.bash/fzf-git.sh
       - curl -fsSL "https://gist.githubusercontent.com/nicholaswilde/c6e0f837c94dc5454f832be20e2d5b43/raw/emoji.txt" -o bash/.bash/emoji.txt
-  gpro:
-    desc: Run gemini with gemini-2.5-pro model
+  agy:
+    desc: Run antigravity
     cmds:
-      - gemini -m gemini-{{ .VER }}-pro
-  gflash:
-    desc: Run gemini with flash model
-    cmds:
-      - gemini -m gemini-{{ .VER }}-flash
-  glite:
-    desc: Run gemini with lite model
-    cmds:
-      - gemini -m gemini-{{ .VER }}-lite
+      - agy
   bootstrap:
     desc: Bootstrap dotfiles
     cmds:
@@ -40,18 +32,18 @@ tasks:
     desc: Decrypt secrets using SOPS
     preconditions:
       - test -f {{ .TASKFILE_DIR }}/bash/.tokens.enc
-      - test -f {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc
+      - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc
     cmds:
       - sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
-      - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc > {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json
+      - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc > {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json
   encrypt:
     desc: Encrypt secrets using SOPS
     preconditions:
       - test -f {{ .TASKFILE_DIR }}/bash/.tokens
-      - test -f {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json
+      - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json
     cmds:
       - sops -e --input-type dotenv --output-type dotenv {{ .TASKFILE_DIR }}/bash/.tokens > {{ .TASKFILE_DIR }}/bash/.tokens.enc
-      - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json > {{ .TASKFILE_DIR }}/gemini/.gemini/settings.json.enc
+      - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json > {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc
   deps:
     desc: Install dependencies
     cmds:
@@ -59,19 +51,19 @@ tasks:
   test:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".gemini/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
   install:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".gemini/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
   restow:
     desc: Restow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".gemini/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
   delete:
     desc: Delete each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".gemini/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
   unstow:
     desc: Run the unstow.sh script to remove stowed files from the home directory
     cmds:
@@ -90,7 +82,7 @@ tasks:
     cmds:
       - rm ~/.config/micro/settings.json
       - rm ~/.config/gh/config.yml
-      - rm ~/.gemini/HOMELAB.md
+      - rm ~/.antigravity/HOMELAB.md
       - rm ~/.config/gh/config.yml
   default:
     cmds:
