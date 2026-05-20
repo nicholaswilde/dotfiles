@@ -354,3 +354,7 @@ fi
 if command_exists gemini; then
   alias gemini='gemini -y'
 fi
+
+if command_exists agy; then
+  alias agy='agy --dangerously-skip-permissions'
+fi
