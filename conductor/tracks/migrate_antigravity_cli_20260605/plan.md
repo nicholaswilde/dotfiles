@@ -17,7 +17,7 @@ This track details the migration of `~/.gemini/antigravity-cli` configurations i
 
 ## Phase 3: Taskfile Integration
 - [x] Task: Update `Taskfile.yaml` to decrypt/encrypt `mcp_config.json` in the new `antigravity-cli` package (ebdf62d)
-- [ ] Task: Test decryption and encryption tasks using `task decrypt` and `task encrypt`
+- [x] Task: Test decryption and encryption tasks using `task decrypt` and `task encrypt` (fbe95ee)
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Taskfile Integration' (Protocol in workflow.md)
 
 ## Phase 4: Stow Installation & Verification
