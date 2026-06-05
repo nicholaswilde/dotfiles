@@ -12,3 +12,4 @@ antigravity/.antigravity/google_accounts.json
 antigravity/.antigravity/state.json
 antigravity/.antigravity/settings.json
 *.log
+antigravity-cli/.gemini/antigravity-cli/mcp_config.json
