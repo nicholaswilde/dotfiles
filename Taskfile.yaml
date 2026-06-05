@@ -59,19 +59,19 @@ tasks:
   test:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
   install:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
   restow:
     desc: Restow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
   delete:
     desc: Delete each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
   unstow:
     desc: Run the unstow.sh script to remove stowed files from the home directory
     cmds:
