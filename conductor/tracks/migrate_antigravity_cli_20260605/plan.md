@@ -3,7 +3,7 @@
 This track details the migration of `~/.gemini/antigravity-cli` configurations into the dotfiles repository.
 
 ## Phase 1: Directory Setup & File Backup
-- [ ] Task: Create directory structure `antigravity-cli/.gemini/antigravity-cli/`
+- [x] Task: Create directory structure `antigravity-cli/.gemini/antigravity-cli/` (a5cb6a1)
 - [ ] Task: Copy the `skills/` directory from `~/.gemini/antigravity-cli/skills/` to `antigravity-cli/.gemini/antigravity-cli/skills/`
 - [ ] Task: Copy `settings.json` from `~/.gemini/antigravity-cli/settings.json` to `antigravity-cli/.gemini/antigravity-cli/settings.json`
 - [ ] Task: Copy `mcp_config.json` from `~/.gemini/antigravity-cli/mcp_config.json` to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json`
