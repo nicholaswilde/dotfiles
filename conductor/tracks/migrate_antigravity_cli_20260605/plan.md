@@ -2,12 +2,12 @@
 
 This track details the migration of `~/.gemini/antigravity-cli` configurations into the dotfiles repository.
 
-## Phase 1: Directory Setup & File Backup
+## Phase 1: Directory Setup & File Backup [checkpoint: 4b2fce0]
 - [x] Task: Create directory structure `antigravity-cli/.gemini/antigravity-cli/` (a5cb6a1)
 - [x] Task: Copy the `skills/` directory from `~/.gemini/antigravity-cli/skills/` to `antigravity-cli/.gemini/antigravity-cli/skills/` (b90c9de)
 - [x] Task: Copy `settings.json` from `~/.gemini/antigravity-cli/settings.json` to `antigravity-cli/.gemini/antigravity-cli/settings.json` (3597d2d)
 - [x] Task: Copy `mcp_config.json` from `~/.gemini/antigravity-cli/mcp_config.json` to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` (daa48f6)
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Directory Setup & File Backup' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Directory Setup & File Backup' (Protocol in workflow.md) (4b2fce0)
 
 ## Phase 2: Security & Git Configuration
 - [ ] Task: Add `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` to the root `.gitignore` file
