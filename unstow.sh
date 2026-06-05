@@ -26,11 +26,10 @@ if [[ ! -f "Taskfile.yaml" ]]; then
 fi
 
 find_stow_packages() {
-    # List directories, excluding .git and other dot-prefixed ones.
-    # These directories are assumed to be stow packages.
     find . -maxdepth 1 -type d \
         ! -name '.*' \
         ! -name '.' \
+        ! -name 'conductor' \
         -exec basename {} \;
 }
 
