@@ -6,7 +6,7 @@ This track details the migration of `~/.gemini/antigravity-cli` configurations i
 - [x] Task: Create directory structure `antigravity-cli/.gemini/antigravity-cli/` (a5cb6a1)
 - [x] Task: Copy the `skills/` directory from `~/.gemini/antigravity-cli/skills/` to `antigravity-cli/.gemini/antigravity-cli/skills/` (b90c9de)
 - [x] Task: Copy `settings.json` from `~/.gemini/antigravity-cli/settings.json` to `antigravity-cli/.gemini/antigravity-cli/settings.json` (3597d2d)
-- [ ] Task: Copy `mcp_config.json` from `~/.gemini/antigravity-cli/mcp_config.json` to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json`
+- [x] Task: Copy `mcp_config.json` from `~/.gemini/antigravity-cli/mcp_config.json` to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` (daa48f6)
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Directory Setup & File Backup' (Protocol in workflow.md)
 
 ## Phase 2: Security & Git Configuration
