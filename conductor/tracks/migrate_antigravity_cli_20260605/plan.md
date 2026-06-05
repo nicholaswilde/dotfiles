@@ -15,10 +15,10 @@ This track details the migration of `~/.gemini/antigravity-cli` configurations i
 - [x] Task: Encrypt `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` using SOPS to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json.enc` (1cc165b)
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Security & Git Configuration' (Protocol in workflow.md) (8e35327)
 
-## Phase 3: Taskfile Integration
+## Phase 3: Taskfile Integration [checkpoint: 212064b]
 - [x] Task: Update `Taskfile.yaml` to decrypt/encrypt `mcp_config.json` in the new `antigravity-cli` package (ebdf62d)
 - [x] Task: Test decryption and encryption tasks using `task decrypt` and `task encrypt` (fbe95ee)
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Taskfile Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Taskfile Integration' (Protocol in workflow.md) (212064b)
 
 ## Phase 4: Stow Installation & Verification
 - [ ] Task: Run `task test` to verify the stow dry run does not cause conflicts
