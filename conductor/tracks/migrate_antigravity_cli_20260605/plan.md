@@ -20,8 +20,8 @@ This track details the migration of `~/.gemini/antigravity-cli` configurations i
 - [x] Task: Test decryption and encryption tasks using `task decrypt` and `task encrypt` (fbe95ee)
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Taskfile Integration' (Protocol in workflow.md) (212064b)
 
-## Phase 4: Stow Installation & Verification
+## Phase 4: Stow Installation & Verification [checkpoint: c068a89]
 - [x] Task: Run `task test` to verify the stow dry run does not cause conflicts (3359598)
 - [x] Task: Run `task install` (or `stow -v -t ~/ antigravity-cli`) to apply the package and link it back to `~/.gemini/antigravity-cli/` (2e418c0)
 - [x] Task: Verify that files are correctly symlinked and active (a2df4ae)
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Stow Installation & Verification' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Stow Installation & Verification' (Protocol in workflow.md) (c068a89)
