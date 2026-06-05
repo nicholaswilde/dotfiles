@@ -11,7 +11,7 @@ This track details the migration of `~/.gemini/antigravity-cli` configurations i
 
 ## Phase 2: Security & Git Configuration
 - [x] Task: Add `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` to the root `.gitignore` file (323bfdd)
-- [ ] Task: Create `antigravity-cli/.stow-local-ignore` and ignore `mcp_config.json`
+- [x] Task: Create `antigravity-cli/.stow-local-ignore` and ignore `mcp_config.json` (eb168e4)
 - [ ] Task: Encrypt `antigravity-cli/.gemini/antigravity-cli/mcp_config.json` using SOPS to `antigravity-cli/.gemini/antigravity-cli/mcp_config.json.enc`
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Security & Git Configuration' (Protocol in workflow.md)
 
