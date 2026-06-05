@@ -1,0 +1,43 @@
+{
+  "allowNonWorkspaceAccess": true,
+  "colorScheme": "dark",
+  "model": "Gemini 3.5 Flash (High)",
+  "permissions": {
+    "allow": [
+      "command(grep)",
+      "command(head)",
+      "command(mv)",
+      "command(task)",
+      "command(git status)",
+      "command(git check-ignore)",
+      "command(find)",
+      "command(ls)",
+      "command(mkdir)",
+      "command(git add)",
+      "command(git diff)",
+      "command(git commit)",
+      "mcp(adguardhome/manage_dns)",
+      "mcp(pve04/get_cluster_status)",
+      "mcp(pve03/get_cluster_status)",
+      "mcp(pve03/load_all_tools)",
+      "mcp(pve03/list_containers)",
+      "mcp(pve03/list_vms)",
+      "mcp(pve04/load_all_tools)",
+      "mcp(pve04/list_vms)",
+      "command(ip)",
+      "mcp(pve04/list_nodes)",
+      "mcp(pve04/list_networks)",
+      "mcp(unifi/unifi_tool_index)",
+      "mcp(unifi/unifi_execute)"
+    ]
+  },
+  "showFeedbackSurvey": false,
+  "trustedWorkspaces": [
+    "/home/nicholas/git/nicholaswilde/homelab",
+    "/home/nicholas/git/nicholaswilde/dotfiles",
+    "/home/nicholas/git/nicholaswilde/recipes",
+    "/home/nicholas/git/nicholaswilde/changedetection-mcp-rs",
+    "/home/nicholas/git/nicholaswilde/homebrew-tap",
+    "/home/nicholas/git/nicholaswilde/sysmqttd"
+  ]
+}
