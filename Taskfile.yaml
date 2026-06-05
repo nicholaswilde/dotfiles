@@ -33,17 +33,25 @@ tasks:
     preconditions:
       - test -f {{ .TASKFILE_DIR }}/bash/.tokens.enc
       - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc
+      - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json.enc
+      - test -f {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json.enc
     cmds:
       - sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
       - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc > {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json
+      - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json.enc > {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json
+      - sops -d --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json.enc > {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json
   encrypt:
     desc: Encrypt secrets using SOPS
     preconditions:
       - test -f {{ .TASKFILE_DIR }}/bash/.tokens
       - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json
+      - test -f {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json
+      - test -f {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json
     cmds:
       - sops -e --input-type dotenv --output-type dotenv {{ .TASKFILE_DIR }}/bash/.tokens > {{ .TASKFILE_DIR }}/bash/.tokens.enc
       - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json > {{ .TASKFILE_DIR }}/antigravity/.antigravity/settings.json.enc
+      - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json > {{ .TASKFILE_DIR }}/antigravity/.antigravity/mcp_config.json.enc
+      - sops -e --input-type json --output-type json {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json > {{ .TASKFILE_DIR }}/antigravity-cli/.gemini/antigravity-cli/mcp_config.json.enc
   deps:
     desc: Install dependencies
     cmds:
