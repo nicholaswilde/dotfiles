@@ -1,0 +1,8 @@
+{
+  "track_id": "refactor_unstow_script",
+  "type": "refactor",
+  "status": "new",
+  "created_at": "2026-06-06T05:12:00Z",
+  "updated_at": "2026-06-06T05:12:00Z",
+  "description": "Align the custom unstow.sh script to exclude non-package directories like tests/ and .agents/, and document native stow -D alternative."
+}
