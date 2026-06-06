@@ -36,6 +36,19 @@ To ignore files that stow processes (e.g. `.tokens.enc`), add a `.stow-local-ign
 
 To ignore files that are commited to the dotfiles repo (e.g. `.tokens`), add to `.gitignore`.
 
+### Packages Configuration
+
+The list of active Stow packages is centralized in the `.stow-packages` file at the root of the repository:
+
+- Each line represents a package directory that will be processed by GNU Stow.
+- Lines starting with `#` and empty lines are ignored as comments.
+- Both `Taskfile.yaml` tasks (e.g., `task install`, `task test`, `task restow`, `task delete`) and helper scripts dynamically read from `.stow-packages` to determine the scope of operations.
+
+To add a new package:
+1. Create your package folder at the root (e.g. `my_new_app/`).
+2. Add its folder name to the `.stow-packages` registry file on a new line.
+3. Run `task install` to create the symlinks in your home directory.
+
 ### :cat: Terminal Colors
 
 The `.catppuccin_active` file acts as a flag to activate Catppuccin color settings for `whiptail` through `.bash_exports`. If this file exists, `whiptail` will use a high-contrast Catppuccin Mocha color scheme for better readability.
