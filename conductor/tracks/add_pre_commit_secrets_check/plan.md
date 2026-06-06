@@ -5,5 +5,5 @@
 - [x] Task: Integrate `check-secrets` command in `Taskfile.yaml`. (835d3be)
 
 ## Phase 2: Git Hook Setup & Testing
-- [~] Task: Create a task or document command to symlink/copy `scripts/check-secrets.sh` to `.git/hooks/pre-commit`.
-- [ ] Task: Verify hook execution by staging a mock decrypted file (e.g. `settings.json`) and trying to commit it.
+- [x] Task: Create a task or document command to symlink/copy `scripts/check-secrets.sh` to `.git/hooks/pre-commit`. (2362233)
+- [~] Task: Verify hook execution by staging a mock decrypted file (e.g. `settings.json`) and trying to commit it.
