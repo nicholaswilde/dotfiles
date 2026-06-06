@@ -5,4 +5,4 @@
 - [x] Task: Document and print recommendations inside `unstow.sh` prompting the use of `task delete` instead. [3cd10a4]
 
 ## Phase 2: Verification
-- [~] Task: Run `./unstow.sh` dry-run on host to confirm `tests` and `.agents` are excluded from the output.
+- [x] Task: Run `./unstow.sh` dry-run on host to confirm `tests` and `.agents` are excluded from the output. [4b197fa]
