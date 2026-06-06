@@ -57,7 +57,7 @@ if command_exists apt; then
 fi
 
 # openports
-alias openports='sudo lsof -i -P -n | grep LISTEN'
+command_exists lsof && alias openports='sudo lsof -i -P -n | grep LISTEN'
 
 # Find files
 alias search='sudo find / -name'
@@ -104,7 +104,7 @@ alias back='cd "$OLDPWD"'
 alias ~='cd ~'
 
 # System
-alias pms='sudo pm-suspend'
+command_exists pm-suspend && alias pms='sudo pm-suspend'
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
 
 # pydf
@@ -197,7 +197,7 @@ fi
 command_exists pygmentize && alias catc='pygmentize -O style=friendly -g' # sudo apt-get install python3-pygments
 
 # Get my public ip
-alias pubip='curl http://ipecho.net/plain; echo'
+command_exists curl && alias pubip='curl http://ipecho.net/plain; echo'
 # shellcheck disable=SC2142
 alias localip="hostname -I | awk '{print \$1}'"
 
@@ -318,7 +318,7 @@ fi
 
 [ -f ~/.ssh/config ] && alias lsssh='grep "^Host " ~/.ssh/config | cut -d" " -f 2- | sort'
 
-alias clean='curl -fsSL https://gist.github.com/nicholaswilde/0a6fe1de26cb8a2c131797e503dcf39f/raw/3ff26340cb0c4009ca795e3cd315212bdd96656b/clean.sh | sudo bash -'
+command_exists curl && alias clean='curl -fsSL https://gist.github.com/nicholaswilde/0a6fe1de26cb8a2c131797e503dcf39f/raw/3ff26340cb0c4009ca795e3cd315212bdd96656b/clean.sh | sudo bash -'
 
 if command_exists ansible-inventory; then
   alias ai='ansible-inventory'
