@@ -5,8 +5,8 @@
 - [x] Task: Define `STOW_PACKAGES` in `Taskfile.yaml` to read from the `.stow-packages` file. [5987e2b]
 - [x] Task: Refactor loop inside the `test` task. [e98e405]
 - [x] Task: Refactor loop inside the `install` task. [e598568]
-- [~] Task: Refactor loop inside the `restow` task.
-- [ ] Task: Refactor loop inside the `delete` task.
+- [x] Task: Refactor loop inside the `restow` task. [707a666]
+- [~] Task: Refactor loop inside the `delete` task.
 
 ## Phase 2: Documentation
 - [ ] Task: Update the root `README.md` to explain `.stow-packages` usage, package structure, and how to add new configs.
