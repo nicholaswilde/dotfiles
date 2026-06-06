@@ -3,6 +3,7 @@
 ## Definition
 - [Product Definition](./product.md)
 - [Product Guidelines](./product-guidelines.md)
+- [Agent Guidelines](./AGENTS.md)
 - [Tech Stack](./tech-stack.md)
 
 ## Workflow

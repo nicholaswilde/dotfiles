@@ -4,7 +4,7 @@
 
 - **Voice:** Clear, informative, and technical.
 - **Clarity:** Code comments, commit messages, and documentation must be precise, concise, and easy to understand.
-- **Structure:** Use structured markdown lists and headings. When describing bash functions, include the docstring after the opening curly brace (as specified in `AGENTS.md`).
+- **Structure:** Use structured markdown lists and headings. When describing bash functions, include the docstring after the opening curly brace (as specified in [AGENTS.md](./AGENTS.md)).
 
 ## Visual Identity
 
