@@ -1,0 +1,38 @@
+name: Test Installation Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout dotfiles repository
+      uses: actions/checkout@v4
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y stow
+
+    - name: Install go-task
+      run: |
+        sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+
+    - name: Create Mock Decrypted Secrets (Strategy 1)
+      run: |
+        # Create empty placeholder files so task install succeeds
+        mkdir -p bash antigravity/.antigravity antigravity-cli/.gemini/antigravity-cli
+        echo "DUMMY_TOKEN=placeholder_value" > bash/.tokens
+        echo '{"context": {"fileName": "conductor/AGENTS.md"}}' > antigravity/.antigravity/settings.json
+        echo '{"mcpServers": {}}' > antigravity-cli/.gemini/antigravity-cli/mcp_config.json
+
+    - name: Run Stow Installation
+      run: task install
+
+    - name: Run Verification Script
+      run: ./tests/verify.sh
