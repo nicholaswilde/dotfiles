@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Refactor Unstow Script
+## [x] Refactor Unstow Script
 - Link: [./tracks/refactor_unstow_script/](./tracks/refactor_unstow_script/)
 
 ---
