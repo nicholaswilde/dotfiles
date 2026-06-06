@@ -7,8 +7,10 @@
 # It iterates through each stow package directory in the current repository,
 # finds all the files within that package, and removes the corresponding
 # files from the home directory.
+# Note: For native, safer package deletion, use the 'task delete' command
+# which utilizes stow -D.
 #
-# For safety, the script will only print the files it would delete.
+# For safety, this script will only print the files it would delete.
 # To actually delete the files, uncomment the `rm` command below.
 #
 # @author Nicholas Wilde, 0xb299a622
@@ -58,6 +60,7 @@ main() {
     done
 
     echo "Script finished. To actually delete files, you need to uncomment the 'rm' line in the script."
+    echo "RECOMMENDED ALTERNATIVE: Use the native 'task delete' command to safely delete symlinks created by GNU Stow."
 }
 
 main
