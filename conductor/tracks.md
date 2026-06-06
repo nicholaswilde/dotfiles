@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Centralize Stow Package List
+## [x] Centralize Stow Package List
 - Link: [./tracks/centralize_stow_packages/](./tracks/centralize_stow_packages/)
 
 ---
