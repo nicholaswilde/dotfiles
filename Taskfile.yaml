@@ -90,6 +90,10 @@ tasks:
       - rm ~/.config/gh/config.yml
       - rm ~/.antigravity/HOMELAB.md
       - rm ~/.config/gh/config.yml
+  check-secrets:
+    desc: Verify staged files for unencrypted secrets
+    cmds:
+      - ./scripts/check-secrets.sh
   test-integration:
     desc: Run integration test inside a clean Debian Docker container
     cmds:
