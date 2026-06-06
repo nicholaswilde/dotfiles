@@ -26,7 +26,7 @@ This skill automates the process of adding new directories to the `$PATH` enviro
 
 4. **Verify Syntax**:
    - **Step**: Run `bash -n bash/.bash_exports` to ensure no syntax errors were introduced.
-   - **Step**: Run `shellcheck bash/.bash_exports` and address any warnings.
+   - **Step**: Run `shuck bash/.bash_exports` and address any warnings.
 
 5. **Commit Changes**:
    - **Step**: Stage `bash/.bash_exports`.

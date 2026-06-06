@@ -12,7 +12,7 @@ This catalog documents the custom agent skills and commands available in this re
 | `Add Path to Environment Variable` | Safe additions to `$PATH` variable in `bash/.bash_exports`. | [add_path_to_env.md](./antigravity/skills/add_path_to_env.md) |
 | `Manage Bash Aliases` | Add, modify, or remove shell aliases in `bash/.bash_aliases`. | [manage_bash_aliases.md](./antigravity/skills/manage_bash_aliases.md) |
 | `Manage Bash Functions` | Edit functions in `bash/.bash_functions` with required inline docstrings. | [manage_bash_functions.md](./antigravity/skills/manage_bash_functions.md) |
-| `Verify Bash Configs` | Syntax validation, ShellCheck checks, and function comments check. | [verify_bash_configs.md](./antigravity/skills/verify_bash_configs.md) |
+| `Verify Bash Configs` | Syntax validation, shuck checks, and function comments check. | [verify_bash_configs.md](./antigravity/skills/verify_bash_configs.md) |
 
 ---
 

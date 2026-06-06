@@ -13,9 +13,9 @@ This skill performs syntax validation and quality gate checks on bash dotfiles (
      `bash -n bash/<file_name>`
      If any file fails the check, report the syntax error and halt.
 
-2. **Run ShellCheck**:
-   - **Step**: Run `shellcheck` on all shell script files:
-     `shellcheck bash/.bashrc bash/.bash_aliases bash/.bash_exports bash/.bash_functions`
+2. **Run shuck**:
+   - **Step**: Run `shuck` on all shell script files:
+     `shuck bash/.bashrc bash/.bash_aliases bash/.bash_exports bash/.bash_functions`
      Report any warnings or errors. Ensure critical/major errors are resolved before proceeding.
 
 3. **Check Function Documentation**:

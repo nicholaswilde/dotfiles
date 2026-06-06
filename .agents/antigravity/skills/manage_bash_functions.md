@@ -32,7 +32,7 @@ This skill automates the management of bash functions in `bash/.bash_functions`.
 
 5. **Verify Syntax & Quality**:
    - **Step**: Run `bash -n bash/.bash_functions`.
-   - **Step**: Run `shellcheck bash/.bash_functions` and fix any warnings or errors.
+   - **Step**: Run `shuck bash/.bash_functions` and fix any warnings or errors.
 
 6. **Commit Changes**:
    - **Step**: Stage `bash/.bash_functions`.

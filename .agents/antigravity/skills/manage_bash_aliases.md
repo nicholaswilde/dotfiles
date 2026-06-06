@@ -29,7 +29,7 @@ This skill manages additions, modifications, and removals of shell aliases in `b
 
 5. **Verify Syntax**:
    - **Step**: Run `bash -n bash/.bash_aliases` to check for syntax errors.
-   - **Step**: Run `shellcheck bash/.bash_aliases` and address any warnings.
+   - **Step**: Run `shuck bash/.bash_aliases` and address any warnings.
 
 6. **Commit Changes**:
    - **Step**: Stage `bash/.bash_aliases`.

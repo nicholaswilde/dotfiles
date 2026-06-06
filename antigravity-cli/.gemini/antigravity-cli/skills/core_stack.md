@@ -206,9 +206,9 @@ default to these tools and conventions.
       yaml.dump(data, f)
   ```
 
-## 19. Bash Scripting Standards — ShellCheck + Conventions
+## 19. Bash Scripting Standards — shuck + Conventions
 
-* All Bash scripts **must** pass [`shellcheck`](https://github.com/koalaman/shellcheck) with no warnings.
+* All Bash scripts **must** pass [`shuck`](https://github.com/ewhauser/shuck) with no warnings.
 * Required header block (Name, Description, Author, Date, Version) at the top of every script.
 * Shebang: `#!/usr/bin/env bash`.
 * Error handling: `set -e` and `set -o pipefail` at the top.
@@ -216,7 +216,7 @@ default to these tools and conventions.
 * Wrap all logic in a `main "$@"` function called at the bottom.
 * Logging: use a `log "INFO|WARN|ERRO|DEBU" "message"` function with **Catppuccin Mocha** ANSI colors.
 * Paths must be set as variables after option parsing — no bare hardcoded strings in logic.
-* CI: run `shellcheck scripts/*.sh` before committing.
+* CI: run `shuck scripts/*.sh` before committing.
 
 ## 20. Proxmox LXC Scaffolding
 
