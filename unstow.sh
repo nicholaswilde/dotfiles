@@ -26,11 +26,12 @@ if [[ ! -f "Taskfile.yaml" ]]; then
 fi
 
 find_stow_packages() {
-    find . -maxdepth 1 -type d \
-        ! -name '.*' \
-        ! -name '.' \
-        ! -name 'conductor' \
-        -exec basename {} \;
+    if [[ -f ".stow-packages" ]]; then
+        grep -v '^#' .stow-packages | grep -v '^$'
+    else
+        echo "Error: .stow-packages file not found." >&2
+        exit 1
+    fi
 }
 
 main() {
