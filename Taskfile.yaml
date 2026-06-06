@@ -30,6 +30,12 @@ tasks:
     cmds:
       - task: decrypt
       - task: install
+      - task: install-hooks
+  install-hooks:
+    desc: Install git hooks
+    cmds:
+      - mkdir -p .git/hooks
+      - ln -sf ../../scripts/check-secrets.sh .git/hooks/pre-commit
   decrypt:
     desc: Decrypt secrets using SOPS
     preconditions:
