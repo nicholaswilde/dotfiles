@@ -2,8 +2,8 @@
 
 ## Phase 1: Configuration & Refactoring
 - [x] Task: Create `.stow-packages` containing all active package directories (one per line). [8b5c484]
-- [~] Task: Define `STOW_PACKAGES` in `Taskfile.yaml` to read from the `.stow-packages` file.
-- [ ] Task: Refactor loop inside the `test` task.
+- [x] Task: Define `STOW_PACKAGES` in `Taskfile.yaml` to read from the `.stow-packages` file. [5987e2b]
+- [~] Task: Refactor loop inside the `test` task.
 - [ ] Task: Refactor loop inside the `install` task.
 - [ ] Task: Refactor loop inside the `restow` task.
 - [ ] Task: Refactor loop inside the `delete` task.
