@@ -4,6 +4,8 @@ version: '3'
 vars:
   VER: '2.5'
   STOW_ARGS: '-v --adopt -t ~/'
+  STOW_PACKAGES:
+    sh: grep -v '^#' .stow-packages | xargs
 
 tasks:
   update:
