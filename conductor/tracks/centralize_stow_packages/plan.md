@@ -4,8 +4,8 @@
 - [x] Task: Create `.stow-packages` containing all active package directories (one per line). [8b5c484]
 - [x] Task: Define `STOW_PACKAGES` in `Taskfile.yaml` to read from the `.stow-packages` file. [5987e2b]
 - [x] Task: Refactor loop inside the `test` task. [e98e405]
-- [~] Task: Refactor loop inside the `install` task.
-- [ ] Task: Refactor loop inside the `restow` task.
+- [x] Task: Refactor loop inside the `install` task. [e598568]
+- [~] Task: Refactor loop inside the `restow` task.
 - [ ] Task: Refactor loop inside the `delete` task.
 
 ## Phase 2: Documentation
