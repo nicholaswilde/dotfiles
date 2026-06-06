@@ -65,7 +65,7 @@ tasks:
   restow:
     desc: Restow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
+      - for pkg in {{.STOW_PACKAGES}}; do stow -R {{ .STOW_ARGS }} "$pkg"; git restore "$pkg"; done
   delete:
     desc: Delete each dotfile folder individually
     cmds:
