@@ -55,19 +55,19 @@ tasks:
   test:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
   install:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}"; fi; done
   restow:
     desc: Restow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow -R {{ .STOW_ARGS }} "${d%/}"; git restore "${d%/}";fi; done
   delete:
     desc: Delete each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow -D {{ .STOW_ARGS }} "${d%/}"; fi; done
   unstow:
     desc: Run the unstow.sh script to remove stowed files from the home directory
     cmds:
@@ -88,6 +88,10 @@ tasks:
       - rm ~/.config/gh/config.yml
       - rm ~/.antigravity/HOMELAB.md
       - rm ~/.config/gh/config.yml
+  test-integration:
+    desc: Run integration test inside a clean Debian Docker container
+    cmds:
+      - bash tests/run.sh
   default:
     cmds:
       - task -l
