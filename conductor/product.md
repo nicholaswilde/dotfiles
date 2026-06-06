@@ -22,6 +22,7 @@ To create a highly portable, consistent, and secure development environment acro
 - **SOPS Encrypted Secret Management:** Seamless encryption/decryption of files (e.g. `.tokens.enc`, `settings.json.enc`, `mcp_config.json.enc`) using Mozilla SOPS.
 - **Task Runner Integration:** Automated tasks for bootstrapping, updating, decrypting, encrypting, installing, and testing configuration symlinks.
 - **Antigravity CLI Configuration Sync:** First-class support for backing up and stowing Antigravity settings, MCP servers, and custom skills.
+- **Pre-commit Secrets Verification:** Automated pre-commit git hook preventing accidental staging and committing of unencrypted secrets files (e.g. `.tokens`, `settings.json`, and `.env` files).
 
 ## Success Metrics
 
