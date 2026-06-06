@@ -13,4 +13,4 @@
 
 ## Phase 3: Verification
 - [x] Task: Run `task test` to verify no stow errors/conflicts occur. [ae6819e]
-- [~] Task: Run `task test-integration` to verify clean container stowing functions correctly.
+- [x] Task: Run `task test-integration` to verify clean container stowing functions correctly. [be37378]
