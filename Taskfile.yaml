@@ -57,7 +57,7 @@ tasks:
   test:
     desc: Stow each dotfile folder individually
     cmds:
-      - for d in */; do if [[ "$d" != ".git/" && "$d" != ".github/" && "$d" != ".antigravity/" && "$d" != "conductor/" && "$d" != ".agents/" && "$d" != "tests/" ]]; then stow -n {{ .STOW_ARGS }} "${d%/}"; fi; done
+      - for pkg in {{.STOW_PACKAGES}}; do stow -n {{ .STOW_ARGS }} "$pkg"; done
   install:
     desc: Stow each dotfile folder individually
     cmds:
