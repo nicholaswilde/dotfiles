@@ -6,10 +6,10 @@
 - [x] Task: Refactor loop inside the `test` task. [e98e405]
 - [x] Task: Refactor loop inside the `install` task. [e598568]
 - [x] Task: Refactor loop inside the `restow` task. [707a666]
-- [~] Task: Refactor loop inside the `delete` task.
+- [x] Task: Refactor loop inside the `delete` task. [1941aef]
 
 ## Phase 2: Documentation
-- [ ] Task: Update the root `README.md` to explain `.stow-packages` usage, package structure, and how to add new configs.
+- [~] Task: Update the root `README.md` to explain `.stow-packages` usage, package structure, and how to add new configs.
 
 ## Phase 3: Verification
 - [ ] Task: Run `task test` to verify no stow errors/conflicts occur.
