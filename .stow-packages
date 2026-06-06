@@ -1,0 +1,29 @@
+# Centralized Stow Packages List
+# Add new package directories here (one per line).
+# Comments starting with '#' and empty lines are ignored.
+
+# Shell & Core
+bash
+tmux
+ripgrep
+bat
+xclip
+ssh
+gnupg
+
+# Editors & Tools
+nvim
+micro
+gh
+git
+lazygit
+lazydocker
+cheat
+glow
+glamour
+mise
+pvetui
+
+# Agent Configs
+antigravity-cli
+antigravity
