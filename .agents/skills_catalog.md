@@ -4,11 +4,15 @@ This catalog documents the custom agent skills and commands available in this re
 
 ## Table of Commands
 
-| Command | Description | Link |
+| Command / Skill | Description | Link |
 | --- | --- | --- |
 | `/app add <path>` | Adds an application's configuration to the repository and configures GNU Stow. | [Details](#app-add-path) |
 | `/app check-configs` | Scans `~/.config/` and recommends configuration directories to track and back up. | [Details](#app-check-configs) |
 | `/app sync <app_name>` | Commits, pushes local changes, and pulls & restarts services on a Proxmox LXC container. | [Details](#app-sync-app_name) |
+| `Add Path to Environment Variable` | Safe additions to `$PATH` variable in `bash/.bash_exports`. | [add_path_to_env.md](./antigravity/skills/add_path_to_env.md) |
+| `Manage Bash Aliases` | Add, modify, or remove shell aliases in `bash/.bash_aliases`. | [manage_bash_aliases.md](./antigravity/skills/manage_bash_aliases.md) |
+| `Manage Bash Functions` | Edit functions in `bash/.bash_functions` with required inline docstrings. | [manage_bash_functions.md](./antigravity/skills/manage_bash_functions.md) |
+| `Verify Bash Configs` | Syntax validation, ShellCheck checks, and function comments check. | [verify_bash_configs.md](./antigravity/skills/verify_bash_configs.md) |
 
 ---
 
