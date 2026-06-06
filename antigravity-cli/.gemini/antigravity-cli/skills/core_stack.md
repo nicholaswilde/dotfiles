@@ -148,13 +148,14 @@ default to these tools and conventions.
 * Use path-filtered triggers (`paths:`) to avoid unnecessary runs.
 * Scheduled maintenance workflows (e.g. weekly image optimization via Jules) use cron expressions.
 
-## 13. Agent Skills — `.agents/skills/`
+## 13. Agent Skills — `.agents/`
 
 * Project-specific agent skills live in `.agents/skills/<skill-name>.md`.
 * Global/reusable skills live in `~/.gemini/antigravity-cli/skills/`.
+* **Skills Catalog**: Every repository with custom agent skills should maintain a `.agents/skills_catalog.md` detailing the commands, their usage syntax, dependencies, and behavior. This catalog must be linked in the project context index (e.g., `conductor/index.md`) to make it easily discoverable.
 * Skill files must start with a YAML front-matter block (optional) or an H1 heading.
 * Skill sections: `## Description`, `## Protocol` (numbered steps), `## Examples`.
-* Consult `.agents/skills/scripts-registry.md` before writing new automation — prefer existing scripts.
+* Consult `.agents/skills/scripts-registry.md` or the skills catalog before writing new automation — prefer existing scripts and custom commands.
 
 ## 14. Document Parsing — LiteParse
 
