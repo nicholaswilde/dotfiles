@@ -17,6 +17,7 @@ This skill automates the process of adding an existing application's configurati
 2. **Replicate Structure and Copy Files:**
    - **Step:** Create the target stow directory structure at `<workspace-root>/<package_name>/<relative_path_from_home>`.
    - **Step:** Copy the configuration file(s) from the source path to the new stow directory structure.
+   - **Step:** Append the new `<package_name>` on a new line to the centralized `.stow-packages` file at the root of the repository.
 
 3. **Check for Secrets:**
    - **Step:** Ask the user if the configuration files contain any sensitive information (e.g. API keys, passwords, tokens).
