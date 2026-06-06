@@ -2,7 +2,7 @@
 
 ## Phase 1: Script & Task Implementation
 - [x] Task: Create script `scripts/check-secrets.sh` to check staged files. (62d9116)
-- [~] Task: Integrate `check-secrets` command in `Taskfile.yaml`.
+- [x] Task: Integrate `check-secrets` command in `Taskfile.yaml`. (835d3be)
 
 ## Phase 2: Git Hook Setup & Testing
 - [ ] Task: Create a task or document command to symlink/copy `scripts/check-secrets.sh` to `.git/hooks/pre-commit`.
