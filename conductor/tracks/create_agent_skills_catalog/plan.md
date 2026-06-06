@@ -5,4 +5,4 @@
 - [x] Task: Link `.agents/skills_catalog.md` in `conductor/index.md`. (71845a1)
 
 ## Phase 2: Verification
-- [~] Task: Verify links and formatting correctness.
+- [x] Task: Verify links and formatting correctness. (836170f)
