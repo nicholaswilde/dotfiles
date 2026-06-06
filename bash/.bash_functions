@@ -387,6 +387,10 @@ function cpdeg() { ## Copy degree symbol, °
   printf "%s" "°"| copy
 }
 
+function cpip() { ## Copy local IP address to clipboard
+  hostname -I | awk '{print $1}' | tr -d '\n' | copy
+}
+
 if command_exists bw; then
   function bwfind() { ## Find a password using Bitwarden
     bw list items --search $1 | jq '.[] | .name,.login'
