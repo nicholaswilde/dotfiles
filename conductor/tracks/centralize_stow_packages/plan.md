@@ -9,8 +9,8 @@
 - [x] Task: Refactor loop inside the `delete` task. [1941aef]
 
 ## Phase 2: Documentation
-- [~] Task: Update the root `README.md` to explain `.stow-packages` usage, package structure, and how to add new configs.
+- [x] Task: Update the root `README.md` to explain `.stow-packages` usage, package structure, and how to add new configs. [7620ef0]
 
 ## Phase 3: Verification
-- [ ] Task: Run `task test` to verify no stow errors/conflicts occur.
+- [~] Task: Run `task test` to verify no stow errors/conflicts occur.
 - [ ] Task: Run `task test-integration` to verify clean container stowing functions correctly.
