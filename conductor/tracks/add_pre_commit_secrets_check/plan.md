@@ -6,4 +6,4 @@
 
 ## Phase 2: Git Hook Setup & Testing
 - [x] Task: Create a task or document command to symlink/copy `scripts/check-secrets.sh` to `.git/hooks/pre-commit`. (2362233)
-- [~] Task: Verify hook execution by staging a mock decrypted file (e.g. `settings.json`) and trying to commit it.
+- [x] Task: Verify hook execution by staging a mock decrypted file (e.g. `settings.json`) and trying to commit it. (75a32ff)
