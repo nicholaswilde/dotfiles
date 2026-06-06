@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Add Pre-Commit Hook for Secrets Verification
+## [~] Add Pre-Commit Hook for Secrets Verification
 - Link: [./tracks/add_pre_commit_secrets_check/](./tracks/add_pre_commit_secrets_check/)
 
 ---
