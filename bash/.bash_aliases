@@ -354,3 +354,7 @@ fi
 if command_exists agy; then
   alias agy='agy --dangerously-skip-permissions'
 fi
+
+if command_exists minijinja-cli; then
+  alias jinja2='minijinja-cli'
+fi
