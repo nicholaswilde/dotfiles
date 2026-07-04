@@ -118,10 +118,13 @@ default to these tools and conventions.
 
 ## 10. GitHub CLI — `gh`
 
-* **Always** use `gh` to view, monitor, and debug remote GitHub Actions workflow runs.
-* Pipe all `gh` commands to `cat` to bypass interactive paging: `gh run list --limit 10 | cat`
+* **Always** use `gh` when interacting with the remote repository (e.g., cloning, managing issues/PRs, monitoring workflows).
+* **Always** pipe all `gh` commands to `cat` to bypass interactive paging, prompts, and other user interactions: `gh <command> | cat`
 * Key commands:
   ```bash
+  gh repo clone <owner>/<repo> | cat    # clone a remote repository
+  gh pr list | cat                      # list pull requests
+  gh pr create | cat                    # create a pull request without interactive prompt
   gh run list --limit 10 | cat          # recent workflow runs
   gh run view <run-id> | cat            # details of a specific run
   gh run view --log --job=<job-id> | cat  # full logs for a failed job
