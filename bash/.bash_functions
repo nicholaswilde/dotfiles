@@ -511,6 +511,12 @@ if command_exists rsync && command_exists unzip; then
       return 1
     fi
 
+    if [ ! -w "${usb_dir}" ]; then
+      echo "Error: Target directory '${usb_dir}' is not writable by current user ($(whoami))." >&2
+      echo "If this is a mounted USB drive, mount it with user ownership (e.g. 'sudo mount -o uid=\$(id -u),gid=\$(id -g) /dev/sda ${usb_dir}')." >&2
+      return 1
+    fi
+
     local temp_dir
     temp_dir=$(mktemp -d -t "photo_frame_sync.XXXXXXXXXX") || return 1
     # shellcheck disable=SC2064
@@ -529,7 +535,10 @@ if command_exists rsync && command_exists unzip; then
     fi
 
     echo "Syncing photos from '${src_dir}' to '${usb_dir}'..."
-    rsync -rtvh --modify-window=2 --update --progress "${src_dir}/" "${usb_dir}/"
+    if ! rsync -rtvh --modify-window=2 --update --progress "${src_dir}/" "${usb_dir}/"; then
+      echo "Error: rsync encountered errors during transfer." >&2
+      return 1
+    fi
     echo "Photo frame sync completed successfully."
   }
 fi
