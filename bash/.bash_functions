@@ -540,27 +540,34 @@ if command_exists rsync && command_exists unzip && command_exists heif-convert; 
     done < <(find "${src_dir}" -type f \( -iname "*.heic" -o -iname "*.heif" \) -print0)
 
     if [ "${#heic_files[@]}" -gt 0 ]; then
-      echo "Found ${#heic_files[@]} HEIC/HEIF image(s). Converting to JPEG..."
+      echo "Found ${#heic_files[@]} HEIC/HEIF image(s). Processing..."
       local converted_names=()
       for f in "${heic_files[@]}"; do
         local base_no_ext="${f%.*}"
         local target_jpg="${base_no_ext}.jpg"
         local rel_name="${f#"${src_dir}"/}"
 
-        # If file already has JPEG magic bytes (misnamed as HEIC), rename directly
-        if command_exists xxd && [ "$(xxd -p -l 3 "${f}")" = "ffd8ff" ]; then
-          mv "${f}" "${target_jpg}"
+        if [ -f "${target_jpg}" ]; then
+          # A JPEG version already exists in the archive, remove the redundant HEIC file
+          rm -f "${f}"
+          converted_names+=("${rel_name} (JPEG already exists; removed redundant HEIC)")
+        elif command_exists xxd && [ "$(xxd -p -l 3 "${f}")" = "ffd8ff" ]; then
+          # File already has JPEG magic bytes (misnamed as HEIC), rename directly
+          \mv -f "${f}" "${target_jpg}"
+          converted_names+=("${rel_name} (renamed to .jpg)")
         else
-          heif-convert -q 90 --quiet "${f}" "${target_jpg}" || {
+          # True HEIC/HEIF file needing decoding
+          if heif-convert -q 90 --quiet "${f}" "${target_jpg}"; then
+            rm -f "${f}"
+            converted_names+=("${rel_name} (converted to .jpg)")
+          else
             echo "Warning: Failed to convert '${rel_name}'" >&2
             continue
-          }
-          rm -f "${f}"
+          fi
         fi
-        converted_names+=("${rel_name}")
       done
 
-      echo "HEIC source images converted to JPEG:"
+      echo "HEIC source images processed:"
       for name in "${converted_names[@]}"; do
         echo "  - ${name}"
       done
