@@ -492,7 +492,7 @@ if command_exists rsync && command_exists unzip; then
   function update_photo_frame() { ## Extract photos from zip and rsync to USB drive
     check_args "update_photo_frame <zip_path> [usb_dir]" "${1}" || return 1
     local zip_file="${1}"
-    local usb_dir="${2:-/dev/ttyUSB0}"
+    local usb_dir="${2:-/media/usb}"
 
     if [ ! -f "${zip_file}" ]; then
       echo "Error: Zip file '${zip_file}' does not exist." >&2
@@ -501,8 +501,8 @@ if command_exists rsync && command_exists unzip; then
 
     if [ -b "${usb_dir}" ] || [ -c "${usb_dir}" ] || [[ "${usb_dir}" =~ ^/dev/ ]]; then
       echo "Error: '${usb_dir}' is a device node. rsync requires a mounted directory path." >&2
-      echo "If using a USB thumb drive (e.g. /dev/sda), mount it first (e.g. 'sudo mount /dev/sda /media/sd') and pass the mount point:" >&2
-      echo "  update_photo_frame \"${zip_file}\" /media/sd" >&2
+      echo "If using a USB thumb drive (e.g. /dev/sda), mount it first (e.g. 'sudo mount /dev/sda /media/usb') and pass the mount point:" >&2
+      echo "  update_photo_frame \"${zip_file}\" /media/usb" >&2
       return 1
     fi
 
