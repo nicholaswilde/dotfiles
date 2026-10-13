@@ -487,3 +487,49 @@ if command_exists tree; then
     tree -a -I '.git|node_modules|bower_components|.DS_Store' --dirsfirst "$@" | less -FRX
   }
 fi
+
+if command_exists rsync && command_exists unzip; then
+  function update_photo_frame() { ## Extract new photos and rsync to USB drive
+    local usb_dir="${1:-/dev/ttyUSB0}"
+    local zip_file="${2:-${HOME}/Digital Photo Frame 2-1-001.zip}"
+
+    if [ ! -f "${zip_file}" ]; then
+      echo "Error: Zip file '${zip_file}' does not exist." >&2
+      return 1
+    fi
+
+    if [ -b "${usb_dir}" ] || [ -c "${usb_dir}" ] || [[ "${usb_dir}" =~ ^/dev/ ]]; then
+      echo "Error: '${usb_dir}' is a device node. rsync requires a mounted directory path." >&2
+      echo "If using a USB thumb drive (e.g. /dev/sda), mount it first (e.g. 'sudo mount /dev/sda /media/sd') and pass the mount point:" >&2
+      echo "  update_photo_frame /media/sd" >&2
+      return 1
+    fi
+
+    if [ ! -d "${usb_dir}" ]; then
+      echo "Error: Target directory '${usb_dir}' does not exist." >&2
+      return 1
+    fi
+
+    local temp_dir
+    temp_dir=$(mktemp -d -t "photo_frame_sync.XXXXXXXXXX") || return 1
+    # shellcheck disable=SC2064
+    trap 'rm -rf "${temp_dir}"' RETURN
+
+    echo "Extracting '${zip_file}' to temporary directory..."
+    unzip -q "${zip_file}" -d "${temp_dir}" || {
+      echo "Error: Failed to extract zip file." >&2
+      return 1
+    }
+
+    local src_dir="${temp_dir}"
+    local subdirs=("${temp_dir}"/*)
+    if [ "${#subdirs[@]}" -eq 1 ] && [ -d "${subdirs[0]}" ]; then
+      src_dir="${subdirs[0]}"
+    fi
+
+    echo "Syncing photos from '${src_dir}' to '${usb_dir}'..."
+    rsync -rtvh --modify-window=2 --update --progress "${src_dir}/" "${usb_dir}/"
+    echo "Photo frame sync completed successfully."
+  }
+fi
+
