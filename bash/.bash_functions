@@ -488,8 +488,8 @@ if command_exists tree; then
   }
 fi
 
-if command_exists rsync && command_exists unzip; then
-  function update_photo_frame() { ## Extract photos from zip and rsync to USB drive
+if command_exists rsync && command_exists unzip && command_exists heif-convert; then
+  function update_photo_frame() { ## Extract photos from zip, convert HEIC, and rsync to USB drive
     check_args "update_photo_frame <zip_path> [usb_dir]" "${1}" || return 1
     local zip_file="${1}"
     local usb_dir="${2:-/media/usb}"
@@ -532,6 +532,38 @@ if command_exists rsync && command_exists unzip; then
     local subdirs=("${temp_dir}"/*)
     if [ "${#subdirs[@]}" -eq 1 ] && [ -d "${subdirs[0]}" ]; then
       src_dir="${subdirs[0]}"
+    fi
+
+    local heic_files=()
+    while IFS= read -r -d '' f; do
+      heic_files+=("${f}")
+    done < <(find "${src_dir}" -type f \( -iname "*.heic" -o -iname "*.heif" \) -print0)
+
+    if [ "${#heic_files[@]}" -gt 0 ]; then
+      echo "Found ${#heic_files[@]} HEIC/HEIF image(s). Converting to JPEG..."
+      local converted_names=()
+      for f in "${heic_files[@]}"; do
+        local base_no_ext="${f%.*}"
+        local target_jpg="${base_no_ext}.jpg"
+        local rel_name="${f#"${src_dir}"/}"
+
+        # If file already has JPEG magic bytes (misnamed as HEIC), rename directly
+        if command_exists xxd && [ "$(xxd -p -l 3 "${f}")" = "ffd8ff" ]; then
+          mv "${f}" "${target_jpg}"
+        else
+          heif-convert -q 90 --quiet "${f}" "${target_jpg}" || {
+            echo "Warning: Failed to convert '${rel_name}'" >&2
+            continue
+          }
+          rm -f "${f}"
+        fi
+        converted_names+=("${rel_name}")
+      done
+
+      echo "HEIC source images converted to JPEG:"
+      for name in "${converted_names[@]}"; do
+        echo "  - ${name}"
+      done
     fi
 
     echo "Syncing photos from '${src_dir}' to '${usb_dir}'..."
