@@ -9,9 +9,9 @@ if [ ! -f .agents/skills_catalog.md ]; then
   exit 1
 fi
 
-# Check that conductor/index.md contains a link to it
-if ! grep -q "\[Agent Skills Catalog\](\.\./\.agents/skills_catalog\.md)" conductor/index.md; then
-  echo "FAIL: conductor/index.md does not contain correct link to skills_catalog.md"
+# Check that .agents/conductor/index.md contains a link to it
+if ! grep -q "\[Agent Skills Catalog\](\.\./skills_catalog\.md)" .agents/conductor/index.md; then
+  echo "FAIL: .agents/conductor/index.md does not contain correct link to skills_catalog.md"
   exit 1
 fi
 

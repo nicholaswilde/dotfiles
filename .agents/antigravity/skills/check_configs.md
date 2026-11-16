@@ -12,7 +12,7 @@ This skill automates the detection of unstowed configuration files inside the us
    
 2. **Identify Repo Stow Packages:**
    - **Step:** List the subdirectories at the root of the dotfiles repository.
-   - **Step:** Exclude system, Git, and helper folders (e.g. `.git/`, `.github/`, `.agents/`, `conductor/`, `tests/`, `unstow.sh`). These represent your stowed package list.
+   - **Step:** Exclude system, Git, and helper folders (e.g. `.git/`, `.github/`, `.agents/`, `tests/`, `unstow.sh`). These represent your stowed package list.
 
 3. **Compare and Analyze:**
    - **Step:** Cross-reference the system configurations found in `~/.config/` with the dotfiles packages.

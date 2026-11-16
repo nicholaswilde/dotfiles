@@ -1,28 +1,35 @@
 # :package: dotfiles :floppy_disk:
+
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/#/)
 
-A dotfiles repo using stow.
+Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/),
+[SOPS](https://getsops.io/), [Task](https://taskfile.dev/), and Bash.
 
 ---
 
 ## :rocket: TL;DR
 
 > [!WARNING]
-> The following command will restore any modified files in the stow packages!
+> `task install` and `task restow` run `stow --adopt` followed by `git restore`
+> on stowed packages, reverting modified tracked files in those packages.
 
 ```shell
-task install
+task bootstrap   # Decrypt secrets, stow packages, and install git hooks
+task test        # Dry-run stow across all packages in .stow-packages
+task install     # Stow all packages into ~/
 ```
 
 ---
 
 ## :gear: Config
 
-### :key: Encryption
+### :key: Encryption & Secrets
 
-Unencrypt the `.tokens` file using [SOPS](https://getsops.io/) and [Task](https://taskfile.dev/).
+Secrets and token environment variables belong in `bash/.tokens` (never in
+`bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext app configs).
+Decrypt `bash/.tokens.enc` using SOPS and Task:
 
-```
+```shell
 task decrypt
 ```
 
@@ -30,78 +37,100 @@ task decrypt
 sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
 ```
 
-### Ignore Files
+After updating `bash/.tokens`, always re-encrypt `bash/.tokens.enc`:
 
-To ignore files that stow processes (e.g. `.tokens.enc`), add a `.stow-local-ignore` file to the package directory.
+```shell
+task encrypt
+```
 
-To ignore files that are commited to the dotfiles repo (e.g. `.tokens`), add to `.gitignore`.
+Install the pre-commit hook and verify staged files contain no plaintext
+secrets:
 
-### Packages Configuration
+```shell
+task install-hooks
+task check-secrets
+```
 
-The list of active Stow packages is centralized in the `.stow-packages` file at the root of the repository:
+### :no_entry_sign: Ignore Files
 
-- Each line represents a package directory that will be processed by GNU Stow.
-- Lines starting with `#` and empty lines are ignored as comments.
-- Both `Taskfile.yaml` tasks (e.g., `task install`, `task test`, `task restow`, `task delete`) and helper scripts dynamically read from `.stow-packages` to determine the scope of operations.
+- Add a `.stow-local-ignore` file (Perl regexes, e.g. `\.enc$`) to a package
+  directory to skip files when stowing (`task create-ignore -- <package>`).
+- Add plaintext secret paths (e.g. `.tokens`) to `.gitignore` so they are never
+  committed to the repository.
+
+### :open_file_folder: Packages Configuration
+
+Active Stow packages are listed in [`.stow-packages`](./.stow-packages) (26
+packages: `bash`, `tmux`, `ripgrep`, `bat`, `xclip`, `ssh`, `gnupg`, `nvim`,
+`micro`, `gh`, `git`, `lazygit`, `lazydocker`, `cheat`, `glow`, `glamour`,
+`mise`, `pvetui`, `btop`, `rtk`, `tfa`, `gopass`, `eget`, `systemd`,
+`neofetch`, `rustscan`):
+
+- Each line represents a package directory processed by GNU Stow.
+- Lines starting with `#` and empty lines are ignored.
+- `Taskfile.yaml` tasks (`task install`, `task restow`, `task test`,
+  `task delete`) and `unstow.sh` read directly from `.stow-packages`.
 
 To add a new package:
-1. Create your package folder at the root (e.g. `my_new_app/`).
-2. Add its folder name to the `.stow-packages` registry file on a new line.
-3. Run `task install` to create the symlinks in your home directory.
+
+1. Create `<package>/` replicating the `$HOME`-relative path.
+2. Add `<package>` to `.stow-packages`.
+3. Dry-run with `task test`, then apply with `task install` (or
+   `stow -v -t ~/ <package>`).
 
 ### :cat: Terminal Colors
 
-The `.catppuccin_active` file acts as a flag to activate Catppuccin color settings for `whiptail` through `.bash_exports`. If this file exists, `whiptail` will use a high-contrast Catppuccin Mocha color scheme for better readability.
-
+The `.catppuccin_active` file acts as a flag to activate high-contrast
+Catppuccin Mocha color settings for `whiptail` through `bash/.bash_exports`.
 
 ---
 
 ## :pencil: Usage
 
 > [!WARNING]
-> Using the `reload` alias may add and commit sensative data if not specified in a `.stow-local-ignore` file!
+> Using the `reload` alias may add and commit sensitive data if not excluded in
+> `.stow-local-ignore` and `.gitignore`.
 
-Stow the `bash` package
-
-```shell
-stow -v -t ~/ bash
-```
-
-Stow the `bash` package as a test
+Common Stow and Task commands:
 
 ```shell
-stow -n -v -t ~/ bash
+task bootstrap         # Decrypt secrets, stow packages, install hooks
+task update            # Pull main, update assets, decrypt, restow, reload shell
+task restow            # Restow all packages from .stow-packages
+task test              # Dry-run stow across .stow-packages
+task test-integration  # Run Debian Docker integration test (tests/run.sh)
 ```
 
-Unstow the `bash` package
+Manage a single package (e.g. `bash`):
 
 ```shell
-stow -D -v -t ~/ bash
+stow -v -t ~/ bash     # Stow package
+stow -n -v -t ~/ bash  # Dry-run package
+stow -D -v -t ~/ bash  # Unstow package
+stow -R -v -t ~/ bash  # Restow package
 ```
 
-Restow the `bash` package
+Bash helper aliases and functions:
 
 ```shell
-stow -R -v -t ~/ bash
+gpd      # Pull dotfiles main branch
+lf       # List bash functions
+aliases  # List bash aliases
 ```
 
-Update local files
+---
 
-```shell
-gpd
-```
+## :robot: AI Agents & Skills
 
-List functions
+Repository rules and custom agent skills are defined in [`AGENTS.md`](./AGENTS.md)
+and [`.agents/skills_catalog.md`](./.agents/skills_catalog.md):
 
-```shell
-lf
-```
-
-List aliases
-
-```shell
-aliases
-```
+- **Rules**: [`.agents/rules/dotfiles-rules.md`](./.agents/rules/dotfiles-rules.md)
+  (binary `command_exists` guards in `bash/`, `.tokens` secret routing, Stow
+  conventions).
+- **Skills**: `add-app`, `add-path-to-env`, `app-sync`, `check-configs`,
+  `check-secrets`, `manage-bash-aliases`, `manage-bash-completions`,
+  `manage-bash-exports`, `manage-bash-functions`, `verify-bash-configs`.
 
 ---
 
@@ -109,60 +138,17 @@ aliases
 
 Inspiration for this repository has been taken from [jessfraz/dotfiles][2].
 
-## 🤖 AI Agents & Global Skills
-
-This repository adheres to the global **Core Stack & Workflow Standards** (`core_stack`). If you are using an AI coding assistant (like Antigravity) to bootstrap or manage this repository, you can use the following prompts:
-
-### Bootstrapping a New Repository
-
-To configure a new repository to use the same standards as this one:
-
-```text
-Please read the global core stack standards from `~/.gemini/antigravity-cli/skills/core_stack.md` and configure this new repository to conform to them. 
-
-Specifically, initialize the standard files for the project (such as a root `Taskfile.yaml`, `.yamllint`, `.markdownlint.yaml`, `lychee.toml`, and `.sops.yaml`) using the canonical layouts defined in the skill.
-```
-
-### Scanning & Updating Global Standards
-
-To scan this repository and import any new tools or patterns back into the global `core_stack.md`:
-
-```text
-Scan this repository for tools, conventions, and patterns used across the project.
-Look at (at minimum):
-- Taskfile.yaml / Makefile / package.json scripts
-- .github/workflows/*.yaml (CI tools, linters, actions used)
-- pyproject.toml / Cargo.toml / go.mod / package.json (language runtimes and deps)
-- dotfiles: .markdownlint*, .yamllint*, .eslintrc*, .prettierrc*, .editorconfig, etc.
-- Config files: lychee.toml, _typos.toml, .sops.yaml, lefthook.yml, etc.
-- .agents/skills/ (existing project skills)
-- scripts/ or bin/ directories
-- README or docs referencing tooling
-
-Then:
-1. Read the existing `~/.gemini/antigravity-cli/skills/core_stack.md`.
-2. Identify any tools or conventions in this repo that are NOT already documented there.
-3. For each new finding, add a new numbered section following the existing format:
-   - Section heading: `## N. Tool Name — \`command\``
-   - Bullet: what it does, when to prefer it
-   - Canonical config snippet (if applicable)
-   - Task/command examples
-4. Do NOT duplicate or overwrite existing sections — only append or enrich them.
-5. Write the updated file back to `~/.gemini/antigravity-cli/skills/core_stack.md`.
-6. Report a summary table of what was added vs. what was already present.
-```
-
 ---
 
 ## :balance_scale: License
 
-​[Apache License 2.0](./LICENSE)
+[Apache License 2.0](./LICENSE)
 
 ---
 
 ## :pencil: Author
 
-​This project was started in 2025 by [Nicholas Wilde][1].
+This project was started in 2025 by [Nicholas Wilde][1].
 
 [1]: https://github.com/nicholaswilde/
 [2]: https://github.com/jessfraz/dotfiles

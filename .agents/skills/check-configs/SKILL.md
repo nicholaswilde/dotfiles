@@ -13,7 +13,7 @@ Scans `~/.config/` and compares against tracked Stow packages in `dotfiles`.
    - List top-level entries in `~/.config/`.
 
 2. **Identify Tracked Packages**:
-   - Read `.stow-packages` and inspect package `.config/` directories in repo root (excluding `.git/`, `.github/`, `.agents/`, `conductor/`, `scripts/`, `tests/`).
+   - Read `.stow-packages` and inspect package `.config/` directories in repo root (excluding `.git/`, `.github/`, `.agents/`, `scripts/`, `tests/`).
 
 3. **Cross-Reference & Filter**:
    - Flag `~/.config/<name>` entries without a matching Stow package.

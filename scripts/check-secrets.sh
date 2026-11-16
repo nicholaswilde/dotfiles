@@ -4,8 +4,6 @@ set -euo pipefail
 # Forbidden exact paths
 forbidden_exact=(
   "bash/.tokens"
-  "antigravity/.antigravity/settings.json"
-  "antigravity-cli/.gemini/antigravity-cli/mcp_config.json"
 )
 
 # Get all staged files (Added, Copied, Modified)

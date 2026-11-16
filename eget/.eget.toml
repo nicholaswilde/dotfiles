@@ -1,0 +1,6 @@
+[global]
+  target = "~/.local/bin"
+  upgrade_only = true
+
+["rvben/rumdl"]
+  asset_filters = [ "gnu" ]

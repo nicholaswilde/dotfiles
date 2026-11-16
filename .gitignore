@@ -1,18 +1,11 @@
 .tokens
 **/google_account_id
 **/installation_id
-.antigravity/tmp
 **/oauth_creds.json
 **/.config/micro/buffers
 **/.config/tmux/plugins
 *.swp
-antigravity/.antigravity/tmp/
-antigravity/.antigravity/settings.json.orig
-antigravity/.antigravity/google_accounts.json
-antigravity/.antigravity/state.json
-antigravity/.antigravity/settings.json
 *.log
-antigravity-cli/.gemini/antigravity-cli/mcp_config.json
 
 # Agentic Stack & MCP Caches
 .codegraph/
@@ -21,6 +14,7 @@ antigravity-cli/.gemini/antigravity-cli/mcp_config.json
 !.rtk/filters.toml
 .agents/*
 !.agents/antigravity/
+!.agents/conductor/
 !.agents/skills/
 !.agents/rules/
 !.agents/skills_catalog.md

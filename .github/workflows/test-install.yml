@@ -26,10 +26,8 @@ jobs:
     - name: Create Mock Decrypted Secrets (Strategy 1)
       run: |
         # Create empty placeholder files so task install succeeds
-        mkdir -p bash antigravity/.antigravity antigravity-cli/.gemini/antigravity-cli
+        mkdir -p bash
         echo "DUMMY_TOKEN=placeholder_value" > bash/.tokens
-        echo '{"context": {"fileName": "conductor/AGENTS.md"}}' > antigravity/.antigravity/settings.json
-        echo '{"mcpServers": {}}' > antigravity-cli/.gemini/antigravity-cli/mcp_config.json
 
     - name: Run Stow Installation
       run: task install

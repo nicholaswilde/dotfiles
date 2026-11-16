@@ -1,0 +1,6 @@
+[mounts]
+	path = ~/.password-store
+[recipients]
+	hash = a284560232c955cd01f036e563fc10911fda9bd44e4e7e386748f97920e1a544
+[show]
+	fuzzysearch = true

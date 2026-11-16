@@ -1,0 +1,5 @@
+storage = "age"
+password = false
+password_timeout = 300
+age_key = "~/.config/sops/age/keys.txt"
+clip_command = "copy"

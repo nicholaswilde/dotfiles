@@ -1,5 +1,0 @@
-# \.antigravity/google_accounts.json
-# \.antigravity/state.json
-# \.antigravity/settings\.json\.enc$
-.*\.enc
-.*/state\.json

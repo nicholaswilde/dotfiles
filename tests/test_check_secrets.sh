@@ -55,8 +55,6 @@ assert_exit_code 0 "micro/.config/micro/settings.json" "Staged public settings.j
 
 # 2. Test forbidden files fail (exit code 1 or similar non-zero)
 assert_exit_code 1 "bash/.tokens" "Staged bash/.tokens"
-assert_exit_code 1 "antigravity/.antigravity/settings.json" "Staged antigravity settings.json"
-assert_exit_code 1 "antigravity-cli/.gemini/antigravity-cli/mcp_config.json" "Staged antigravity-cli mcp_config.json"
 assert_exit_code 1 "some/folder/.env" "Staged .env file"
 
 echo "=== All check-secrets.sh tests passed! ==="

@@ -152,10 +152,11 @@ Track features and bugs via remote GitHub issues (`rtk gh issue ... | cat`), not
 
 NEVER commit or stage unencrypted secrets, credentials, tokens, keys, or PII:
 
-1. **SOPS Encryption**: Encrypt sensitive files using `task encrypt` (never `sops -i` or `--in-place`). Decrypt locally via `task decrypt`.
-2. **Pre-Commit Guard**: Run `task check-secrets` (`./scripts/check-secrets.sh`) and install hook via `task install-hooks`.
-3. **Ignore Files**: Add plaintext secret paths to `.gitignore` and package `.stow-local-ignore` (`task create-ignore -- <package>`). Commit only `.enc` files.
-4. **Explicit Staging**: Never use blanket staging (`git add .` or `git add -A`) when untracked secret files exist; stage explicitly by name and inspect `rtk git diff --staged`.
+1. **Secret & Token Env Vars**: Always place tokens, API keys, passwords, and secret env vars in `bash/.tokens` (`export VAR="..."`), never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Decrypt first via `task decrypt` if needed, edit `bash/.tokens`, and immediately re-encrypt `bash/.tokens.enc` via `task encrypt` so the tracked file stays encrypted.
+2. **SOPS Encryption**: Encrypt sensitive files using `task encrypt` (never `sops -i` or `--in-place`). Decrypt locally via `task decrypt`.
+3. **Pre-Commit Guard**: Run `task check-secrets` (`./scripts/check-secrets.sh`) and install hook via `task install-hooks`.
+4. **Ignore Files**: Add plaintext secret paths to `.gitignore` and package `.stow-local-ignore` (`task create-ignore -- <package>`). Commit only `.enc` files.
+5. **Explicit Staging**: Never use blanket staging (`git add .` or `git add -A`) when untracked secret files exist; stage explicitly by name and inspect `rtk git diff --staged`.
 <!-- sensitive-information-protection-end -->
 
 ---
@@ -178,8 +179,8 @@ Personal dotfiles managed with **GNU Stow**, **SOPS**, **Task** (`Taskfile.yaml`
 
 - **Stow Packages**: Replicate target relative path under `<package>/` (e.g., `<pkg>/.config/<app>/config`) and register `<pkg>` in `.stow-packages`.
 - **Stow Ignore**: `.stow-local-ignore` uses Perl regexes (`/` matches package-relative path; no `/` matches basename; e.g., `\.enc$`).
-- **Bash Aliases & Functions**:
-  - Guard optional tools/paths with `command_exists`, `file_exists`, `dir_exists`, or `test -d`.
+- **Bash Configs (Aliases, Functions, Completions, Exports)**:
+  - Always guard new entries for external binaries (aliases, functions, completions, hooks, evals) with `command_exists <bin>` first (e.g., `if command_exists direnv; then eval "$(direnv hook bash)"; fi`), and paths with `file_exists`, `dir_exists`, or `test -d`.
   - Functions in `bash/.bash_functions` require inline `## <description>` docstring on opening `{` line and `local` variable scoping.
-  - Validate shell files with `bash -n <file>` and `shuck <file>`.
+  - Validate shell files with `bash -n <file>` and `shuck check <file>`.
 - **README Formatting**: Include emoji shortcodes in headings (e.g., `## :gear: Config`).

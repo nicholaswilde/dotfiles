@@ -11,16 +11,26 @@ Repository conventions for `dotfiles` (GNU Stow, SOPS, Task, Bash).
 
 ## Secrets & SOPS
 
-- Never commit plaintext `.tokens`, `.env`, `antigravity/.antigravity/settings.json`, or `antigravity-cli/.gemini/antigravity-cli/mcp_config.json`.
+- **Secret & Token Env Vars (`bash/.tokens`)**: Always place secret, token, API key, and password environment variables in `bash/.tokens` (`export VAR="..."`) — never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Keep `bash/.tokens.enc` always encrypted and in sync: run `task decrypt` (if `bash/.tokens` absent), update `bash/.tokens`, then immediately run `task encrypt`.
+- Never commit plaintext `.tokens` or `.env`.
 - Encrypt with `task encrypt` and decrypt with `task decrypt` (never `sops -i` / `--in-place`).
 - Run `task check-secrets` (`./scripts/check-secrets.sh`) before commits; install pre-commit hook via `task install-hooks`.
 
 ## Bash Configuration Standards
 
+- **Binary Guards (All Bash Files)**: Always guard new aliases, functions, completions, hooks, and tool-specific exports in `bash/.bash_aliases`, `bash/.bash_functions`, `bash/.bash_completions`, `bash/.bash_exports`, and `bash/.bashrc` by checking the binary is installed first with `command_exists`:
+
+  ```bash
+  if command_exists direnv; then
+    eval "$(direnv hook bash)"
+  fi
+  ```
+
 - **Path Exports (`bash/.bash_exports`)**: Guard new `$PATH` entries with `test -d`.
 - **Aliases (`bash/.bash_aliases`)**: Wrap optional commands/paths in `command_exists`, `file_exists`, `dir_exists`, or `test -d`.
 - **Functions (`bash/.bash_functions`)**: Require inline `## <description>` docstring on declaration `{` line, `local` variables, and `command_exists` guards for optional tools.
-- **Validation**: Verify edits with `bash -n <file>` and `shuck <file>`.
+- **Completions & Hooks (`bash/.bash_completions`)**: Wrap every completion/hook/eval block in `if command_exists <cmd>; then ... fi` (or file/dir check when sourcing a path).
+- **Validation**: Verify edits with `bash -n <file>` and `shuck check <file>`.
 
 ## Git & Documentation
 

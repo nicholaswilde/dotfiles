@@ -12,8 +12,6 @@ declare -A EXPECTED_LINKS=(
     ["$HOME_DIR/.bashrc"]="$REPO_ROOT/bash/.bashrc"
     ["$HOME_DIR/.bash_aliases"]="$REPO_ROOT/bash/.bash_aliases"
     ["$HOME_DIR/.config/micro/settings.json"]="$REPO_ROOT/micro/.config/micro/settings.json"
-    ["$HOME_DIR/.gemini/antigravity-cli/settings.json"]="$REPO_ROOT/antigravity-cli/.gemini/antigravity-cli/settings.json"
-    ["$HOME_DIR/.antigravity/settings.json"]="$REPO_ROOT/antigravity/.antigravity/settings.json"
 )
 
 failed=0

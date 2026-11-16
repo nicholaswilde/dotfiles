@@ -462,16 +462,19 @@ if command_exists python3 || command_exists python; then
   }                                                                                                                                                                                                             
 fi                                                                                                                                                                                                              
                                                                                                                                                                                                                
-if command_exists git; then                                                                                                                                                                                     
- function git-cleanup() { ## Delete local branches merged into current HEAD                                                                                                                                    
-  local default_branch                                                                                                                                                                                        
-   default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')                                                                                                   
-   if [ -z "$default_branch" ]; then                                                                                                                                                                           
-      default_branch="main" # Assuming 'main' is a common default, if no remote HEAD                                                                                                                            
-   fi                                                                                                                                                                                                          
-   git branch --merged "$default_branch" | grep -v "$default_branch" | xargs -n 1 git branch -d                                                                                                                
- }                                                                                                                                                                                                             
-fi                                                                                                                                                                                                              
+if command_exists git; then
+ function git-cleanup() { ## Delete local branches merged into current HEAD
+  local default_branch
+   default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+   if [ -z "$default_branch" ]; then
+      default_branch="main" # Assuming 'main' is a common default, if no remote HEAD
+   fi
+   git branch --merged "$default_branch" | grep -v "$default_branch" | xargs -n 1 git branch -d
+ }
+ function cgit() { ## Run git commands in the cheatsheets repo from any directory
+   git -C "${GIT_USER_PATH}/cheatsheets" "$@"
+ }
+fi
                                                                                                                                                                                                                  
 if command_exists openssl; then                                                                                                                                                                                 
  function genpw() { ## Generate a random password                                                                                                                                                              
@@ -582,3 +585,6 @@ if command_exists rsync && command_exists unzip && command_exists heif-convert; 
   }
 fi
 
+function cpsig(){
+  gpg --list-secret-keys --with-colons ncwilde43@gmail.com | awk -F: '$1=="fpr" {printf "0x%s", tolower(substr($10, length($10)-7)); exit}' | copy
+}
