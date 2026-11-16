@@ -460,18 +460,32 @@ function dotfiles() { ## Add, commit, and push dotfiles changes
   echo "Dotfiles changes committed and pushed."
 }
 
-if command_exists python3 || command_exists python; then                                                                                                                                                        
-  function serve() { ## Start a simple HTTP server                                                                                                                                                              
-    local port="${1:-8000}"                                                                                                                                                                                     
-    if command_exists python3; then                                                                                                                                                                             
-      python3 -m http.server "$port"                                                                                                                                                                            
-    elif command_exists python; then                                                                                                                                                                            
-      python -m SimpleHTTPServer "$port"                                                                                                                                                                        
-    else                                                                                                                                                                                                        
-      echo "Python is not installed. This should not happen."                                                                                                                                                   
-      return 1                                                                                                                                                                                                  
-    fi                                                                                                                                                                                                          
-  }                                                                                                                                                                                                             
+if command_exists python3 || command_exists python; then
+  function serve() { ## Start a simple HTTP server
+    local port="${1:-8000}"
+    local ip=""
+    if command_exists ip; then
+      ip=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="src") print $(i+1)}')
+    fi
+    if [[ -z "${ip}" ]] && command_exists hostname; then
+      ip=$(hostname -I 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i !~ /^172\.(1[6-9]|2[0-9]|3[0-1])\./) {print $i; exit}}')
+      [[ -z "${ip}" ]] && ip=$(hostname -I 2>/dev/null | awk '{print $1}')
+    fi
+    if [[ -z "${ip}" ]] && command_exists ipconfig; then
+      ip=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null)
+    fi
+    ip="${ip:-127.0.0.1}"
+
+    echo "Serving HTTP on ${ip}:${port} (http://${ip}:${port}/)..."
+    if command_exists python3; then
+      python3 -m http.server "$port"
+    elif command_exists python; then
+      python -m SimpleHTTPServer "$port"
+    else
+      echo "Python is not installed. This should not happen."
+      return 1
+    fi
+  }
 fi                                                                                                                                                                                                              
                                                                                                                                                                                                                
 if command_exists git; then
