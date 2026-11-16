@@ -13,3 +13,14 @@ antigravity/.antigravity/state.json
 antigravity/.antigravity/settings.json
 *.log
 antigravity-cli/.gemini/antigravity-cli/mcp_config.json
+
+# Agentic Stack & MCP Caches
+.codegraph/
+.serena/
+.rtk/*
+!.rtk/filters.toml
+.agents/*
+!.agents/antigravity/
+!.agents/skills/
+!.agents/rules/
+!.agents/skills_catalog.md
