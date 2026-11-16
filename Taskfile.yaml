@@ -64,6 +64,10 @@ tasks:
     desc: Restow each dotfile folder individually
     cmds:
       - for pkg in {{.STOW_PACKAGES}}; do stow -R {{ .STOW_ARGS }} "$pkg"; git restore "$pkg"; done
+  restow:fix:
+    desc: Restow packages and automatically resolve existing non-symlink conflicts
+    cmds:
+      - ./scripts/restow-and-fix.sh {{.CLI_ARGS}}
   delete:
     desc: Delete each dotfile folder individually
     cmds:

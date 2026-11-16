@@ -15,6 +15,7 @@ Catalog of custom Antigravity agent skills available in `dotfiles`.
 | [`manage-bash-completions`](skills/manage-bash-completions/SKILL.md) | Manage completions, hooks, and evals in `bash/.bash_completions` guarded by `command_exists` | `shuck check bash/.bash_completions` |
 | [`manage-bash-exports`](skills/manage-bash-exports/SKILL.md) | Manage env vars and exports in `bash/.bash_exports` with binary/path guards and `.tokens` secret routing | `shuck check bash/.bash_exports` |
 | [`manage-bash-functions`](skills/manage-bash-functions/SKILL.md) | Manage functions in `bash/.bash_functions` with inline `##` docstrings and `local` vars | `shuck check bash/.bash_functions` |
+| [`restow`](skills/restow/SKILL.md) | Restow packages, resolve non-symlink conflicts, back up targets, verify symlinks | `task restow:fix` / `task restow` |
 | [`verify-bash-configs`](skills/verify-bash-configs/SKILL.md) | Validate syntax, `shuck` lint rules, `##` docstrings, and stow symlinks for `bash/` | `task test` / `shuck check bash/.*` |
 
 ---
