@@ -391,6 +391,18 @@ function cpip() { ## Copy local IP address to clipboard
   hostname -I | awk '{print $1}' | tr -d '\n' | copy
 }
 
+if command_exists copy; then
+  function cwd() { ## Copy current working directory or resolved absolute path to clipboard
+    local path
+    if [ -z "${1}" ]; then
+      path="$(pwd)"
+    else
+      path="$(realpath "${1}")" || return 1
+    fi
+    printf "%s" "${path}" | tr -d "\r\n" | copy
+  }
+fi
+
 if command_exists bw; then
   function bwfind() { ## Find a password using Bitwarden
     bw list items --search $1 | jq '.[] | .name,.login'
@@ -588,3 +600,11 @@ fi
 function cpsig(){
   gpg --list-secret-keys --with-colons ncwilde43@gmail.com | awk -F: '$1=="fpr" {printf "0x%s", tolower(substr($10, length($10)-7)); exit}' | copy
 }
+
+if command_exists curl; then
+  function macvendor() { ## Lookup MAC address vendor
+    local mac="${1//[[:space:]]/}"
+    check_args "macvendor <mac_address>" "${mac}" || return 1
+    curl -s "https://api.macvendors.com/${mac}" && printf "\n"
+  }
+fi

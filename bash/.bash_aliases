@@ -250,7 +250,6 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 
 # copy
 if command_exists copy; then
-  alias cwd='pwd | tr -d "\r\n"| copy'
   alias pubkey="more ~/.ssh/id_rsa.pub | copy && printf '=> Public key copied to clipboard.\n'"
   alias prikey="more ~/.ssh/id_rsa | copy && printf '=> Private key copied to clipboard.\n'"
 fi
