@@ -9,6 +9,8 @@ Catalog of custom Antigravity agent skills available in `dotfiles`.
 | [`app-sync`](skills/app-sync/SKILL.md) | Commit, push local package changes, and pull & restart services on Proxmox LXC | `/app sync <app_name>` / `task update` |
 | [`check-configs`](skills/check-configs/SKILL.md) | Scan `~/.config/` against `.stow-packages` and recommend configs to stow | `/app check-configs` |
 | [`check-secrets`](skills/check-secrets/SKILL.md) | Audit staged files and SOPS-encrypted secrets across repository | `task check-secrets` / `task encrypt` |
+| [`commit-dotfiles`](skills/commit-dotfiles/SKILL.md) | Safely audit secrets, run stow tests, stage explicitly, commit, and push dotfiles | `/commit-dotfiles` / `task test` |
+| [`enforce-automation`](skills/enforce-automation/SKILL.md) | Prioritize `Taskfile.yaml` and `scripts/` automation before raw shell execution | `task --list` |
 | [`manage-bash-aliases`](skills/manage-bash-aliases/SKILL.md) | Manage conditional aliases in `bash/.bash_aliases` guarded by existence checks | `shuck check bash/.bash_aliases` |
 | [`manage-bash-completions`](skills/manage-bash-completions/SKILL.md) | Manage completions, hooks, and evals in `bash/.bash_completions` guarded by `command_exists` | `shuck check bash/.bash_completions` |
 | [`manage-bash-exports`](skills/manage-bash-exports/SKILL.md) | Manage env vars and exports in `bash/.bash_exports` with binary/path guards and `.tokens` secret routing | `shuck check bash/.bash_exports` |
