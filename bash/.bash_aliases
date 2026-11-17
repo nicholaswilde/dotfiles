@@ -139,8 +139,10 @@ if alias lf 2>/dev/null; then
   unalias lf
 fi
 
-# Cool colors for man pages
-alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
+# Cool colors for man pages (fallback when bat/MANPAGER is not active)
+if ! command_exists bat && dir_exists "${HOME}/.terminfo"; then
+  alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
+fi
 
 # Enable color support of ls and also add handy aliases
 if dir_exists /usr/bin/dircolors; then

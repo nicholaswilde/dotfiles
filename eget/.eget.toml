@@ -1,6 +1,35 @@
 [global]
-  target = "~/.local/bin"
-  upgrade_only = true
+target = "~/.local/bin"
+upgrade_only = true
+
+["AvnerCohen/yamllint-rs"]
+
+["astral-sh/uv"]
+all = true
+asset_filters = ["gnu"]
+
+["cheat/cheat"]
+
+["cooklang/cookcli"]
+asset_filters = ["gnu"]
+
+["danielmiessler/Fabric"]
+file = "fabric"
+
+["github/github-mcp-server"]
+
+["jdx/mise"]
+asset_filters = ["linux-x64.tar.gz"]
+
+["lycheeverse/lychee"]
+asset_filters = ["gnu"]
+
+["micro-editor/micro"]
+asset_filters = ["linux64.tar.gz"]
+
+["redhat-et/ripwire"]
 
 ["rvben/rumdl"]
-  asset_filters = [ "gnu" ]
+asset_filters = ["gnu"]
+
+["walles/moor"]
