@@ -72,6 +72,7 @@ if [[ -f "bash/.tokens.enc" ]] && [[ ! -s "bash/.tokens" ]]; then
     task decrypt >/dev/null
   elif command -v sops >/dev/null 2>&1; then
     echo "Decrypting bash/.tokens via sops..."
+    install -m 600 /dev/null ./bash/.tokens
     sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
   else
     echo "WARN: bash/.tokens missing and neither task nor sops found." >&2

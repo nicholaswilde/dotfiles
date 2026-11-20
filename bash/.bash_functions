@@ -283,6 +283,79 @@ function lf() { ## List functions
   grep -Po "(?<=function )[a-zA-Z0-9_-].*" ~/.bash_functions | sort | awk 'BEGIN {FS = "{.*?## "}; {printf "%-25s \033[36m%s\033[0m\n", $1, $2}'
 }
 
+function lt() { ## List tokens
+  local tokens_file="${HOME}/.tokens"
+  if ! file_exists "${tokens_file}"; then
+    echo "Error: ${tokens_file} not found." >&2
+    return 1
+  fi
+  if command_exists bat; then
+    bat -l dotenv --paging=never "${tokens_file}"
+  else
+    cat "${tokens_file}"
+  fi
+}
+
+function addtoken() { ## Add or update a token in ~/.tokens and encrypt
+  local key="${1}"
+  check_args "addtoken <KEY>" "${key}" || return 1
+  if [ -n "${2:-}" ]; then
+    echo "Error: Pass only <KEY>; value is prompted securely to avoid shell history." >&2
+    return 1
+  fi
+  if [[ ! "${key}" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+    echo "Error: Invalid variable name '${key}'." >&2
+    return 1
+  fi
+
+  local tokens_file="${HOME}/.tokens"
+  if ! file_exists "${tokens_file}"; then
+    echo "Error: ${tokens_file} not found." >&2
+    return 1
+  fi
+  local resolved_tokens
+  resolved_tokens="$(readlink -f "${tokens_file}")"
+
+  local value
+  read -r -s -p "Value for ${key}: " value
+  printf "\n"
+  if [ -z "${value}" ]; then
+    echo "Error: Empty value; aborted." >&2
+    return 1
+  fi
+
+  local escaped="${value//\\/\\\\}"
+  escaped="${escaped//\"/\\\"}"
+  escaped="${escaped//\$/\\\$}"
+  escaped="${escaped//\`/\\\`}"
+  local line="export ${key}=\"${escaped}\""
+
+  local tmp_file
+  tmp_file="$(umask 077 && mktemp "${resolved_tokens}.XXXXXX")" || return 1
+  if grep -qE "^(export[[:space:]]+)?${key}=" "${resolved_tokens}"; then
+    grep -vE "^(export[[:space:]]+)?${key}=" "${resolved_tokens}" > "${tmp_file}" || true
+  else
+    cat "${resolved_tokens}" > "${tmp_file}"
+  fi
+  printf '%s\n' "${line}" >> "${tmp_file}"
+  chmod 600 "${tmp_file}"
+  \mv -f "${tmp_file}" "${resolved_tokens}"
+
+  # shellcheck source=/dev/null
+  source "${tokens_file}"
+
+  local repo_dir
+  repo_dir="$(cd "$(dirname "${resolved_tokens}")/.." && pwd)"
+  if command_exists task && [ -f "${repo_dir}/Taskfile.yaml" ]; then
+    (cd "${repo_dir}" && task encrypt) || return 1
+  elif command_exists sops && [ -f "${resolved_tokens}.enc" ]; then
+    sops -e --input-type dotenv --output-type dotenv "${resolved_tokens}" > "${resolved_tokens}.enc" || return 1
+  else
+    echo "Warning: Could not auto-encrypt; run 'task encrypt' manually." >&2
+  fi
+  echo "Saved and sourced ${key}."
+}
+
 function upgrate() { ## Upgrade everything
   sudo apt update
   sudo apt -y upgrade
