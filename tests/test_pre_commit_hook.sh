@@ -14,6 +14,7 @@ cd "$TEST_DIR"
 git init -q
 git config user.name "Test User"
 git config user.email "test@example.com"
+git config commit.gpgsign false
 
 # Setup the scripts and hooks folder
 mkdir -p scripts
