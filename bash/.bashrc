@@ -94,7 +94,7 @@ unset file
 
 # Add ssh keys to keychain
 if command_exists keychain; then
-  declare -a keys_to_add
+  keys_to_add=()
   if [ -f "$HOME/.ssh/id_ed25519" ]; then
     keys_to_add+=("$HOME/.ssh/id_ed25519")
   fi
@@ -102,8 +102,21 @@ if command_exists keychain; then
     keys_to_add+=("$HOME/.ssh/id_rsa")
   fi
   if [ ${#keys_to_add[@]} -gt 0 ]; then
+    if [ -n "${SSH_AUTH_SOCK:-}" ] && [ ! -S "${SSH_AUTH_SOCK}" ]; then
+      unset SSH_AUTH_SOCK SSH_AGENT_PID
+    fi
+    keychain_sh="${HOME}/.keychain/${HOSTNAME:-$(uname -n)}-sh"
+    if [ -f "${keychain_sh}" ]; then
+      keychain_sock="$(awk -F'[=;]' '/^SSH_AUTH_SOCK=/{gsub(/^["\047]|["\047]$/, "", $2); print $2; exit}' "${keychain_sh}")"
+      if [ -n "${keychain_sock}" ] && [ ! -S "${keychain_sock}" ]; then
+        keychain --quiet --stop mine
+      fi
+      unset keychain_sock
+    fi
+    unset keychain_sh
     eval "$(keychain --eval --quiet "${keys_to_add[@]}")"
   fi
+  unset keys_to_add
 fi
 
 # enable programmable completion features (you don't need to enable
