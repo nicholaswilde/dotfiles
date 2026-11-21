@@ -700,3 +700,29 @@ if command_exists curl; then
     curl -s "https://api.macvendors.com/${mac}" && printf "\n"
   }
 fi
+
+function myip() { ## Show local IP, gateway, and public IP
+  local local_ip=""
+  local gateway=""
+  local public_ip=""
+
+  if command_exists ip; then
+    local_ip=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="src") {print $(i+1); exit}}' || true)
+    gateway=$(ip route show default 2>/dev/null | awk '/^default/ {for(i=1;i<=NF;i++) if($i=="via") {print $(i+1); exit}}' || true)
+  fi
+
+  if [[ -z "${local_ip}" ]] && command_exists hostname; then
+    local_ip=$(hostname -I 2>/dev/null | awk '{print $1}' || true)
+  fi
+
+  if command_exists curl; then
+    public_ip=$(curl -fsS --max-time 5 https://icanhazip.com 2>/dev/null || curl -fsS --max-time 5 https://ipecho.net/plain 2>/dev/null || true)
+    public_ip="${public_ip//[[:space:]]/}"
+  fi
+
+  printf "%-12s %s\n" "Type" "Address"
+  printf "%-12s %s\n" "----------" "---------------"
+  printf "%-12s %s\n" "Local IP" "${local_ip:-N/A}"
+  printf "%-12s %s\n" "Gateway" "${gateway:-N/A}"
+  printf "%-12s %s\n" "Public IP" "${public_ip:-N/A}"
+}
