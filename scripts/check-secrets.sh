@@ -4,6 +4,7 @@ set -euo pipefail
 # Forbidden exact paths
 forbidden_exact=(
   "bash/.tokens"
+  "pvetui/.config/pvetui/config.yml"
 )
 
 # Get all staged files (Added, Copied, Modified)
@@ -16,7 +17,7 @@ for file in $staged_files; do
   for forbidden in "${forbidden_exact[@]}"; do
     if [ "$file" = "$forbidden" ]; then
       echo "ERROR: Attempted to commit unencrypted secret file: $file" >&2
-      echo "Please encrypt this file using 'task encrypt' before committing." >&2
+      echo "Please encrypt this file using 'enstow encrypt' (or 'task encrypt') before committing." >&2
       failed=1
     fi
   done

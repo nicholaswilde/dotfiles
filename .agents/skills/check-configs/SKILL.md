@@ -1,11 +1,11 @@
 ---
 name: check-configs
-description: Scan ~/.config/ on the host, compare against tracked packages in .stow-packages, filter caches/secrets, and recommend configs to stow. Trigger: "/app check-configs", "check untracked configs", "audit ~/.config".
+description: Scan ~/.config/ on the host, compare against tracked packages in .enstow.toml, filter caches/secrets, and recommend configs to manage with enstow. Trigger: "/app check-configs", "check untracked configs", "audit ~/.config".
 ---
 
 # Check Configs Skill
 
-Scans `~/.config/` and compares against tracked Stow packages in `dotfiles`.
+Scans `~/.config/` and compares against tracked `enstow` packages in `dotfiles`.
 
 ## Protocol
 
@@ -13,10 +13,10 @@ Scans `~/.config/` and compares against tracked Stow packages in `dotfiles`.
    - List top-level entries in `~/.config/`.
 
 2. **Identify Tracked Packages**:
-   - Read `.stow-packages` and inspect package `.config/` directories in repo root (excluding `.git/`, `.github/`, `.agents/`, `scripts/`, `tests/`).
+   - Read `packages` from `.enstow.toml` and inspect package `.config/` directories in repo root (excluding `.git/`, `.github/`, `.agents/`, `scripts/`, `tests/`).
 
 3. **Cross-Reference & Filter**:
-   - Flag `~/.config/<name>` entries without a matching Stow package.
+   - Flag `~/.config/<name>` entries without a matching `enstow` package.
    - Exclude transient telemetry, cache, and runtime state (`go/telemetry/`, `configstore/`, caches).
 
 4. **Prioritize & Report**:

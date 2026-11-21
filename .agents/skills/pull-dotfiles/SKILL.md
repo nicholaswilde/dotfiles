@@ -1,14 +1,14 @@
 ---
 name: pull-dotfiles
 description: >-
-  Pull upstream dotfiles changes, resolve merge/stow conflicts, decrypt secrets, audit dangling symlinks, run verification tests, and fix any issues.
+  Pull upstream dotfiles changes, resolve merge/enstow conflicts, audit dangling symlinks, run verification tests, and fix any issues.
   Trigger: /pull-dotfiles, /pull-and-fix, "pull dotfiles", "git pull and fix", "pull and fix issues", "perform a git pull and fix any issues".
 ---
 
 # Pull Dotfiles Skill
 
-Safely pull upstream `dotfiles` commits, resolve git or GNU Stow issues,
-decrypt SOPS tokens, verify symlinks and tests, and fix any regressions.
+Safely pull upstream `dotfiles` commits, resolve git or `enstow` issues,
+restow symlinks and `.age` secrets, verify tests, and fix any regressions.
 
 ## Protocol
 
@@ -30,9 +30,9 @@ rtk git pull
 
 - **If pull has merge/rebase conflicts**:
   - Inspect conflicted files with `rtk git status --short`.
-  - Resolve conflicts manually (for `bash/.tokens.enc`, resolve encrypted
-    file cleanly or re-encrypt from decrypted `bash/.tokens` via
-    `task encrypt`; never commit plaintext secrets).
+  - Resolve conflicts manually (for `bash/.tokens.age` or
+    `pvetui/.config/pvetui/config.yml.age`, pick the desired version or edit
+    cleanly via `task edit`; never commit plaintext secrets).
   - Stage explicitly (`rtk git add <file>`) and finish merge/rebase.
 - **Inspect pulled delta**:
 
@@ -41,37 +41,33 @@ rtk git pull
   rtk git diff ORIG_HEAD..HEAD --stat
   ```
 
-### 3. Decrypt Secrets & Restow Packages
+### 3. Restow Packages & Secrets
 
-1. **Decrypt SOPS tokens** if `bash/.tokens` is missing, empty, or
-   `bash/.tokens.enc` changed (do not print token contents):
+`enstow` automatically decrypts `.age` secrets in memory directly to `$HOME`
+(`0600`) during `apply` / `restow`:
 
-   ```bash
-   task decrypt
-   ```
+1. Preview with `task test` (`enstow -C .enstow.toml apply --dry-run --force`).
+2. Apply symlinks and decrypted secrets with `task restow`.
+3. If unmanaged target collisions or legacy folded directory symlinks block
+   apply, run `task restow:fix` (see [`restow`](../restow/SKILL.md)).
 
-2. **Dry-run & restow packages**:
-   - Check for conflicts with `task test`.
-   - Apply symlinks with `task restow`.
-   - If non-symlink file conflicts block stow (`existing target is neither a
-     link nor a directory`), run `task restow:fix` (see
-     [`restow`](../restow/SKILL.md)).
+### 4. Status & Health Audit
 
-### 4. Dangling Symlink Check
+Inspect sync state and hygiene with `enstow`:
 
-Scan `$HOME` (maxdepth 4) for broken symlinks referencing `dotfiles`:
+```bash
+task status
+task doctor
+```
 
-- Identify stale symlinks left behind by renamed, deleted, or legacy
-  dotfile directories.
-- Remove stale symlinks belonging to removed `dotfiles` targets; confirm
-  with the user before removing links pointing to separate/legacy trees
-  unless asked.
+- Remove stale symlinks pointing to removed `dotfiles` targets; confirm with
+  the user before removing unrelated links outside `dotfiles`.
 
 ### 5. Verification & Fix Loop
 
 Run repository quality gates and fix any failures found:
 
-1. **Symlink & token verification**:
+1. **Symlink & secret verification**:
 
    ```bash
    bash tests/verify.sh

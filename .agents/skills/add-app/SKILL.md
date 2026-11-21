@@ -1,35 +1,37 @@
 ---
 name: add-app
-description: Add an application configuration to the dotfiles repository, configure GNU Stow, encrypt secrets with SOPS, and register in .stow-packages. Trigger: "/app add", "add app config", "stow new app".
+description: Add an application configuration to the dotfiles repository, configure enstow, encrypt secrets with age, and register in .enstow.toml. Trigger: "/app add", "add app config", "stow new app", "enstow new app".
 ---
 
 # Add App Skill
 
-Adds application configuration files to `dotfiles` and configures GNU Stow.
+Adds application configuration files to `dotfiles` and configures `enstow`.
 
 ## Protocol
 
 1. **Resolve Input**:
    - Verify `<path>` exists on disk.
    - Determine `$HOME`-relative target path (e.g., `~/.config/myapp/config.toml` -> `.config/myapp/config.toml`).
-   - Confirm Stow package name `<package>`.
+   - Confirm package name `<package>`.
 
-2. **Replicate Structure**:
-   - Create `<package>/<relative_path>` and copy configuration files.
-   - Append `<package>` to `.stow-packages`.
+2. **Replicate Structure (or Ingest via `enstow add`)**:
+   - Use `enstow -C .enstow.toml add <path> -p <package>` (add `--encrypt` for secret files), OR create `<package>/<relative_path>` and copy configuration files.
+   - Add `"<package>"` to `packages` in `.enstow.toml`.
 
 3. **Handle Secrets**:
-   - If files contain secrets, add plaintext paths to `.gitignore` and create package ignore via `task create-ignore -- <package>` (adding plaintext filenames and `\.enc$`).
-   - Add SOPS rules in `Taskfile.yaml` (`encrypt` / `decrypt` tasks) and encrypt with `task encrypt`. Never use `sops -i` or `--in-place`.
+   - If files contain secrets, encrypt as `.age` with `enstow -C .enstow.toml encrypt <file> -o <package>/<relative_path>.age` (or `enstow -C .enstow.toml add <path> -p <package> --encrypt`).
+   - Add plaintext paths to `.gitignore` and `scripts/check-secrets.sh` (`forbidden_exact`) if appropriate, and create `<package>/.enstowignore` (Git-style ignore syntax) via `task create-ignore -- <package>` for any ignored files (e.g., `README.md`, `*.swp`).
+   - Never leave plaintext secret files in the repository working tree.
 
-4. **Verify & Stow**:
-   - Dry-run: `task test` or `stow -n -v --adopt -t ~/ <package>`.
-   - Apply after confirmation: `task install` or `stow -v --adopt -t ~/ <package>`.
-   - Run `task check-secrets` before staging.
+4. **Verify & Apply**:
+   - Dry-run: `task test` or `enstow -C .enstow.toml apply --dry-run <package>`.
+   - Apply after confirmation: `task install` or `enstow -C .enstow.toml apply --force <package>`.
+   - Run `task doctor` and `task check-secrets` before staging.
 
 5. **Commit**:
    - Stage files explicitly (`rtk git add <files>`).
    - Commit using Conventional Commits (include `Fixes #<number>` when resolving an issue):
+
      ```bash
-     rtk git commit -m "feat(<package>): Add configuration files and stow package"
+     rtk git commit -m "feat(<package>): Add configuration files and enstow package"
      ```

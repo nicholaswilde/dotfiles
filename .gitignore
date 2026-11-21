@@ -1,4 +1,5 @@
 .tokens
+pvetui/.config/pvetui/config.yml
 **/google_account_id
 **/installation_id
 **/oauth_creds.json

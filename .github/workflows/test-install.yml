@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  ENSTOW_VERSION: 0.1.15
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,20 +20,44 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y stow
+        sudo apt-get install -y age
 
     - name: Install go-task
       run: |
         sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
-    - name: Create Mock Decrypted Secrets (Strategy 1)
+    - name: Install enstow
       run: |
-        # Create empty placeholder files so task install succeeds
-        mkdir -p bash
-        echo "DUMMY_TOKEN=placeholder_value" > bash/.tokens
+        ARCH="$(uname -m)"
+        curl -fsSL "https://github.com/nicholaswilde/enstow/releases/download/v${ENSTOW_VERSION}/enstow-${ENSTOW_VERSION}-${ARCH}-unknown-linux-musl.tar.gz" \
+          | sudo tar -xz --strip-components=1 -C /usr/local/bin "enstow-${ENSTOW_VERSION}-${ARCH}-unknown-linux-musl/enstow"
+        sudo chmod +x /usr/local/bin/enstow
+        enstow --version
 
-    - name: Run Stow Installation
+    - name: Create Ephemeral Key and Mock Encrypted Secrets
+      run: |
+        mkdir -p "${HOME}/.config/sops/age"
+        age-keygen -o "${HOME}/.config/sops/age/keys.txt"
+        chmod 600 "${HOME}/.config/sops/age/keys.txt"
+        printf 'export DUMMY_TOKEN="placeholder_value"\n' > /tmp/mock_tokens
+        enstow encrypt /tmp/mock_tokens -o bash/.tokens.age --age-key-file "${HOME}/.config/sops/age/keys.txt"
+        printf 'default_profile: mock\n' > /tmp/mock_pvetui.yml
+        enstow encrypt /tmp/mock_pvetui.yml -o pvetui/.config/pvetui/config.yml.age --age-key-file "${HOME}/.config/sops/age/keys.txt"
+        rm -f /tmp/mock_tokens /tmp/mock_pvetui.yml
+
+    - name: Dry-run enstow Installation
+      run: task test
+
+    - name: Run enstow Installation
       run: task install
 
-    - name: Run Verification Script
-      run: ./tests/verify.sh
+    - name: Run enstow Doctor
+      run: task doctor
+
+    - name: Run Verification & Unit Test Suite
+      run: |
+        ./tests/verify.sh
+        ./tests/test_check_secrets.sh
+        ./tests/test_install_hooks.sh
+        ./tests/test_pre_commit_hook.sh
+        ./tests/test_skills_catalog_links.sh

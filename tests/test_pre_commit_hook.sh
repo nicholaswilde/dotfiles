@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 # Create a temporary directory for sandboxing git pre-commit hook test
 TEST_DIR=$(mktemp -d)
 trap 'rm -rf "$TEST_DIR"' EXIT
@@ -15,7 +17,7 @@ git config user.email "test@example.com"
 
 # Setup the scripts and hooks folder
 mkdir -p scripts
-cp /home/nicholas/git/nicholaswilde/dotfiles/scripts/check-secrets.sh scripts/check-secrets.sh
+cp "${REPO_ROOT}/scripts/check-secrets.sh" scripts/check-secrets.sh
 chmod +x scripts/check-secrets.sh
 
 mkdir -p .git/hooks

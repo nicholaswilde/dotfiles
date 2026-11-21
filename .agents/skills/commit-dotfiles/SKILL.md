@@ -8,7 +8,7 @@ description: >-
 # Commit Dotfiles Skill
 
 Safely audit, secret-check, test, stage, commit using Conventional Commits,
-push, and restow dotfiles packages.
+push, and restow dotfiles packages with `enstow`.
 
 ## Protocol
 
@@ -28,9 +28,9 @@ Strictly enforce secret management guidelines before staging:
   passwords, private keys (`*.pem`, `*.key`, `id_rsa`, `id_ed25519`), or `.env`
   files are included.
 - **Run Secret Check**: Run `task check-secrets` (`./scripts/check-secrets.sh`).
-- **Encrypted Env Vars**: If `bash/.tokens` was modified, ensure `task encrypt`
-  has been executed so `bash/.tokens.enc` is updated. Never commit or stage
-  plaintext `bash/.tokens`.
+- **Encrypted Secrets**: If `~/.tokens` was modified, ensure `task encrypt`
+  has updated `bash/.tokens.age` (or edit directly via `task edit`). Never
+  commit or stage plaintext `bash/.tokens` or `pvetui/.config/pvetui/config.yml`.
 - **No Blanket Staging**: NEVER run `git add .` or `git add -A`. All targets
   must be staged explicitly by file path.
 
@@ -38,11 +38,14 @@ Strictly enforce secret management guidelines before staging:
 
 Ensure modified dotfile configs pass syntax and integration gates:
 
-- **Stow Dry-Run**: Run `task test` to verify GNU Stow cleanly links packages
-  without conflicts.
+- **enstow Dry-Run**: Run `task test` to verify `enstow` cleanly plans all
+  packages without errors.
 - **Bash Validation**: If bash configs were touched, validate syntax and lint:
-  - `bash -n bash/.*`
-  - `shuck check bash/.*`
+  - `bash -n bash/.bashrc bash/.bash_aliases bash/.bash_completions bash/.bash_exports bash/.bash_functions bash/.profile`
+  - `shuck check bash/.bashrc bash/.bash_aliases bash/.bash_completions bash/.bash_exports bash/.bash_functions`
+- **TOML Validation**: If `.enstow.toml` or TOML configs were touched:
+  - `rtk taplo fmt --check`
+  - `rtk taplo lint`
 - **Unit & Integration Checks**: Run repo tests:
   - `bash tests/verify.sh`
   - `bash tests/test_skills_catalog_links.sh`
@@ -68,8 +71,8 @@ Generate a concise commit message adhering to Conventional Commits:
   - `chore`: maintenance, package list update, secret encryption sync
   - `docs`: documentation or README updates
   - `style`: formatting or cosmetic tweaks
-- **Scope**: Target stow package name or subsystem (e.g. `bash`, `ssh`, `git`,
-  `mise`, `secrets`, `skills`).
+- **Scope**: Target package name or subsystem (e.g. `bash`, `ssh`, `git`,
+  `mise`, `secrets`, `skills`, `enstow`).
 - **Guidelines**:
   - Subject length <= 50 characters, lowercase imperative mood, no trailing
     period.
@@ -85,7 +88,7 @@ Push committed changes to tracking branch:
 
 ### 7. Post-Push Restow
 
-Apply updated symlinks to user home directory:
+Apply updated symlinks and decrypted secrets to user home directory:
 
 - Run `task restow` (or `task install` for newly added packages).
 
@@ -96,4 +99,4 @@ Output concise confirmation:
 - Staged and committed files
 - Commit SHA and subject
 - Remote push status
-- Stow verification status
+- `enstow` verification status

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== Verifying Stow Installation ==="
+echo "=== Verifying enstow Installation ==="
 
-# Check that home directory exists
 HOME_DIR="${HOME}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG_FILE="${REPO_ROOT}/.enstow.toml"
 
 # Check standard symlinks
 declare -A EXPECTED_LINKS=(
@@ -17,8 +17,8 @@ declare -A EXPECTED_LINKS=(
 failed=0
 for link in "${!EXPECTED_LINKS[@]}"; do
     target="${EXPECTED_LINKS[$link]}"
-    if [ ! -e "$link" ]; then
-        echo "FAIL: $link does not exist"
+    if [ ! -L "$link" ]; then
+        echo "FAIL: $link is not a symlink"
         failed=1
     else
         resolved=$(readlink -f "$link")
@@ -31,16 +31,57 @@ for link in "${!EXPECTED_LINKS[@]}"; do
     fi
 done
 
-# Check that decryption/mocking worked
-if [ ! -f "$REPO_ROOT/bash/.tokens" ]; then
-    echo "FAIL: bash/.tokens was not decrypted/mocked"
-    failed=1
-else
-    if [ ! -s "$REPO_ROOT/bash/.tokens" ]; then
-        echo "FAIL: bash/.tokens is empty"
+# Check decrypted secret files deployed by enstow (regular files, non-empty, mode 0600)
+EXPECTED_SECRETS=(
+    "$HOME_DIR/.tokens"
+    "$HOME_DIR/.config/pvetui/config.yml"
+)
+
+for secret in "${EXPECTED_SECRETS[@]}"; do
+    if [ -L "$secret" ]; then
+        echo "FAIL: $secret should be a decrypted regular file, not a symlink"
+        failed=1
+    elif [ ! -f "$secret" ]; then
+        echo "FAIL: $secret was not decrypted"
+        failed=1
+    elif [ ! -s "$secret" ]; then
+        echo "FAIL: $secret is empty"
         failed=1
     else
-        echo "PASS: bash/.tokens successfully decrypted/mocked and populated"
+        perms=$(stat -c '%a' "$secret")
+        if [ "$perms" != "600" ]; then
+            echo "FAIL: $secret has insecure permissions $perms (expected 600)"
+            failed=1
+        else
+            echo "PASS: $secret decrypted with 0600 permissions"
+        fi
+    fi
+done
+
+# Verify no plaintext secrets exist inside repository working tree
+FORBIDDEN_REPO_SECRETS=(
+    "$REPO_ROOT/bash/.tokens"
+    "$REPO_ROOT/pvetui/.config/pvetui/config.yml"
+)
+
+for plaintext in "${FORBIDDEN_REPO_SECRETS[@]}"; do
+    if [ -e "$plaintext" ]; then
+        echo "FAIL: Plaintext secret exists in repo: $plaintext"
+        failed=1
+    else
+        echo "PASS: No plaintext secret in repo: $plaintext"
+    fi
+done
+
+# Validate enstow status reports no missing, conflicted, modified, or unverified targets
+if command -v enstow >/dev/null 2>&1 && [ -f "$CONFIG_FILE" ]; then
+    status_out=$(enstow -C "$CONFIG_FILE" -s "$REPO_ROOT" -t "$HOME_DIR" status --json)
+    if echo "$status_out" | grep -qE '"status": "(missing|conflict|modified|unverified)"'; then
+        echo "FAIL: enstow status reported non-synced entries:"
+        enstow -C "$CONFIG_FILE" -s "$REPO_ROOT" -t "$HOME_DIR" status
+        failed=1
+    else
+        echo "PASS: enstow status reports all managed dotfiles and secrets SYNCED"
     fi
 fi
 

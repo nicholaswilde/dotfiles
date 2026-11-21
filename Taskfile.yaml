@@ -2,10 +2,9 @@
 version: '3'
 
 vars:
-  VER: '2.5'
-  STOW_ARGS: '-v --adopt -t ~/'
-  STOW_PACKAGES:
-    sh: grep -v '^#' .stow-packages | xargs
+  VER: '3.0'
+  ENSTOW_CONFIG: '{{ .TASKFILE_DIR }}/.enstow.toml'
+  ENSTOW: 'enstow -C {{ .ENSTOW_CONFIG }}'
 
 tasks:
   update:
@@ -13,7 +12,6 @@ tasks:
     cmds:
       - git pull origin main
       - task: update-assets
-      - task: decrypt
       - task: restow
       - source ~/.bashrc
   update-assets:
@@ -28,7 +26,6 @@ tasks:
   bootstrap:
     desc: Bootstrap dotfiles
     cmds:
-      - task: decrypt
       - task: install
       - task: install-hooks
   install-hooks:
@@ -37,61 +34,95 @@ tasks:
       - mkdir -p .git/hooks
       - ln -sf ../../scripts/check-secrets.sh .git/hooks/pre-commit
   decrypt:
-    desc: Decrypt secrets using SOPS
-    preconditions:
-      - test -f {{ .TASKFILE_DIR }}/bash/.tokens.enc
+    desc: Decrypt secret dotfile with enstow (defaults to bash/.tokens.age -> ~/.tokens)
     cmds:
-      - install -m 600 /dev/null ./bash/.tokens
-      - sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
+      - |
+        if [ -n "{{ .CLI_ARGS }}" ]; then
+          {{ .ENSTOW }} decrypt {{ .CLI_ARGS }}
+        else
+          {{ .ENSTOW }} decrypt "{{ .TASKFILE_DIR }}/bash/.tokens.age" -o "${HOME}/.tokens"
+        fi
   encrypt:
-    desc: Encrypt secrets using SOPS
-    preconditions:
-      - test -f {{ .TASKFILE_DIR }}/bash/.tokens
+    desc: Encrypt secret dotfile with enstow (defaults to ~/.tokens -> bash/.tokens.age)
     cmds:
-      - sops -e --input-type dotenv --output-type dotenv {{ .TASKFILE_DIR }}/bash/.tokens > {{ .TASKFILE_DIR }}/bash/.tokens.enc
+      - |
+        if [ -n "{{ .CLI_ARGS }}" ]; then
+          {{ .ENSTOW }} encrypt {{ .CLI_ARGS }}
+        elif [ -f "{{ .TASKFILE_DIR }}/bash/.tokens" ]; then
+          {{ .ENSTOW }} encrypt "{{ .TASKFILE_DIR }}/bash/.tokens" -o "{{ .TASKFILE_DIR }}/bash/.tokens.age"
+        else
+          {{ .ENSTOW }} encrypt "${HOME}/.tokens" -o "{{ .TASKFILE_DIR }}/bash/.tokens.age"
+        fi
+  edit:
+    desc: Interactively decrypt, edit, and re-encrypt an age secret (defaults to bash/.tokens.age)
+    cmds:
+      - '{{ .ENSTOW }} edit {{ .CLI_ARGS | default "bash/.tokens.age" }}'
   deps:
     desc: Install dependencies
     cmds:
-      - sudo apt install -y stow
+      - |
+        if command -v enstow >/dev/null 2>&1; then
+          enstow --version
+        elif command -v brew >/dev/null 2>&1; then
+          brew install nicholaswilde/homebrew-tap/enstow
+        else
+          echo "Install enstow from https://github.com/nicholaswilde/enstow" >&2
+          exit 1
+        fi
   test:
-    desc: Stow each dotfile folder individually
+    desc: Preview enstow apply across configured packages (dry-run)
     cmds:
-      - for pkg in {{.STOW_PACKAGES}}; do stow -n {{ .STOW_ARGS }} "$pkg"; done
+      - '{{ .ENSTOW }} apply --dry-run --force {{ .CLI_ARGS }}'
   install:
-    desc: Stow each dotfile folder individually
+    desc: Apply configured dotfile packages with enstow
     cmds:
-      - for pkg in {{.STOW_PACKAGES}}; do stow {{ .STOW_ARGS }} "$pkg"; git restore "$pkg"; done
+      - '{{ .ENSTOW }} apply --force {{ .CLI_ARGS }}'
   restow:
-    desc: Restow each dotfile folder individually
+    desc: Restow configured dotfile packages with enstow
     cmds:
-      - for pkg in {{.STOW_PACKAGES}}; do stow -R {{ .STOW_ARGS }} "$pkg"; git restore "$pkg"; done
+      - '{{ .ENSTOW }} restow --force {{ .CLI_ARGS }}'
   restow:fix:
-    desc: Restow packages and automatically resolve existing non-symlink conflicts
+    desc: Restow packages and automatically resolve existing conflicts with backup
     cmds:
-      - ./scripts/restow-and-fix.sh {{.CLI_ARGS}}
+      - ./scripts/restow-and-fix.sh {{ .CLI_ARGS }}
   delete:
-    desc: Delete each dotfile folder individually
+    desc: Unstow configured dotfile packages with enstow
     cmds:
-      - for pkg in {{.STOW_PACKAGES}}; do stow -D {{ .STOW_ARGS }} "$pkg"; done
+      - '{{ .ENSTOW }} unstow {{ .CLI_ARGS }}'
   unstow:
-    desc: Run the unstow.sh script to remove stowed files from the home directory
+    desc: Remove managed symlinks and decrypted secrets with enstow
     cmds:
-      - ./unstow.sh
+      - '{{ .ENSTOW }} unstow {{ .CLI_ARGS }}'
+  scrub:
+    desc: Securely shred decrypted secrets and remove managed symlinks
+    cmds:
+      - '{{ .ENSTOW }} scrub {{ .CLI_ARGS }}'
+  status:
+    desc: Show sync status of managed dotfiles and secrets
+    cmds:
+      - '{{ .ENSTOW }} status {{ .CLI_ARGS }}'
+  diff:
+    desc: Show diff between dotfiles and targets (secrets masked)
+    cmds:
+      - '{{ .ENSTOW }} diff --mask-secrets {{ .CLI_ARGS }}'
+  doctor:
+    desc: Audit system health, secret permissions, and symlinks
+    cmds:
+      - '{{ .ENSTOW }} doctor {{ .CLI_ARGS }}'
   create-ignore:
-    desc: Create a .stow-local-ignore file in a stow package folder
+    desc: Create a .enstowignore file in a package folder
     preconditions:
       - sh: 'test -n "{{.CLI_ARGS}}"'
-        msg: "Stow package name not specified. Usage: task create-ignore <stow package name>"
+        msg: "Package name not specified. Usage: task create-ignore -- <package name>"
       - sh: 'test -d "{{.CLI_ARGS}}"'
         msg: "Directory {{.CLI_ARGS}} not found"
     cmds:
-      - touch {{.CLI_ARGS}}/.stow-local-ignore
+      - touch {{.CLI_ARGS}}/.enstowignore
   nuke:
     desc: Nuke existing files
     cmds:
-      - rm ~/.config/micro/settings.json
-      - rm ~/.config/gh/config.yml
-      - rm ~/.config/gh/config.yml
+      - rm -f ~/.config/micro/settings.json
+      - rm -f ~/.config/gh/config.yml
   check-secrets:
     desc: Verify staged files for unencrypted secrets
     cmds:

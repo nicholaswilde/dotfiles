@@ -1,6 +1,6 @@
 ---
 name: manage-bash-exports
-description: Add, modify, or remove environment variables and tool exports in bash/.bash_exports (plus bash/.bashrc and bash/.profile init entries) with binary/path guards and secret routing to bash/.tokens. Trigger: "manage bash exports", "add env var", "remove env var", "update .bash_exports", "update .bashrc".
+description: Add, modify, or remove environment variables and tool exports in bash/.bash_exports (plus bash/.bashrc and bash/.profile init entries) with binary/path guards and secret routing to bash/.tokens.age. Trigger: "manage bash exports", "add env var", "remove env var", "update .bash_exports", "update .bashrc".
 ---
 
 # Manage Bash Exports Skill
@@ -11,7 +11,7 @@ Manages environment variables, tool configurations, and sourced init entries in 
 
 - **`$PATH` entries**: Use [`add-path-to-env`](../add-path-to-env/SKILL.md).
 - **Aliases / Functions / Completions**: Use `manage-bash-aliases`, `manage-bash-functions`, or `manage-bash-completions`.
-- **Secrets (tokens, API keys, passwords)**: NEVER place in `bash/.bash_exports`, `bash/.bashrc`, or `bash/.profile`. Place in `bash/.tokens` (`export VAR="..."`) and encrypt with `task encrypt` (see [`check-secrets`](../check-secrets/SKILL.md)).
+- **Secrets (tokens, API keys, passwords)**: NEVER place in `bash/.bash_exports`, `bash/.bashrc`, or `bash/.profile`. Store in `bash/.tokens.age` (deployed to `~/.tokens` mode `0600` via `enstow`) using `task edit` or `addtoken` / `task encrypt` (see [`check-secrets`](../check-secrets/SKILL.md)).
 
 ## Protocol
 

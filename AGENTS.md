@@ -133,7 +133,7 @@ Use `ripwire` CLI (prefixed with `rtk ripwire`) for AST codebase mapping, call g
 ## Taplo TOML Rules
 
 - **Prefix with RTK**: Always prefix `taplo` commands with `rtk` in interactive shells (e.g., `rtk taplo fmt`, `rtk taplo lint`).
-- **Format**: Run `rtk taplo fmt` to format TOML files in-place (`mise/.config/mise/config.toml`).
+- **Format**: Run `rtk taplo fmt` to format TOML files in-place (`.enstow.toml`, `mise/.config/mise/config.toml`, `eget/.eget.toml`).
 - **Validation**: Run `rtk taplo lint` to validate TOML syntax and schema.
 <!-- taplo-rules-end -->
 
@@ -152,10 +152,10 @@ Track features and bugs via remote GitHub issues (`rtk gh issue ... | cat`), not
 
 NEVER commit or stage unencrypted secrets, credentials, tokens, keys, or PII:
 
-1. **Secret & Token Env Vars**: Always place tokens, API keys, passwords, and secret env vars in `bash/.tokens` (`export VAR="..."`), never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Decrypt first via `task decrypt` if needed, edit `bash/.tokens`, and immediately re-encrypt `bash/.tokens.enc` via `task encrypt` so the tracked file stays encrypted.
-2. **SOPS Encryption**: Encrypt sensitive files using `task encrypt` (never `sops -i` or `--in-place`). Decrypt locally via `task decrypt`.
-3. **Pre-Commit Guard**: Run `task check-secrets` (`./scripts/check-secrets.sh`) and install hook via `task install-hooks`.
-4. **Ignore Files**: Add plaintext secret paths to `.gitignore` and package `.stow-local-ignore` (`task create-ignore -- <package>`). Commit only `.enc` files.
+1. **Secret & Token Env Vars**: Place tokens, API keys, passwords, and secret env vars in `bash/.tokens.age` (deployed to `~/.tokens` mode `0600` by `enstow`), never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Edit securely via `task edit` (`enstow -C .enstow.toml edit bash/.tokens.age`) or update `~/.tokens` and run `task encrypt`.
+2. **Age Encryption (`enstow`)**: Encrypt sensitive files with `enstow -C .enstow.toml encrypt` / `task encrypt` (`.age` suffix). Decrypt in memory via `enstow apply` or explicitly with `task decrypt`. Plaintext secret targets belong in `$HOME` (`0600`), never inside repo working tree.
+3. **Pre-Commit Guard**: Run `task check-secrets` (`./scripts/check-secrets.sh`) and install hook via `task install-hooks`. Run `task doctor` (`enstow -C .enstow.toml doctor`) to audit permissions and leaks.
+4. **Ignore Files**: Add plaintext secret paths to `.gitignore` and package `.enstowignore` (`task create-ignore -- <package>`). Commit only `.age` files.
 5. **Explicit Staging**: Never use blanket staging (`git add .` or `git add -A`) when untracked secret files exist; stage explicitly by name and inspect `rtk git diff --staged`.
 <!-- sensitive-information-protection-end -->
 
@@ -163,22 +163,23 @@ NEVER commit or stage unencrypted secrets, credentials, tokens, keys, or PII:
 
 ## Project Overview & Stack
 
-Personal dotfiles managed with **GNU Stow**, **SOPS**, **Task** (`Taskfile.yaml`), and **Bash**.
+Personal dotfiles managed with **enstow** (symlinking + built-in `age` encryption), **Task** (`Taskfile.yaml`), and **Bash**.
 
-- **Package Registry**: Active Stow packages listed in `.stow-packages` (comments `#` and blank lines ignored).
+- **Config & Package Registry**: Active packages and recipients configured in `.enstow.toml` (invoked with `enstow -C .enstow.toml`).
 - **Key Tasks**:
-  - `task bootstrap`: Decrypt secrets, stow packages, install git hooks.
-  - `task install` / `task restow` / `task delete`: Apply/restow/remove packages from `.stow-packages`.
-  - `task test`: Dry-run `stow -n` across `.stow-packages`.
+  - `task bootstrap`: Apply packages (symlinks + in-memory secret decryption), install git hooks.
+  - `task install` / `task restow` / `task restow:fix` / `task unstow` (`task delete`) / `task scrub`: Manage packages via `enstow`.
+  - `task test`: Dry-run `enstow -C .enstow.toml apply --dry-run --force`.
+  - `task status` / `task diff` / `task doctor`: Inspect sync state, masked diffs, and secret/symlink hygiene.
   - `task test-integration`: Run Docker-based integration test (`bash tests/run.sh`).
-  - `task encrypt` / `task decrypt`: SOPS secret encryption/decryption.
+  - `task edit` / `task encrypt` / `task decrypt`: Edit/encrypt/decrypt `.age` secrets via `enstow`.
   - `task check-secrets`: Verify staged files contain no unencrypted secrets.
-  - `task create-ignore -- <pkg>`: Create `.stow-local-ignore` in package folder.
+  - `task create-ignore -- <pkg>`: Create `.enstowignore` in package folder.
 
-## Stow & Bash Conventions
+## enstow & Bash Conventions
 
-- **Stow Packages**: Replicate target relative path under `<package>/` (e.g., `<pkg>/.config/<app>/config`) and register `<pkg>` in `.stow-packages`.
-- **Stow Ignore**: `.stow-local-ignore` uses Perl regexes (`/` matches package-relative path; no `/` matches basename; e.g., `\.enc$`).
+- **enstow Packages**: Replicate target relative path under `<package>/` (e.g., `<pkg>/.config/<app>/config`) and register `"<pkg>"` in `.enstow.toml`.
+- **enstow Ignore**: `.enstowignore` uses standard Git-style ignore syntax (NOT GNU Stow Perl regexes; e.g., `README.md`, `*.swp`, `.config/tmux/plugins/`).
 - **Bash Configs (Aliases, Functions, Completions, Exports)**:
   - Always guard new entries for external binaries (aliases, functions, completions, hooks, evals) with `command_exists <bin>` first (e.g., `if command_exists direnv; then eval "$(direnv hook bash)"; fi`), and paths with `file_exists`, `dir_exists`, or `test -d`.
   - Functions in `bash/.bash_functions` require inline `## <description>` docstring on opening `{` line and `local` variable scoping.

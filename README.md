@@ -2,21 +2,19 @@
 
 [![task](https://img.shields.io/badge/task-enabled-brightgreen?logo=task&logoColor=white&style=for-the-badge)](https://taskfile.dev/#/)
 
-Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/),
-[SOPS](https://getsops.io/), [Task](https://taskfile.dev/), and Bash.
+Personal dotfiles managed with [enstow](https://github.com/nicholaswilde/enstow),
+[Task](https://taskfile.dev/), and Bash.
 
 ---
 
 ## :rocket: TL;DR
 
-> [!WARNING]
-> `task install` and `task restow` run `stow --adopt` followed by `git restore`
-> on stowed packages, reverting modified tracked files in those packages.
-
 ```shell
-task bootstrap   # Decrypt secrets, stow packages, and install git hooks
-task test        # Dry-run stow across all packages in .stow-packages
-task install     # Stow all packages into ~/
+task deps        # Install enstow (or check installed version)
+task bootstrap   # Apply packages, decrypt secrets, and install git hooks
+task test        # Dry-run enstow across all packages in .enstow.toml
+task install     # Apply all packages into ~/
+task doctor      # Audit symlink health, secret permissions (0600), and leaks
 ```
 
 ---
@@ -25,22 +23,25 @@ task install     # Stow all packages into ~/
 
 ### :key: Encryption & Secrets
 
-Secrets and token environment variables belong in `bash/.tokens` (never in
-`bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext app configs).
-Decrypt `bash/.tokens.enc` using SOPS and Task:
+Secrets and token environment variables live in encrypted `.age` files inside
+packages (e.g. `bash/.tokens.age` -> `~/.tokens`,
+`pvetui/.config/pvetui/config.yml.age` -> `~/.config/pvetui/config.yml`) and
+never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext
+tracked configs.
+
+`enstow` decrypts `.age` files strictly in memory using your age identity key
+(`~/.config/sops/age/keys.txt` or `ENSTOW_AGE_KEY_FILE` / `SOPS_AGE_KEY_FILE`)
+and writes decrypted targets directly to `$HOME` with `0600` permissions — no
+plaintext secrets are ever stored inside the repository working tree.
+
+Common secret workflows:
 
 ```shell
-task decrypt
-```
-
-```shell
-sops -d --input-type dotenv --output-type dotenv ./bash/.tokens.enc > ./bash/.tokens
-```
-
-After updating `bash/.tokens`, always re-encrypt `bash/.tokens.enc`:
-
-```shell
-task encrypt
+task edit                         # Edit bash/.tokens.age securely in memory
+task edit -- pvetui/.config/pvetui/config.yml.age
+task decrypt                      # Decrypt bash/.tokens.age -> ~/.tokens (0600)
+task encrypt                      # Encrypt ~/.tokens -> bash/.tokens.age
+task doctor                       # Verify secret decryption & 0600 permissions
 ```
 
 Install the pre-commit hook and verify staged files contain no plaintext
@@ -53,30 +54,32 @@ task check-secrets
 
 ### :no_entry_sign: Ignore Files
 
-- Add a `.stow-local-ignore` file (Perl regexes, e.g. `\.enc$`) to a package
-  directory to skip files when stowing (`task create-ignore -- <package>`).
-- Add plaintext secret paths (e.g. `.tokens`) to `.gitignore` so they are never
+- Add a `.enstowignore` file (standard Git-style ignore patterns, e.g. `*.swp`,
+  `README.md`, `.config/tmux/plugins/`) to a package directory to skip files
+  during apply (`task create-ignore -- <package>`).
+- Add plaintext secret paths (e.g. `.tokens`,
+  `pvetui/.config/pvetui/config.yml`) to `.gitignore` so they are never
   committed to the repository.
 
 ### :open_file_folder: Packages Configuration
 
-Active Stow packages are listed in [`.stow-packages`](./.stow-packages) (26
+Active packages are configured in [`.enstow.toml`](./.enstow.toml) (26
 packages: `bash`, `tmux`, `ripgrep`, `bat`, `xclip`, `ssh`, `gnupg`, `nvim`,
 `micro`, `gh`, `git`, `lazygit`, `lazydocker`, `cheat`, `glow`, `glamour`,
 `mise`, `pvetui`, `btop`, `rtk`, `tfa`, `gopass`, `eget`, `systemd`,
 `neofetch`, `rustscan`):
 
-- Each line represents a package directory processed by GNU Stow.
-- Lines starting with `#` and empty lines are ignored.
 - `Taskfile.yaml` tasks (`task install`, `task restow`, `task test`,
-  `task delete`) and `unstow.sh` read directly from `.stow-packages`.
+  `task unstow`, `task status`, `task diff`, `task doctor`) invoke
+  `enstow -C .enstow.toml`.
 
 To add a new package:
 
-1. Create `<package>/` replicating the `$HOME`-relative path.
-2. Add `<package>` to `.stow-packages`.
+1. Create `<package>/` replicating the `$HOME`-relative path (or use
+   `enstow -C .enstow.toml add <file> -p <package> [--encrypt]`).
+2. Add `"<package>"` to `packages` in `.enstow.toml`.
 3. Dry-run with `task test`, then apply with `task install` (or
-   `stow -v -t ~/ <package>`).
+   `enstow -C .enstow.toml apply <package>`).
 
 ### :cat: Terminal Colors
 
@@ -87,35 +90,45 @@ Catppuccin Mocha color settings for `whiptail` through `bash/.bash_exports`.
 
 ## :pencil: Usage
 
-> [!WARNING]
-> Using the `reload` alias may add and commit sensitive data if not excluded in
-> `.stow-local-ignore` and `.gitignore`.
+> [!NOTE]
+> Migrating a host previously stowed with GNU Stow? Run `task restow:fix` to
+> unlink legacy folded directory symlinks before applying per-file `enstow`
+> symlinks and `0600` decrypted secrets.
 
-Common Stow and Task commands:
+Common `enstow` and Task commands:
 
 ```shell
-task bootstrap         # Decrypt secrets, stow packages, install hooks
-task update            # Pull main, update assets, decrypt, restow, reload shell
-task restow            # Restow all packages from .stow-packages
-task test              # Dry-run stow across .stow-packages
+task bootstrap         # Apply packages + decrypt secrets, install git hooks
+task update            # Pull main, update assets, restow, reload shell
+task restow            # Restow all packages from .enstow.toml
+task restow:fix        # Resolve conflicts/legacy folded links with backup and restow
+task test              # Dry-run enstow across .enstow.toml
+task status            # Inspect sync/missing/conflict/drift status
+task diff              # Show unified diff (secrets masked)
+task doctor            # Audit symlinks, 0600 secret permissions, and leaks
+task unstow            # Remove managed symlinks and decrypted secrets
+task scrub             # Zeroize and remove decrypted secrets and symlinks
 task test-integration  # Run Debian Docker integration test (tests/run.sh)
 ```
 
 Manage a single package (e.g. `bash`):
 
 ```shell
-stow -v -t ~/ bash     # Stow package
-stow -n -v -t ~/ bash  # Dry-run package
-stow -D -v -t ~/ bash  # Unstow package
-stow -R -v -t ~/ bash  # Restow package
+enstow -C .enstow.toml apply bash            # Apply package
+enstow -C .enstow.toml apply --dry-run bash  # Dry-run package
+enstow -C .enstow.toml unstow bash           # Unstow package
+enstow -C .enstow.toml restow bash           # Restow package
+enstow -C .enstow.toml status bash           # Check package status
 ```
 
 Bash helper aliases and functions:
 
 ```shell
-gpd      # Pull dotfiles main branch
-lf       # List bash functions
-aliases  # List bash aliases
+gpd       # Pull dotfiles main branch
+lf        # List bash functions
+aliases   # List bash aliases
+lt        # List decrypted ~/.tokens
+addtoken  # Add or update token in ~/.tokens and re-encrypt bash/.tokens.age
 ```
 
 ---
@@ -126,11 +139,12 @@ Repository rules and custom agent skills are defined in [`AGENTS.md`](./AGENTS.m
 and [`.agents/skills_catalog.md`](./.agents/skills_catalog.md):
 
 - **Rules**: [`.agents/rules/dotfiles-rules.md`](./.agents/rules/dotfiles-rules.md)
-  (binary `command_exists` guards in `bash/`, `.tokens` secret routing, Stow
+  (binary `command_exists` guards in `bash/`, `.age` secret routing, `enstow`
   conventions).
-- **Skills**: `add-app`, `add-path-to-env`, `app-sync`, `check-configs`,
-  `check-secrets`, `manage-bash-aliases`, `manage-bash-completions`,
-  `manage-bash-exports`, `manage-bash-functions`, `verify-bash-configs`.
+- **Skills**: `add-app`, `add-path-to-env`, `app-sync`, `audit-eget`,
+  `check-configs`, `check-secrets`, `commit-dotfiles`, `enforce-automation`,
+  `manage-bash-aliases`, `manage-bash-completions`, `manage-bash-exports`,
+  `manage-bash-functions`, `pull-dotfiles`, `restow`, `verify-bash-configs`.
 
 ---
 

@@ -344,12 +344,17 @@ function addtoken() { ## Add or update a token in ~/.tokens and encrypt
   # shellcheck source=/dev/null
   source "${tokens_file}"
 
-  local repo_dir
-  repo_dir="$(cd "$(dirname "${resolved_tokens}")/.." && pwd)"
-  if command_exists task && [ -f "${repo_dir}/Taskfile.yaml" ]; then
+  local repo_dir=""
+  if [ -n "${GIT_USER_PATH:-}" ] && [ -f "${GIT_USER_PATH}/dotfiles/.enstow.toml" ]; then
+    repo_dir="${GIT_USER_PATH}/dotfiles"
+  elif [ -L "${HOME}/.bashrc" ]; then
+    repo_dir="$(cd "$(dirname "$(readlink -f "${HOME}/.bashrc")")/.." && pwd)"
+  fi
+
+  if [ -n "${repo_dir}" ] && command_exists enstow && [ -f "${repo_dir}/.enstow.toml" ]; then
+    enstow -C "${repo_dir}/.enstow.toml" encrypt "${resolved_tokens}" -o "${repo_dir}/bash/.tokens.age" || return 1
+  elif [ -n "${repo_dir}" ] && command_exists task && [ -f "${repo_dir}/Taskfile.yaml" ]; then
     (cd "${repo_dir}" && task encrypt) || return 1
-  elif command_exists sops && [ -f "${resolved_tokens}.enc" ]; then
-    sops -e --input-type dotenv --output-type dotenv "${resolved_tokens}" > "${resolved_tokens}.enc" || return 1
   else
     echo "Warning: Could not auto-encrypt; run 'task encrypt' manually." >&2
   fi

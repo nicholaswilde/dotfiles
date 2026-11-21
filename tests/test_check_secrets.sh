@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 # Create a temporary directory
 TEST_DIR=$(mktemp -d)
 trap 'rm -rf "$TEST_DIR"' EXIT
@@ -15,7 +17,7 @@ git config user.email "test@example.com"
 
 # Copy the check-secrets.sh script
 mkdir -p scripts
-cp /home/nicholas/git/nicholaswilde/dotfiles/scripts/check-secrets.sh scripts/check-secrets.sh
+cp "${REPO_ROOT}/scripts/check-secrets.sh" scripts/check-secrets.sh
 chmod +x scripts/check-secrets.sh
 
 # Helper to run script and assert exit code
@@ -49,12 +51,15 @@ assert_exit_code() {
   fi
 }
 
-# 1. Test standard non-secret file succeeds
+# 1. Test standard non-secret and encrypted files succeed
 assert_exit_code 0 "README.md" "Staged readme file"
 assert_exit_code 0 "micro/.config/micro/settings.json" "Staged public settings.json"
+assert_exit_code 0 "bash/.tokens.age" "Staged encrypted bash/.tokens.age"
+assert_exit_code 0 "pvetui/.config/pvetui/config.yml.age" "Staged encrypted pvetui config.yml.age"
 
 # 2. Test forbidden files fail (exit code 1 or similar non-zero)
 assert_exit_code 1 "bash/.tokens" "Staged bash/.tokens"
+assert_exit_code 1 "pvetui/.config/pvetui/config.yml" "Staged plaintext pvetui config.yml"
 assert_exit_code 1 "some/folder/.env" "Staged .env file"
 
 echo "=== All check-secrets.sh tests passed! ==="

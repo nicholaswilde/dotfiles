@@ -15,7 +15,7 @@ and `brew`/`uv` installs, and keeps `eget` configuration clean and non-interacti
 ### 1. Enumerate `~/.local/bin/` & Cross-Reference Managers
 
 1. List standalone regular binaries (`-f` and `! -L`) vs symlinks
-   (`uv`, `pipx`, `stow`, installers) in `~/.local/bin/`.
+   (`uv`, `pipx`, `enstow`, installers) in `~/.local/bin/`.
 2. Check existing entries in `eget/.eget.toml` and verify `~/.eget.toml`
    symlink points to `eget/.eget.toml`.
 3. Detect overlaps with Homebrew (`/home/linuxbrew/.linuxbrew/bin/<name>`,
@@ -24,12 +24,12 @@ and `brew`/`uv` installs, and keeps `eget` configuration clean and non-interacti
 ### 2. Classify Findings
 
 - **Add to `eget/.eget.toml`**: Standalone GitHub-release binaries not managed
-  by `brew`/`uv`/`pipx`/stow.
+  by `brew`/`uv`/`pipx`/`enstow`.
 - **Duplicates**: Binaries present in both `~/.local/bin/` and `brew`.
   Confirm with user which copy to keep before deleting local files or running
   `brew uninstall <formula>`. After `brew uninstall`, run `hash -r` in shell
   and remind user to run `hash -r` in open interactive terminals.
-- **Skip**: Symlink-managed tools (`uv`, `pipx`, `stow`), non-GitHub-release
+- **Skip**: Symlink-managed tools (`uv`, `pipx`, `enstow`), non-GitHub-release
   binaries, and source builds without GitHub releases.
 
 ### 3. Verify Release Assets Before Editing
