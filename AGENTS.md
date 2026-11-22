@@ -152,9 +152,9 @@ Track features and bugs via remote GitHub issues (`rtk gh issue ... | cat`), not
 
 NEVER commit or stage unencrypted secrets, credentials, tokens, keys, or PII:
 
-1. **Secret & Token Env Vars**: Place tokens, API keys, passwords, and secret env vars in `bash/.tokens.age` (deployed to `~/.tokens` mode `0600` by `enstow`), never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Edit securely via `task edit` (`enstow -C .enstow.toml edit bash/.tokens.age`) or update `~/.tokens` and run `task encrypt`.
-2. **Age Encryption (`enstow`)**: Encrypt sensitive files with `enstow -C .enstow.toml encrypt` / `task encrypt` (`.age` suffix). Decrypt in memory via `enstow apply` or explicitly with `task decrypt`. Plaintext secret targets belong in `$HOME` (`0600`), never inside repo working tree.
-3. **Pre-Commit Guard**: Run `task check-secrets` (`./scripts/check-secrets.sh`) and install hook via `task install-hooks`. Run `task doctor` (`enstow -C .enstow.toml doctor`) to audit permissions and leaks.
+1. **Secret & Token Env Vars**: Place tokens, API keys, passwords, and secret env vars in `bash/.tokens.age` (deployed to `~/.tokens` mode `0600` by `enstow`), never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext configs. Edit securely via `task edit` (`enstow edit --apply bash/.tokens.age`, re-encrypts + re-deploys) or update `~/.tokens` and run `task encrypt`.
+2. **Age Encryption (`enstow`)**: Encrypt sensitive files with `enstow encrypt` / `task encrypt` (`.age` suffix). Decrypt in memory via `enstow apply` or explicitly with `task decrypt`. Generate identity keys with `enstow keygen`. Plaintext secret targets belong in `$HOME` (`0600`), never inside repo working tree.
+3. **Pre-Commit Guard**: Run `task check-secrets` (`enstow doctor --staged -s .`) and install hook via `task install-hooks`. Run `task doctor` (`enstow doctor`) to audit permissions, `.gitignore` gaps, and leaks.
 4. **Ignore Files**: Add plaintext secret paths to `.gitignore` and package `.enstowignore` (`task create-ignore -- <package>`). Commit only `.age` files.
 5. **Explicit Staging**: Never use blanket staging (`git add .` or `git add -A`) when untracked secret files exist; stage explicitly by name and inspect `rtk git diff --staged`.
 <!-- sensitive-information-protection-end -->
@@ -165,15 +165,15 @@ NEVER commit or stage unencrypted secrets, credentials, tokens, keys, or PII:
 
 Personal dotfiles managed with **enstow** (symlinking + built-in `age` encryption), **Task** (`Taskfile.yaml`), and **Bash**.
 
-- **Config & Package Registry**: Active packages and recipients configured in `.enstow.toml` (invoked with `enstow -C .enstow.toml`).
+- **Config & Package Registry**: Active packages, recipients, `prune = true`, and `mask_secrets = true` configured in `.enstow.toml` (auto-discovered by `enstow` from repo root).
 - **Key Tasks**:
   - `task bootstrap`: Apply packages (symlinks + in-memory secret decryption), install git hooks.
-  - `task install` / `task restow` / `task restow:fix` / `task unstow` (`task delete`) / `task scrub`: Manage packages via `enstow`.
-  - `task test`: Dry-run `enstow -C .enstow.toml apply --dry-run --force`.
-  - `task status` / `task diff` / `task doctor`: Inspect sync state, masked diffs, and secret/symlink hygiene.
+  - `task install` / `task restow` / `task restow:fix` / `task unstow` (`task delete`) / `task scrub`: Manage packages via `enstow` (`restow:fix` runs `enstow apply --backup`, unfolding legacy folded links, pruning stale symlinks, and backing up conflicts to `~/.enstow-backup/<timestamp>`).
+  - `task test`: Dry-run `enstow apply --dry-run --force`.
+  - `task status` / `task diff` / `task doctor`: Inspect sync state (`--check` for non-zero exit), masked diffs, and secret/symlink hygiene.
   - `task test-integration`: Run Docker-based integration test (`bash tests/run.sh`).
-  - `task edit` / `task encrypt` / `task decrypt`: Edit/encrypt/decrypt `.age` secrets via `enstow`.
-  - `task check-secrets`: Verify staged files contain no unencrypted secrets.
+  - `task edit` / `task encrypt` / `task decrypt`: Edit (`--apply` auto-redeploys), encrypt, or decrypt `.age` secrets via `enstow`.
+  - `task check-secrets`: Run `enstow doctor --staged -s .` to verify staged files contain no plaintext secrets or credential leaks.
   - `task create-ignore -- <pkg>`: Create `.enstowignore` in package folder.
 
 ## enstow & Bash Conventions

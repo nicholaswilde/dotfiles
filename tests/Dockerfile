@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-ARG ENSTOW_VERSION=0.1.15
+ARG ENSTOW_VERSION=0.1.16
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \

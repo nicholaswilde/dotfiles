@@ -37,15 +37,16 @@ plaintext secrets are ever stored inside the repository working tree.
 Common secret workflows:
 
 ```shell
-task edit                         # Edit bash/.tokens.age securely in memory
+enstow keygen                     # Generate age key (~/.config/sops/age/keys.txt)
+task edit                         # Edit bash/.tokens.age and re-deploy ~/.tokens
 task edit -- pvetui/.config/pvetui/config.yml.age
 task decrypt                      # Decrypt bash/.tokens.age -> ~/.tokens (0600)
 task encrypt                      # Encrypt ~/.tokens -> bash/.tokens.age
-task doctor                       # Verify secret decryption & 0600 permissions
+task doctor                       # Audit secrets, 0600 perms, and .gitignore
 ```
 
-Install the pre-commit hook and verify staged files contain no plaintext
-secrets:
+Install the pre-commit hook (`enstow doctor --staged`) and verify staged files
+contain no plaintext secrets or credential leaks:
 
 ```shell
 task install-hooks
@@ -69,17 +70,16 @@ packages: `bash`, `tmux`, `ripgrep`, `bat`, `xclip`, `ssh`, `gnupg`, `nvim`,
 `mise`, `pvetui`, `btop`, `rtk`, `tfa`, `gopass`, `eget`, `systemd`,
 `neofetch`, `rustscan`):
 
-- `Taskfile.yaml` tasks (`task install`, `task restow`, `task test`,
-  `task unstow`, `task status`, `task diff`, `task doctor`) invoke
-  `enstow -C .enstow.toml`.
+- `enstow` auto-discovers `.enstow.toml` from the repository root (`prune = true`
+  and `mask_secrets = true` are enabled by default).
 
 To add a new package:
 
 1. Create `<package>/` replicating the `$HOME`-relative path (or use
-   `enstow -C .enstow.toml add <file> -p <package> [--encrypt]`).
+   `enstow add <file> -p <package> [--encrypt]`).
 2. Add `"<package>"` to `packages` in `.enstow.toml`.
 3. Dry-run with `task test`, then apply with `task install` (or
-   `enstow -C .enstow.toml apply <package>`).
+   `enstow apply <package>`).
 
 ### :cat: Terminal Colors
 
@@ -91,9 +91,10 @@ Catppuccin Mocha color settings for `whiptail` through `bash/.bash_exports`.
 ## :pencil: Usage
 
 > [!NOTE]
-> Migrating a host previously stowed with GNU Stow? Run `task restow:fix` to
-> unlink legacy folded directory symlinks before applying per-file `enstow`
-> symlinks and `0600` decrypted secrets.
+> Migrating a host previously stowed with GNU Stow? `enstow apply` and
+> `task restow:fix` (`enstow apply --backup`) automatically unfold legacy folded
+> directory symlinks, prune stale links, and back up unmanaged conflicts to
+> `~/.enstow-backup/<timestamp>`.
 
 Common `enstow` and Task commands:
 
@@ -101,11 +102,12 @@ Common `enstow` and Task commands:
 task bootstrap         # Apply packages + decrypt secrets, install git hooks
 task update            # Pull main, update assets, restow, reload shell
 task restow            # Restow all packages from .enstow.toml
-task restow:fix        # Resolve conflicts/legacy folded links with backup and restow
+task restow:fix        # Unfold links, prune stale, backup conflicts, and apply
 task test              # Dry-run enstow across .enstow.toml
-task status            # Inspect sync/missing/conflict/drift status
+task status            # Show sync/conflict/drift status (-- --check for CI)
 task diff              # Show unified diff (secrets masked)
 task doctor            # Audit symlinks, 0600 secret permissions, and leaks
+task check-secrets     # Run enstow doctor --staged against git index
 task unstow            # Remove managed symlinks and decrypted secrets
 task scrub             # Zeroize and remove decrypted secrets and symlinks
 task test-integration  # Run Debian Docker integration test (tests/run.sh)
@@ -114,11 +116,11 @@ task test-integration  # Run Debian Docker integration test (tests/run.sh)
 Manage a single package (e.g. `bash`):
 
 ```shell
-enstow -C .enstow.toml apply bash            # Apply package
-enstow -C .enstow.toml apply --dry-run bash  # Dry-run package
-enstow -C .enstow.toml unstow bash           # Unstow package
-enstow -C .enstow.toml restow bash           # Restow package
-enstow -C .enstow.toml status bash           # Check package status
+enstow apply bash            # Apply package (idempotent for synced secrets)
+enstow apply --dry-run bash  # Dry-run package
+enstow unstow bash           # Unstow package
+enstow restow bash           # Restow package
+enstow status --check bash   # Check package status (non-zero on drift)
 ```
 
 Bash helper aliases and functions:

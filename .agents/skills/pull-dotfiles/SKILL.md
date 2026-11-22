@@ -46,22 +46,24 @@ rtk git pull
 `enstow` automatically decrypts `.age` secrets in memory directly to `$HOME`
 (`0600`) during `apply` / `restow`:
 
-1. Preview with `task test` (`enstow -C .enstow.toml apply --dry-run --force`).
+1. Preview with `task test` (`enstow apply --dry-run --force`).
 2. Apply symlinks and decrypted secrets with `task restow`.
 3. If unmanaged target collisions or legacy folded directory symlinks block
-   apply, run `task restow:fix` (see [`restow`](../restow/SKILL.md)).
+   apply, run `task restow:fix` (`enstow apply --backup`, see
+   [`restow`](../restow/SKILL.md)).
 
 ### 4. Status & Health Audit
 
 Inspect sync state and hygiene with `enstow`:
 
 ```bash
-task status
+task status -- --check
 task doctor
 ```
 
-- Remove stale symlinks pointing to removed `dotfiles` targets; confirm with
-  the user before removing unrelated links outside `dotfiles`.
+- Stale symlinks pointing to removed `dotfiles` targets are pruned automatically
+  by `enstow apply` (`prune = true` in `.enstow.toml`); confirm with the user
+  before removing unrelated links outside `dotfiles`.
 
 ### 5. Verification & Fix Loop
 

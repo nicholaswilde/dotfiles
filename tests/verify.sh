@@ -5,7 +5,6 @@ echo "=== Verifying enstow Installation ==="
 
 HOME_DIR="${HOME}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG_FILE="${REPO_ROOT}/.enstow.toml"
 
 # Check standard symlinks
 declare -A EXPECTED_LINKS=(
@@ -73,15 +72,14 @@ for plaintext in "${FORBIDDEN_REPO_SECRETS[@]}"; do
     fi
 done
 
-# Validate enstow status reports no missing, conflicted, modified, or unverified targets
-if command -v enstow >/dev/null 2>&1 && [ -f "$CONFIG_FILE" ]; then
-    status_out=$(enstow -C "$CONFIG_FILE" -s "$REPO_ROOT" -t "$HOME_DIR" status --json)
-    if echo "$status_out" | grep -qE '"status": "(missing|conflict|modified|unverified)"'; then
-        echo "FAIL: enstow status reported non-synced entries:"
-        enstow -C "$CONFIG_FILE" -s "$REPO_ROOT" -t "$HOME_DIR" status
-        failed=1
-    else
+# Validate enstow status reports all managed dotfiles and secrets SYNCED
+if command -v enstow >/dev/null 2>&1; then
+    if enstow -s "$REPO_ROOT" -t "$HOME_DIR" status --check >/dev/null; then
         echo "PASS: enstow status reports all managed dotfiles and secrets SYNCED"
+    else
+        echo "FAIL: enstow status reported non-synced entries:"
+        enstow -s "$REPO_ROOT" -t "$HOME_DIR" status || true
+        failed=1
     fi
 fi
 

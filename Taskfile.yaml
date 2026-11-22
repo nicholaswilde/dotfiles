@@ -3,8 +3,6 @@ version: '3'
 
 vars:
   VER: '3.0'
-  ENSTOW_CONFIG: '{{ .TASKFILE_DIR }}/.enstow.toml'
-  ENSTOW: 'enstow -C {{ .ENSTOW_CONFIG }}'
 
 tasks:
   update:
@@ -29,34 +27,40 @@ tasks:
       - task: install
       - task: install-hooks
   install-hooks:
-    desc: Install git hooks
+    desc: Install git pre-commit hook using enstow doctor --staged
     cmds:
       - mkdir -p .git/hooks
-      - ln -sf ../../scripts/check-secrets.sh .git/hooks/pre-commit
+      - |
+        rm -f .git/hooks/pre-commit
+        cat <<'EOF' > .git/hooks/pre-commit
+        #!/usr/bin/env sh
+        exec enstow doctor --staged -s .
+        EOF
+        chmod +x .git/hooks/pre-commit
   decrypt:
     desc: Decrypt secret dotfile with enstow (defaults to bash/.tokens.age -> ~/.tokens)
     cmds:
       - |
         if [ -n "{{ .CLI_ARGS }}" ]; then
-          {{ .ENSTOW }} decrypt {{ .CLI_ARGS }}
+          enstow decrypt {{ .CLI_ARGS }}
         else
-          {{ .ENSTOW }} decrypt "{{ .TASKFILE_DIR }}/bash/.tokens.age" -o "${HOME}/.tokens"
+          enstow decrypt bash/.tokens.age -o "${HOME}/.tokens"
         fi
   encrypt:
     desc: Encrypt secret dotfile with enstow (defaults to ~/.tokens -> bash/.tokens.age)
     cmds:
       - |
         if [ -n "{{ .CLI_ARGS }}" ]; then
-          {{ .ENSTOW }} encrypt {{ .CLI_ARGS }}
-        elif [ -f "{{ .TASKFILE_DIR }}/bash/.tokens" ]; then
-          {{ .ENSTOW }} encrypt "{{ .TASKFILE_DIR }}/bash/.tokens" -o "{{ .TASKFILE_DIR }}/bash/.tokens.age"
+          enstow encrypt {{ .CLI_ARGS }}
+        elif [ -f bash/.tokens ]; then
+          enstow encrypt bash/.tokens -o bash/.tokens.age
         else
-          {{ .ENSTOW }} encrypt "${HOME}/.tokens" -o "{{ .TASKFILE_DIR }}/bash/.tokens.age"
+          enstow encrypt "${HOME}/.tokens" -o bash/.tokens.age
         fi
   edit:
-    desc: Interactively decrypt, edit, and re-encrypt an age secret (defaults to bash/.tokens.age)
+    desc: Interactively edit, re-encrypt, and re-deploy an age secret (defaults to bash/.tokens.age)
     cmds:
-      - '{{ .ENSTOW }} edit {{ .CLI_ARGS | default "bash/.tokens.age" }}'
+      - 'enstow edit --apply {{ .CLI_ARGS | default "bash/.tokens.age" }}'
   deps:
     desc: Install dependencies
     cmds:
@@ -72,43 +76,40 @@ tasks:
   test:
     desc: Preview enstow apply across configured packages (dry-run)
     cmds:
-      - '{{ .ENSTOW }} apply --dry-run --force {{ .CLI_ARGS }}'
+      - 'enstow apply --dry-run --force {{ .CLI_ARGS }}'
   install:
     desc: Apply configured dotfile packages with enstow
     cmds:
-      - '{{ .ENSTOW }} apply --force {{ .CLI_ARGS }}'
+      - 'enstow apply --force {{ .CLI_ARGS }}'
   restow:
     desc: Restow configured dotfile packages with enstow
     cmds:
-      - '{{ .ENSTOW }} restow --force {{ .CLI_ARGS }}'
+      - 'enstow restow --force {{ .CLI_ARGS }}'
   restow:fix:
-    desc: Restow packages and automatically resolve existing conflicts with backup
+    desc: Apply packages with conflict backup, folded-link unfolding, and stale symlink pruning
     cmds:
-      - ./scripts/restow-and-fix.sh {{ .CLI_ARGS }}
-  delete:
-    desc: Unstow configured dotfile packages with enstow
-    cmds:
-      - '{{ .ENSTOW }} unstow {{ .CLI_ARGS }}'
+      - 'enstow apply --backup {{ .CLI_ARGS }}'
   unstow:
+    aliases: [delete]
     desc: Remove managed symlinks and decrypted secrets with enstow
     cmds:
-      - '{{ .ENSTOW }} unstow {{ .CLI_ARGS }}'
+      - 'enstow unstow {{ .CLI_ARGS }}'
   scrub:
     desc: Securely shred decrypted secrets and remove managed symlinks
     cmds:
-      - '{{ .ENSTOW }} scrub {{ .CLI_ARGS }}'
+      - 'enstow scrub {{ .CLI_ARGS }}'
   status:
     desc: Show sync status of managed dotfiles and secrets
     cmds:
-      - '{{ .ENSTOW }} status {{ .CLI_ARGS }}'
+      - 'enstow status {{ .CLI_ARGS }}'
   diff:
     desc: Show diff between dotfiles and targets (secrets masked)
     cmds:
-      - '{{ .ENSTOW }} diff --mask-secrets {{ .CLI_ARGS }}'
+      - 'enstow diff {{ .CLI_ARGS }}'
   doctor:
     desc: Audit system health, secret permissions, and symlinks
     cmds:
-      - '{{ .ENSTOW }} doctor {{ .CLI_ARGS }}'
+      - 'enstow doctor {{ .CLI_ARGS }}'
   create-ignore:
     desc: Create a .enstowignore file in a package folder
     preconditions:
@@ -124,9 +125,9 @@ tasks:
       - rm -f ~/.config/micro/settings.json
       - rm -f ~/.config/gh/config.yml
   check-secrets:
-    desc: Verify staged files for unencrypted secrets
+    desc: Verify staged files for unencrypted secrets and credential leaks
     cmds:
-      - ./scripts/check-secrets.sh
+      - enstow doctor --staged -s .
   test-integration:
     desc: Run integration test inside a clean Debian Docker container
     cmds:

@@ -20,4 +20,4 @@ Validates syntax and quality standards for `bash/` dotfiles.
    - Verify new aliases, functions, completions, hooks, and tool evals are guarded with `command_exists` (or `file_exists` / `dir_exists` / `test -d`).
 
 4. **enstow Verification**:
-   - Dry-run `task test` (`enstow -C .enstow.toml apply --dry-run --force`), check `task status -- bash`, or run `bash tests/verify.sh` when applied.
+   - Dry-run `task test` (`enstow apply --dry-run --force`), check `task status -- --check bash`, or run `bash tests/verify.sh` when applied.

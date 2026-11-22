@@ -4,17 +4,17 @@ Repository conventions for `dotfiles` (`enstow`, Task, Bash).
 
 ## enstow Packages
 
-- Register every active package in `.enstow.toml` (`packages = [...]`).
-- Replicate target `$HOME`-relative structure under `<package>/` (or ingest with `enstow -C .enstow.toml add <file> -p <package> [--encrypt]`).
+- Register every active package in `.enstow.toml` (`packages = [...]`; auto-discovered by `enstow` from repo root).
+- Replicate target `$HOME`-relative structure under `<package>/` (or ingest with `enstow add <file> -p <package> [--encrypt]`).
 - Use `.enstowignore` (Git-style ignore syntax, NOT Perl regexes) inside package dirs to skip non-deployed files (`README.md`, `*.swp`, `.config/tmux/plugins/`). Create via `task create-ignore -- <package>`.
-- Test with `task test` (`enstow -C .enstow.toml apply --dry-run --force`) before applying `task install` or `task restow`.
+- Test with `task test` (`enstow apply --dry-run --force`) before applying `task install`, `task restow`, or `task restow:fix` (`enstow apply --backup`).
 
 ## Secrets & Age Encryption (`enstow`)
 
-- **Secret & Token Env Vars (`bash/.tokens.age`)**: Place secret, token, API key, and password env vars in `bash/.tokens.age` (`export VAR="..."`, deployed to `~/.tokens` with `0600` perms) — never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext tracked configs. Edit securely via `task edit` (`enstow -C .enstow.toml edit bash/.tokens.age`) or update `~/.tokens` and run `task encrypt`.
+- **Secret & Token Env Vars (`bash/.tokens.age`)**: Place secret, token, API key, and password env vars in `bash/.tokens.age` (`export VAR="..."`, deployed to `~/.tokens` with `0600` perms) — never in `bash/.bash_exports`, `bash/.bashrc`, `bash/.profile`, or plaintext tracked configs. Edit securely via `task edit` (`enstow edit --apply bash/.tokens.age`) or update `~/.tokens` and run `task encrypt`.
 - Never store or commit plaintext `.tokens`, `pvetui/.config/pvetui/config.yml`, or `.env` inside repository working tree.
-- Encrypt with `task encrypt` (`enstow -C .enstow.toml encrypt`) and decrypt with `task decrypt` (`enstow -C .enstow.toml decrypt`) or `enstow apply`.
-- Run `task check-secrets` (`./scripts/check-secrets.sh`) and `task doctor` (`enstow -C .enstow.toml doctor`) before commits; install pre-commit hook via `task install-hooks`.
+- Encrypt with `task encrypt` (`enstow encrypt`), decrypt with `task decrypt` (`enstow decrypt`) or `enstow apply`, generate keys with `enstow keygen`.
+- Run `task check-secrets` (`enstow doctor --staged -s .`) and `task doctor` (`enstow doctor`) before commits; install pre-commit hook via `task install-hooks`.
 
 ## Bash Configuration Standards
 

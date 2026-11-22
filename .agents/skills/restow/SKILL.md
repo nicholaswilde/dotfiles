@@ -33,17 +33,12 @@ Inspect active packages and repository status:
 
 ### 2. Conflict Detection & Diagnosis
 
-Run dry-run or status to identify conflicting paths before modifying links:
+Run status or dry-run to identify conflicting paths, legacy folded links, or
+stale symlinks before modifying disk:
 
 ```bash
 task status
-task test
-```
-
-Or dry-run via helper script:
-
-```bash
-./scripts/restow-and-fix.sh --dry-run
+task restow:fix -- --dry-run
 ```
 
 **Common Conflict Classes**:
@@ -51,15 +46,19 @@ Or dry-run via helper script:
 - **Unmanaged target file**: Regular file exists in `$HOME` where a symlink or
   decrypted secret is expected.
 - **Legacy folded directory symlink**: Directory symlink left over from GNU
-  Stow pointing into the repo (must be unlinked before `enstow` links files).
-- **Dangling symlink**: Target link in `$HOME` pointing to a deleted file.
+  Stow pointing into the repo (unfolded automatically by `enstow apply` /
+  `enstow restow`).
+- **Dangling/stale symlink**: Target link in `$HOME` pointing to a deleted file
+  (pruned automatically by `enstow apply` with `prune = true` in `.enstow.toml`).
 - **Secret drift (`MODIFIED`)**: Decrypted target differs from `.age` source
-  (inspect with `task diff`).
+  (inspect with `task diff`; adopt local changes via `enstow apply --adopt` or
+  resolve interactively with `enstow apply -I`).
 
 ### 3. Automated Conflict Resolution
 
-Execute the restow helper to clean legacy folded/dangling links, back up
-colliding unmanaged targets to `~/.dotfiles_backup/<timestamp>`, and restow:
+Run `task restow:fix` (`enstow apply --backup`) to unfold legacy folded links,
+prune stale symlinks, back up colliding unmanaged targets lazily to
+`~/.enstow-backup/<timestamp>`, and apply packages:
 
 ```bash
 task restow:fix
@@ -87,6 +86,7 @@ Run verification tests to confirm expected symlinks, `0600` decrypted secrets,
 and secret guard status:
 
 ```bash
+task status -- --check
 bash tests/verify.sh
 task doctor
 task check-secrets

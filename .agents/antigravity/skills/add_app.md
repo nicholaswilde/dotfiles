@@ -15,22 +15,22 @@ This skill automates the process of adding an existing application's configurati
      - If the path is outside the home directory, stop and ask the user to clarify.
 
 2. **Replicate Structure and Register Package:**
-   - **Step:** Use `enstow -C .enstow.toml add <path> -p <package_name>` (with `--encrypt` for secret files), or create `<workspace-root>/<package_name>/<relative_path_from_home>` and copy files.
+   - **Step:** Use `enstow add <path> -p <package_name>` (with `--encrypt` for secret files), or create `<workspace-root>/<package_name>/<relative_path_from_home>` and copy files.
    - **Step:** Add `"<package_name>"` to `packages` in `.enstow.toml` at the repository root.
 
 3. **Check for Secrets:**
    - **Step:** Ask the user if the configuration files contain any sensitive information (e.g. API keys, passwords, tokens).
    - **Step:** **If the files contain secrets**:
-     - Encrypt the file as `.age` using `enstow -C .enstow.toml encrypt <file> -o <package>/<relative_path>.age` (or `enstow add --encrypt`).
+     - Encrypt the file as `.age` using `enstow encrypt <file> -o <package>/<relative_path>.age` (or `enstow add --encrypt`).
      - Add the plaintext file path to root `.gitignore` and (if needed) `<package_name>/.enstowignore` (Git-style ignore syntax).
      - Never commit or leave plaintext secret files in the repository working tree.
    - **Step:** **If the files do not contain secrets**:
      - Retain them as plaintext.
 
 4. **Verify and Apply:**
-   - **Step:** Run a dry-run simulation using `task test` or `enstow -C .enstow.toml apply --dry-run <package_name>`.
+   - **Step:** Run a dry-run simulation using `task test` or `enstow apply --dry-run <package_name>`.
    - **Step:** Review simulation output. If there are conflicts or errors, report them and halt.
-   - **Step:** Ask the user to confirm applying the package, then run `enstow -C .enstow.toml apply --force <package_name>` and verify with `task status` and `task doctor`.
+   - **Step:** Ask the user to confirm applying the package, then run `enstow apply --force <package_name>` and verify with `task status -- --check` and `task doctor`.
 
 5. **Commit Changes:**
    - **Step:** Run `task check-secrets` and stage the new package files explicitly.

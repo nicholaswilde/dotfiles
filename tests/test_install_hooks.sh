@@ -12,22 +12,20 @@ if ! task install-hooks >/dev/null 2>&1; then
   exit 1
 fi
 
-# Verify symlink exists
-if [ ! -L .git/hooks/pre-commit ]; then
-  echo "FAIL: .git/hooks/pre-commit is not a symlink"
+# Verify pre-commit hook file exists and is executable
+if [ ! -f .git/hooks/pre-commit ]; then
+  echo "FAIL: .git/hooks/pre-commit does not exist"
   exit 1
 fi
 
-# Verify symlink target is correct
-target=$(readlink .git/hooks/pre-commit)
-if [ "$target" != "../../scripts/check-secrets.sh" ]; then
-  echo "FAIL: symlink target is $target, expected ../../scripts/check-secrets.sh"
-  exit 1
-fi
-
-# Verify it is executable
 if [ ! -x .git/hooks/pre-commit ]; then
   echo "FAIL: .git/hooks/pre-commit is not executable"
+  exit 1
+fi
+
+# Verify hook invokes enstow doctor --staged
+if ! grep -q "enstow doctor --staged" .git/hooks/pre-commit; then
+  echo "FAIL: .git/hooks/pre-commit does not invoke enstow doctor --staged"
   exit 1
 fi
 

@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  ENSTOW_VERSION: 0.1.15
+  ENSTOW_VERSION: 0.1.16
 
 jobs:
   test:
@@ -16,11 +16,6 @@ jobs:
     steps:
     - name: Checkout dotfiles repository
       uses: actions/checkout@v4
-
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y age
 
     - name: Install go-task
       run: |
@@ -36,9 +31,7 @@ jobs:
 
     - name: Create Ephemeral Key and Mock Encrypted Secrets
       run: |
-        mkdir -p "${HOME}/.config/sops/age"
-        age-keygen -o "${HOME}/.config/sops/age/keys.txt"
-        chmod 600 "${HOME}/.config/sops/age/keys.txt"
+        enstow keygen
         printf 'export DUMMY_TOKEN="placeholder_value"\n' > /tmp/mock_tokens
         enstow encrypt /tmp/mock_tokens -o bash/.tokens.age --age-key-file "${HOME}/.config/sops/age/keys.txt"
         printf 'default_profile: mock\n' > /tmp/mock_pvetui.yml
@@ -60,4 +53,5 @@ jobs:
         ./tests/test_check_secrets.sh
         ./tests/test_install_hooks.sh
         ./tests/test_pre_commit_hook.sh
+        ./tests/test_taskfile_check_secrets.sh
         ./tests/test_skills_catalog_links.sh

@@ -11,7 +11,7 @@ Catalog of custom Antigravity agent skills available in `dotfiles`.
 | [`check-configs`](skills/check-configs/SKILL.md) | Scan `~/.config/` against `.enstow.toml` and recommend configs to manage with `enstow` | `/app check-configs` |
 | [`check-secrets`](skills/check-secrets/SKILL.md) | Audit staged files and `enstow` `.age` encrypted secrets across repository | `task check-secrets` / `task doctor` |
 | [`commit-dotfiles`](skills/commit-dotfiles/SKILL.md) | Safely audit secrets, run `enstow` dry-run, stage explicitly, commit, and push dotfiles | `/commit-dotfiles` / `task test` |
-| [`enforce-automation`](skills/enforce-automation/SKILL.md) | Prioritize `Taskfile.yaml` and `scripts/` automation before raw shell execution | `task --list` |
+| [`enforce-automation`](skills/enforce-automation/SKILL.md) | Prioritize `Taskfile.yaml` automation before raw shell execution | `task --list` |
 | [`manage-bash-aliases`](skills/manage-bash-aliases/SKILL.md) | Manage conditional aliases in `bash/.bash_aliases` guarded by existence checks | `shuck check bash/.bash_aliases` |
 | [`manage-bash-completions`](skills/manage-bash-completions/SKILL.md) | Manage completions, hooks, and evals in `bash/.bash_completions` guarded by `command_exists` | `shuck check bash/.bash_completions` |
 | [`manage-bash-exports`](skills/manage-bash-exports/SKILL.md) | Manage env vars and exports in `bash/.bash_exports` with binary/path guards and `bash/.tokens.age` secret routing | `shuck check bash/.bash_exports` |

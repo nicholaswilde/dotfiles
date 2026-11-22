@@ -27,10 +27,11 @@ Strictly enforce secret management guidelines before staging:
 - **Scan candidate files**: Verify no plaintext API tokens, auth credentials,
   passwords, private keys (`*.pem`, `*.key`, `id_rsa`, `id_ed25519`), or `.env`
   files are included.
-- **Run Secret Check**: Run `task check-secrets` (`./scripts/check-secrets.sh`).
+- **Run Secret Check**: Run `task check-secrets` (`enstow doctor --staged -s .`).
 - **Encrypted Secrets**: If `~/.tokens` was modified, ensure `task encrypt`
-  has updated `bash/.tokens.age` (or edit directly via `task edit`). Never
-  commit or stage plaintext `bash/.tokens` or `pvetui/.config/pvetui/config.yml`.
+  has updated `bash/.tokens.age` (or edit directly via `task edit`, which
+  auto-applies changes). Never commit or stage plaintext `bash/.tokens` or
+  `pvetui/.config/pvetui/config.yml`.
 - **No Blanket Staging**: NEVER run `git add .` or `git add -A`. All targets
   must be staged explicitly by file path.
 
