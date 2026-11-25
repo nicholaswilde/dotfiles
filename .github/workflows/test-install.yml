@@ -32,10 +32,11 @@ jobs:
     - name: Create Ephemeral Key and Mock Encrypted Secrets
       run: |
         enstow keygen
+        PUBKEY="$(awk '/public key:/ {print $NF}' "${HOME}/.config/sops/age/keys.txt")"
         printf 'export DUMMY_TOKEN="placeholder_value"\n' > /tmp/mock_tokens
-        enstow encrypt /tmp/mock_tokens -o bash/.tokens.age --age-key-file "${HOME}/.config/sops/age/keys.txt"
+        enstow encrypt /tmp/mock_tokens -o bash/.tokens.age -r "${PUBKEY}"
         printf 'default_profile: mock\n' > /tmp/mock_pvetui.yml
-        enstow encrypt /tmp/mock_pvetui.yml -o pvetui/.config/pvetui/config.yml.age --age-key-file "${HOME}/.config/sops/age/keys.txt"
+        enstow encrypt /tmp/mock_pvetui.yml -o pvetui/.config/pvetui/config.yml.age -r "${PUBKEY}"
         rm -f /tmp/mock_tokens /tmp/mock_pvetui.yml
 
     - name: Dry-run enstow Installation
