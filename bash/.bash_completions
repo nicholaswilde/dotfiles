@@ -109,6 +109,11 @@ if command_exists tfa; then
   source <(tfa completions bash)
 fi
 
+if command_exists mdfm; then
+  # shellcheck source=/dev/null
+  source <(mdfm completions bash)
+fi
+
 # pnpm end
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
