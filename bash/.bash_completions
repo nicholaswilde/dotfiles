@@ -114,6 +114,11 @@ if command_exists mdfm; then
   source <(mdfm completions bash)
 fi
 
+if command_exists hbx; then
+  # shellcheck source=/dev/null
+  source <(hbx completions bash)
+fi
+
 # pnpm end
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
