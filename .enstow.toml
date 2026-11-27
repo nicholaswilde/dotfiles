@@ -36,6 +36,13 @@ packages = [
   "systemd",
   "neofetch",
   "rustscan",
+  "hbctl",
+  "colab-cli",
 ]
 
-ignore = ["*.swp", "*.log"]
+ignore = [
+  "*.swp",
+  "*.log",
+  ".config/hbctl/credentials.json",
+  ".config/colab-cli/token.json",
+]

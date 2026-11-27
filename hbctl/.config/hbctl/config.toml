@@ -1,0 +1,3 @@
+url = "http://192.168.1.115:7745/api/v1"
+token_type = "api_key"
+credential_backend = "file"

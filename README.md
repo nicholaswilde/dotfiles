@@ -64,11 +64,11 @@ task check-secrets
 
 ### :open_file_folder: Packages Configuration
 
-Active packages are configured in [`.enstow.toml`](./.enstow.toml) (26
+Active packages are configured in [`.enstow.toml`](./.enstow.toml) (28
 packages: `bash`, `tmux`, `ripgrep`, `bat`, `xclip`, `ssh`, `gnupg`, `nvim`,
 `micro`, `gh`, `git`, `lazygit`, `lazydocker`, `cheat`, `glow`, `glamour`,
 `mise`, `pvetui`, `btop`, `rtk`, `tfa`, `gopass`, `eget`, `systemd`,
-`neofetch`, `rustscan`):
+`neofetch`, `rustscan`, `hbctl`, `colab-cli`):
 
 - `enstow` auto-discovers `.enstow.toml` from the repository root (`prune = true`
   and `mask_secrets = true` are enabled by default).

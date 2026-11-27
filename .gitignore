@@ -3,6 +3,8 @@ pvetui/.config/pvetui/config.yml
 **/google_account_id
 **/installation_id
 **/oauth_creds.json
+**/.config/hbctl/credentials.json
+**/.config/colab-cli/token.json
 **/.config/micro/buffers
 **/.config/tmux/plugins
 *.swp
