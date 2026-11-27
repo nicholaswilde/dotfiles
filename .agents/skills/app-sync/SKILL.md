@@ -1,6 +1,8 @@
 ---
 name: app-sync
-description: Commit and push local dotfile changes for a package, then pull and restart services on a target Proxmox LXC container. Trigger: "/app sync", "sync app to lxc", "push and pull dotfiles".
+description: >-
+  Commit and push local dotfile changes for a package, then pull and restart services on a target Proxmox LXC container.
+  Trigger: "/app sync", "sync app to lxc", "push and pull dotfiles".
 ---
 
 # App Sync Skill

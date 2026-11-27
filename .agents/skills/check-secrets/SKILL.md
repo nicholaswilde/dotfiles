@@ -1,6 +1,8 @@
 ---
 name: check-secrets
-description: Audit staged files and enstow age-encrypted secrets across dotfiles using enstow doctor --staged, task check-secrets, task doctor, and task edit/encrypt/decrypt. Trigger: "check secrets", "audit secrets", "verify secrets", "verify age", "install git hooks".
+description: >-
+  Audit staged files and enstow age-encrypted secrets across dotfiles using enstow doctor --staged, task check-secrets, task doctor, and task edit/encrypt/decrypt.
+  Trigger: "check secrets", "audit secrets", "verify secrets", "verify age", "install git hooks".
 ---
 
 # Check Secrets Skill

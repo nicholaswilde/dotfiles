@@ -1,6 +1,8 @@
 ---
 name: manage-bash-exports
-description: Add, modify, or remove environment variables and tool exports in bash/.bash_exports (plus bash/.bashrc and bash/.profile init entries) with binary/path guards and secret routing to bash/.tokens.age. Trigger: "manage bash exports", "add env var", "remove env var", "update .bash_exports", "update .bashrc".
+description: >-
+  Add, modify, or remove environment variables and tool exports in bash/.bash_exports (plus bash/.bashrc and bash/.profile init entries) with binary/path guards and secret routing to bash/.tokens.age.
+  Trigger: "manage bash exports", "add env var", "remove env var", "update .bash_exports", "update .bashrc".
 ---
 
 # Manage Bash Exports Skill
@@ -36,7 +38,7 @@ Manages environment variables, tool configurations, and sourced init entries in 
    - Run `task check-secrets` before staging.
 
 4. **Commit**:
-   - Stage modified files explicitly and commit:
+   - Stage modified files explicitly and commit (include `Fixes #<number>` when resolving an issue):
 
      ```bash
      rtk git commit -m "feat(bash): Update <var> export"

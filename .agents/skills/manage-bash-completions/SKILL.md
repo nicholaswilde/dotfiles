@@ -1,6 +1,8 @@
 ---
 name: manage-bash-completions
-description: Add, modify, or remove shell completions, hooks, and tool evals in bash/.bash_completions guarded by command_exists or file/dir checks. Trigger: "manage bash completions", "add completion", "remove completion", "update .bash_completions", "add hook".
+description: >-
+  Add, modify, or remove shell completions, hooks, and tool evals in bash/.bash_completions guarded by command_exists or file/dir checks.
+  Trigger: "manage bash completions", "add completion", "remove completion", "update .bash_completions", "add hook".
 ---
 
 # Manage Bash Completions Skill
@@ -32,7 +34,7 @@ Manages shell completions, hooks, and tool `eval` initializers in `bash/.bash_co
    - Confirm `bash/.tokens` / secrets are not referenced or hardcoded.
 
 4. **Commit**:
-   - Stage `bash/.bash_completions` explicitly and commit:
+   - Stage `bash/.bash_completions` explicitly and commit (include `Fixes #<number>` when resolving an issue):
 
      ```bash
      rtk git commit -m "feat(bash): Add <tool> completion"

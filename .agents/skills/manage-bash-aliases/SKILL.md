@@ -1,6 +1,8 @@
 ---
 name: manage-bash-aliases
-description: Add, modify, or remove conditional shell aliases in bash/.bash_aliases guarded by command_exists, file_exists, or dir_exists. Trigger: "manage bash aliases", "add alias", "update .bash_aliases".
+description: >-
+  Add, modify, or remove conditional shell aliases in bash/.bash_aliases guarded by command_exists, file_exists, or dir_exists.
+  Trigger: "manage bash aliases", "add alias", "update .bash_aliases".
 ---
 
 # Manage Bash Aliases Skill

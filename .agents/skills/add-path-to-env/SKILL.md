@@ -1,6 +1,8 @@
 ---
 name: add-path-to-env
-description: Safely append or prepend directory paths to $PATH in bash/.bash_exports with test -d guards and duplicate checks. Trigger: "add path to env", "add to PATH", "update bash_exports".
+description: >-
+  Safely append or prepend directory paths to $PATH in bash/.bash_exports with test -d guards and duplicate checks.
+  Trigger: "add path to env", "add to PATH", "update bash_exports".
 ---
 
 # Add Path to Environment Variable Skill

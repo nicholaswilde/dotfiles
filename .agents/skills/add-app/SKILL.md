@@ -1,6 +1,8 @@
 ---
 name: add-app
-description: Add an application configuration to the dotfiles repository, configure enstow, encrypt secrets with age, and register in .enstow.toml. Trigger: "/app add", "add app config", "stow new app", "enstow new app".
+description: >-
+  Add an application configuration to the dotfiles repository, configure enstow, encrypt secrets with age, and register in .enstow.toml.
+  Trigger: "/app add", "add app config", "stow new app", "enstow new app".
 ---
 
 # Add App Skill

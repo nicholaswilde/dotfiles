@@ -122,6 +122,18 @@ Use `ripwire` CLI (prefixed with `rtk ripwire`) for AST codebase mapping, call g
 - **Atomic Edits**: `rtk ripwire <dir> --replace-symbol-body=SYM --edit-payload=FILE` without whole-file re-reading.
 <!-- ripwire-end -->
 
+<!-- context7-begin -->
+## Context7 Live Docs CLI (`ctx7`)
+
+Use `ctx7` CLI inside `ctx_execute` (`language: "shell"`) FIRST for library, framework, SDK, and GitHub-indexed project docs before `search_web`:
+
+- **CLI Only**: Invoke `ctx7` (`npx -y ctx7@latest` fallback); no MCP server.
+- **One-Step Search**: `ctx7 search "<query>" --library <name> [--library-version <ver>]`.
+- **Resolve + Query**: `ctx7 library <name> "<query>"` -> `ctx7 docs <libraryId> "<query>"`.
+- **Source / Upgrades**: `ctx7 code <libraryId> "<pattern>"`, `ctx7 get-upgrade-guide <libraryId> <from> [to]`.
+- **Boundary**: Use `ctx_fetch_and_index` for arbitrary URLs; `search_web` only if `ctx7` has no match.
+<!-- context7-end -->
+
 <!-- ripgrep-guidelines-begin -->
 ## Ripgrep Guidelines
 

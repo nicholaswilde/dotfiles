@@ -1,6 +1,8 @@
 ---
 name: verify-bash-configs
-description: Validate syntax, shuck lint rules, inline ## function docstrings, and enstow symlinks for bash/ dotfiles. Trigger: "verify bash configs", "lint bash", "check bash dotfiles".
+description: >-
+  Validate syntax, shuck lint rules, inline ## function docstrings, and enstow symlinks for bash/ dotfiles.
+  Trigger: "verify bash configs", "lint bash", "check bash dotfiles".
 ---
 
 # Verify Bash Configs Skill

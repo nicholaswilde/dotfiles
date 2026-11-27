@@ -1,6 +1,8 @@
 ---
 name: check-configs
-description: Scan ~/.config/ on the host, compare against tracked packages in .enstow.toml, filter caches/secrets, and recommend configs to manage with enstow. Trigger: "/app check-configs", "check untracked configs", "audit ~/.config".
+description: >-
+  Scan ~/.config/ on the host, compare against tracked packages in .enstow.toml, filter caches/secrets, and recommend configs to manage with enstow.
+  Trigger: "/app check-configs", "check untracked configs", "audit ~/.config".
 ---
 
 # Check Configs Skill

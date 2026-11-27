@@ -1,6 +1,8 @@
 ---
 name: manage-bash-functions
-description: Add, modify, or remove shell functions in bash/.bash_functions enforcing inline ## docstrings, local vars, and command_exists guards. Trigger: "manage bash functions", "add bash function", "update .bash_functions".
+description: >-
+  Add, modify, or remove shell functions in bash/.bash_functions enforcing inline ## docstrings, local vars, and command_exists guards.
+  Trigger: "manage bash functions", "add bash function", "update .bash_functions".
 ---
 
 # Manage Bash Functions Skill
@@ -26,7 +28,7 @@ Manages shell functions in `bash/.bash_functions`.
      ```
 
 3. **Verify & Commit**:
-   - Run `bash -n bash/.bash_functions` and `shuck bash/.bash_functions`.
+   - Run `bash -n bash/.bash_functions` and `shuck check bash/.bash_functions`.
    - Stage `bash/.bash_functions` explicitly and commit (add `Fixes #<number>` if resolving an issue):
      ```bash
      rtk git commit -m "feat(bash): Add function '<function_name>'"
