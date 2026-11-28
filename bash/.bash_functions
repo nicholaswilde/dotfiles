@@ -539,9 +539,32 @@ function dotfiles() { ## Add, commit, and push dotfiles changes
 }
 
 if command_exists python3 || command_exists python; then
-  function serve() { ## Start a simple HTTP server
-    local port="${1:-8000}"
+  function serve() { ## Start a simple HTTP server (-u/--upload enables file uploads)
+    local port="8000"
+    local upload=0
+    local arg=""
     local ip=""
+
+    for arg in "$@"; do
+      case "${arg}" in
+        -u|--upload)
+          upload=1
+          ;;
+        -h|--help)
+          echo "Usage: serve [-u|--upload] [port]"
+          return 0
+          ;;
+        -*)
+          echo "Unknown option: ${arg}" >&2
+          echo "Usage: serve [-u|--upload] [port]" >&2
+          return 1
+          ;;
+        *)
+          port="${arg}"
+          ;;
+      esac
+    done
+
     if command_exists ip; then
       ip=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="src") print $(i+1)}')
     fi
@@ -553,6 +576,174 @@ if command_exists python3 || command_exists python; then
       ip=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null)
     fi
     ip="${ip:-127.0.0.1}"
+
+    if [[ "${upload}" -eq 1 ]]; then
+      if ! command_exists python3; then
+        echo "Upload mode requires python3." >&2
+        return 1
+      fi
+      echo "Serving HTTP with uploads on ${ip}:${port} (http://${ip}:${port}/)..."
+      python3 - "$port" <<'PYEOF'
+from http import HTTPStatus
+import html
+import http.server
+import io
+import os
+import sys
+import urllib.parse
+
+
+class UploadHandler(http.server.SimpleHTTPRequestHandler):
+    def list_directory(self, path):
+        try:
+            entries = os.listdir(path)
+        except OSError:
+            self.send_error(HTTPStatus.NOT_FOUND, "No permission to list directory")
+            return None
+        entries.sort(key=lambda a: a.lower())
+        raw_path = self.path.split("#", 1)[0].split("?", 1)[0]
+        try:
+            displaypath = urllib.parse.unquote(raw_path, errors="surrogatepass")
+        except UnicodeDecodeError:
+            displaypath = urllib.parse.unquote(raw_path)
+        escaped_path = html.escape(displaypath, quote=False)
+        enc = sys.getfilesystemencoding()
+        title = f"Directory listing for {escaped_path}"
+        r = [
+            "<!DOCTYPE HTML>",
+            '<html lang="en">',
+            "<head>",
+            f'<meta charset="{enc}">',
+            '<style type="text/css">\n:root {\ncolor-scheme: light dark;\n}\n</style>',
+            f"<title>{title}</title>\n</head>",
+            f"<body>\n<h1>{title}</h1>",
+            '<div style="margin:0.75em 0">'
+            '<input id="f" type="file" multiple> '
+            '<button id="u" type="button">Upload</button> '
+            '<span id="s"></span>'
+            "</div>",
+            "<hr>\n<ul>",
+        ]
+        if displaypath != "/":
+            r.append('<li><a href="../">../</a></li>')
+        for name in entries:
+            fullname = os.path.join(path, name)
+            displayname = linkname = name
+            if os.path.isdir(fullname):
+                displayname = name + "/"
+                linkname = name + "/"
+            if os.path.islink(fullname):
+                displayname = name + "@"
+            r.append(
+                '<li><a href="%s">%s</a></li>'
+                % (
+                    urllib.parse.quote(linkname, errors="surrogatepass"),
+                    html.escape(displayname, quote=False),
+                )
+            )
+        r.extend([
+            "</ul>\n<hr>",
+            "<script>",
+            'document.getElementById("u").onclick = async () => {',
+            '  const files = document.getElementById("f").files;',
+            '  const status = document.getElementById("s");',
+            '  if (!files.length) { status.textContent = "Select file(s) first."; return; }',
+            '  const base = location.pathname.endsWith("/") ? location.pathname : location.pathname + "/";',
+            "  for (let i = 0; i < files.length; i++) {",
+            "    const file = files[i];",
+            '    status.textContent = "Uploading " + (i + 1) + "/" + files.length + ": " + file.name;',
+            '    const res = await fetch(base + encodeURIComponent(file.name), { method: "PUT", body: file });',
+            "    if (!res.ok) {",
+            '      status.textContent = "Failed: " + file.name + " (" + res.status + ")";',
+            "      return;",
+            "    }",
+            "  }",
+            "  location.reload();",
+            "};",
+            "</script>",
+            "</body>\n</html>\n",
+        ])
+        encoded = "\n".join(r).encode(enc, "surrogateescape")
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", f"text/html; charset={enc}")
+        self.send_header("Content-Length", str(len(encoded)))
+        self.end_headers()
+        return io.BytesIO(encoded)
+
+    def do_PUT(self):
+        clean_path = self.path.split("#", 1)[0].split("?", 1)[0]
+        if clean_path.endswith("/"):
+            self.send_error(HTTPStatus.BAD_REQUEST, "Missing filename")
+            return
+        raw_target = self.translate_path(clean_path)
+        root = os.path.realpath(self.directory)
+        parent = os.path.realpath(os.path.dirname(raw_target))
+        name = os.path.basename(raw_target)
+        if name in ("", ".", "..") or os.path.commonpath([root, parent]) != root:
+            self.send_error(HTTPStatus.FORBIDDEN, "Invalid path")
+            return
+        if not os.path.isdir(parent):
+            self.send_error(HTTPStatus.NOT_FOUND, "Directory not found")
+            return
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError:
+            length = -1
+        if length < 0:
+            self.send_error(HTTPStatus.LENGTH_REQUIRED, "Content-Length required")
+            return
+
+        stem, ext = os.path.splitext(name)
+        idx = 0
+        while True:
+            cand = name if idx == 0 else f"{stem} ({idx}){ext}"
+            dest = os.path.join(parent, cand)
+            try:
+                out = open(dest, "xb")
+                break
+            except FileExistsError:
+                idx += 1
+
+        completed = False
+        try:
+            remaining = length
+            while remaining > 0:
+                chunk = self.rfile.read(min(65536, remaining))
+                if not chunk:
+                    break
+                out.write(chunk)
+                remaining -= len(chunk)
+            if remaining > 0:
+                self.send_error(HTTPStatus.BAD_REQUEST, "Incomplete upload")
+                return
+            completed = True
+        except Exception:
+            self.send_error(HTTPStatus.INTERNAL_SERVER_ERROR, "Upload failed")
+            return
+        finally:
+            out.close()
+            if not completed:
+                try:
+                    os.unlink(dest)
+                except OSError:
+                    pass
+
+        msg = f"Uploaded {cand}\n".encode("utf-8")
+        self.send_response(HTTPStatus.CREATED)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Length", str(len(msg)))
+        self.end_headers()
+        self.wfile.write(msg)
+
+
+with http.server.ThreadingHTTPServer(("", int(sys.argv[1])), UploadHandler) as server:
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+PYEOF
+      return $?
+    fi
 
     echo "Serving HTTP on ${ip}:${port} (http://${ip}:${port}/)..."
     if command_exists python3; then
